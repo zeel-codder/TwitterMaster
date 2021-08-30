@@ -25,7 +25,7 @@ A fully functional Twitter Like App. Use can Create the tweet, Like, retweet and
     6.Upload Media
 
 
-## Which I am Using And Why?
+## Which Tech I am Using And Why?
 1. Frontend: React js
     React js is the library that builds on Javascript provide by Facebook. Now day react is used by most companies because of its salability and simplicity. So, I am also going to use react js as the frontend in the TwitterMaster app.
 2. Backend: Node js
