@@ -1,0 +1,29 @@
+body{
+  --MainBackGround:rgb(44, 131, 190);
+}
+
+/*Predefine*/
+
+.flex,.start-load-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+/*1.Loaders*/
+
+
+.start-load-container{
+  width: 100%;
+  height: 95vh;
+  color: var(--MainBackGround);
+  font-size: 1.6rem;
+  flex-direction: column;
+}
+
+.start-load-container  svg{
+  transform: scale(1.5);
+}
+
