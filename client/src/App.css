@@ -1,5 +1,7 @@
 body{
   --MainBackGround:rgb(44, 131, 190);
+  overflow-x: hidden;
+  font-family: "Segoe UI Web (West European)","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;;
 }
 
 /*Predefine*/
@@ -9,6 +11,12 @@ body{
   align-items: center;
   justify-content: center;
   flex-direction: row;
+}
+.column{
+  flex-direction: column;
+}
+.space{
+  justify-content: space-between;
 }
 
 
@@ -21,9 +29,32 @@ body{
   color: var(--MainBackGround);
   font-size: 1.6rem;
   flex-direction: column;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  background: white;
 }
 
 .start-load-container  svg{
   transform: scale(1.5);
 }
+
+
+/*navbar*/
+.navbar{
+  width: 60%;
+}
+
+/*Other*/
+.remove{
+  transition: all 2s;
+  opacity: 0;
+  z-index: -2;
+
+}
+
+.MuiBottomNavigationAction-root.Mui-selected,.blue *{
+  color: var(--MainBackGround);
+}
+
 

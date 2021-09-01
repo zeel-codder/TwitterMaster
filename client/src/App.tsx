@@ -1,11 +1,18 @@
-import React from 'react';
-import StartLoader from  './Components/Loaders/MainPage';
+
+
+import StartLoader from './Components/Loaders/MainPage';
+import Home from './Components/Pages/Router';
+
+
+
 import './App.css';
 
 function App() {
+
   return (
     <div className="App">
-      <StartLoader></StartLoader>
+      <StartLoader ></StartLoader>
+      <Home></Home>
     </div>
   );
 }
