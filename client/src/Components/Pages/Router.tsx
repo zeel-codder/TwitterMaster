@@ -4,6 +4,7 @@ import Group from "./Group";
 import Exploer from "./Exploer";
 import Profile from "./Profile";
 import Home from "./Home";
+import Login from "./Login";
 
 
 import {
@@ -19,6 +20,16 @@ export default function Router() {
             <Router1>
 
             <Navbar />
+
+            <div className="flex container">
+
+                {/* <div className="notification">
+
+                    Notification
+                 </div>  */}
+
+                <div className="feed flex column">
+
             <Switch>
                 <Route path="/" exact>
                     <Home />
@@ -32,8 +43,16 @@ export default function Router() {
                 <Route path="/profile" exact>
                     <Profile />
                 </Route>
+                <Route path="/signup" exact>
+                    <Login IsSignUp={true} />
+                </Route>
+                <Route path="/signin" exact>
+                <Login IsSignUp={false}/>
+                </Route>
             </Switch>
-            <LeftSide />
+                 </div>   
+                 <LeftSide />
+            </div>
             </Router1>
 
         </div>
