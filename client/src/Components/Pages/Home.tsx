@@ -5,8 +5,10 @@ import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
-import { BottomNavigationAction } from "@material-ui/core";
+import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
+import Search from '../Same/Search'
+
 
 export default function Home() {
 
@@ -17,7 +19,7 @@ export default function Home() {
                 creator:'demo',
     img:'https://images.unsplash.com/photo-1586227740560-8cf2732c1531?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=828&q=80',
     
-    message:"Hindi (Devanagari: हिन्दी, ISO: Hindī), or more precisely Modern Standard Hindi (Devanagari: मानक हिन्दी, ISO: Mānak Hindī),[8] is an Indo-Aryan language spoken chiefly in North India. Hindi has been described as a ",
+    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
     like:1,
     retweet:12,
 
@@ -37,7 +39,7 @@ export default function Home() {
                 creator:'demo3',
     video:'https://www.w3schools.com/html/mov_bbb.mp4',
     
-    message:"Hindi (Devanagari: हिन्दी, ISO: Hindī), or more precisely Modern Standard Hindi (Devanagari: मानक हिन्दी, ISO: Mānak Hindī),[8] is an Indo-Aryan language spoken chiefly in North India. Hindi has been described as a ",
+    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
     like:1,
     retweet:12,
 
@@ -47,7 +49,7 @@ export default function Home() {
                 creator:'demo',
     img:'https://images.unsplash.com/photo-1586227740560-8cf2732c1531?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=828&q=80',
     
-    message:"Hindi (Devanagari: हिन्दी, ISO: Hindī), or more precisely Modern Standard Hindi (Devanagari: मानक हिन्दी, ISO: Mānak Hindī),[8] is an Indo-Aryan language spoken chiefly in North India. Hindi has been described as a ",
+    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
     like:1,
     retweet:12,
 
@@ -61,6 +63,11 @@ export default function Home() {
 
     return (
         <div>
+            <h1>Home</h1>
+
+            <Search placeName="Tweet " />
+
+            <Button className="tweet" variant="contained" color="primary"> <h1># Tweet</h1></Button>
             {
                 tem.map((data)=>{
 
@@ -88,10 +95,11 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
 
     return (
 
-        <div className="tweet-container">
+        <div className="tweet-container pad">
+            
 
             <div className="creator-section flex">
-                <AccountCircleRoundedIcon />
+            <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
                 <a href="#" className="a">
                 {creator}
                 </a>

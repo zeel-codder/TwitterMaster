@@ -16,7 +16,17 @@ interface HashTage{
 
     name:undefined | string;
     about?:undefined | string;
+    img?:undefined | string;
 }
 
 
-export type {TweetSchema,HashTage};
+
+interface GroupSchema{
+
+    name:undefined | string;
+    tagline:undefined | string;
+    img?:undefined | string;
+}
+
+
+export type {TweetSchema,HashTage,GroupSchema};

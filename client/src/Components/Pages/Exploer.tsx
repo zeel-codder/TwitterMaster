@@ -7,34 +7,34 @@ export default function Explore() {
     const tem: HashTage[] = [
         {
             name: 'tem1',
-            about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time'
         },
         {
             name: 'tem2'
             ,
-            about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time,  .'
         },
         {
             name: 'tem3'
-            , about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            , about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time,  .'
         },
         {
             name: 'tem4',
-            about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time,  .'
         },
         {
             name: 'tem5',
-            about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time,  .'
         },
         {
             name: 'tem6'
-            , about:' this aifjie sdjxis ckweimc wesjzfcuws'
+            , about:' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.[1] In classical physics, physical space is often conceived in three linear dimensions, although modern physicists usually consider it, with time,  .'
         },
 
     ]
 
     return (
-        <div>
+        <div className="pad">
             <h1>Explore</h1>
             {
 
@@ -44,22 +44,27 @@ export default function Explore() {
                     
                     return (
 
-        <div className="tweet-container">
+        <div className="tweet-container flex  pad">
 
-        <div className="creator-section flex column start">
-            <div>
 
-            {index+1}.#
+        <div className="flex column start explore">
+            <h3>
+
+            {index+1}. 
             <a href="#" className="a">
-            {data.name}
+            # {data.name}
 
             </a>
-            </div>
+            </h3>
 
             <div>
                 {data.about}
             </div>    
         </div>
+
+           <div className="right">
+               <img src={data?.img || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1504&q=80"} alt="#"></img>
+           </div>
         </div>
                         
                         )

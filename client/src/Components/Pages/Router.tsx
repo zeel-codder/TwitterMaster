@@ -12,6 +12,22 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
+import React from "react";
+
+interface Tem{
+    Com:React.FC;
+}
+const Template:React.FC<Tem>=({Com})=>{
+    // console.log(com);
+    return (
+
+        <>
+        <Navbar />
+        <Com></Com>
+        <LeftSide></LeftSide>
+        </>
+    )
+}
 
 
 export default function Router() {
@@ -19,7 +35,7 @@ export default function Router() {
         <div className="flex column">
             <Router1>
 
-            <Navbar />
+            {/* <Navbar /> */}
 
             <div className="flex container">
 
@@ -32,16 +48,20 @@ export default function Router() {
 
             <Switch>
                 <Route path="/" exact>
-                    <Home />
+                    <Template Com={Home} />
+                    {/* <Home /> */}
                 </Route>
                 <Route path="/explore" exact>
-                    <Exploer />
+                    <Template Com={Exploer} />
+                    {/* <Exploer /> */}
                 </Route>
                 <Route path="/group" exact>
-                    <Group />
+                    <Template Com={Group} />
+                    {/* <Group />/ */}
                 </Route>
                 <Route path="/profile" exact>
-                    <Profile />
+                <Template Com={Profile} />
+                    {/* <Profile /> */}
                 </Route>
                 <Route path="/signup" exact>
                     <Login IsSignUp={true} />
@@ -51,7 +71,7 @@ export default function Router() {
                 </Route>
             </Switch>
                  </div>   
-                 <LeftSide />
+                 {/* <LeftSide /> */}
             </div>
             </Router1>
 
