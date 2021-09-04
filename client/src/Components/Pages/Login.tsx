@@ -52,7 +52,6 @@ function reducer(state: UserData, action: action) {
             return { ...state, password: action.password };
         case ChangeCPassword:
             return { ...state, confirm_password: action.confirm_password };
-
         default:
             throw new Error();
     }

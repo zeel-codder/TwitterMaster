@@ -35,6 +35,17 @@ body{
 .space{
   justify-content: space-between;
 }
+.none{
+  display: none;
+}
+.overflow{
+  overflow-y: scroll;
+}
+
+.start_v{
+  align-self: flex-start;
+  justify-content: flex-start;
+}
 .start{
   align-items: flex-start;
 }
@@ -113,6 +124,55 @@ body{
   left: 5%;
   border-radius: 48px !important;
 }
+
+.cross{
+  position: absolute !important;
+  top: 3%;
+  right: 3%;
+}
+
+.newTweetBox{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* opacity: 0; */
+  transform: translate(-50%,-50%) scale(0);
+  transition: all .3s;  
+  background: white;
+  z-index: 2;
+  width: 50%;
+  max-height: 25rem;
+  padding: 1.4rem;
+  box-shadow: 0px 0px 6px black;
+  overflow-y: auto;
+}
+.relative{
+  position: relative;
+}
+.cross{
+  z-index: 3;
+}
+.newTweetBox > .flex > *{
+  margin: 1rem;
+}
+.shownewTweetBox{
+  /* opacity: 1; */
+
+  transform: translate(-50%,-50%) scale(1);
+}
+
+.newtweet_text{
+  outline: none;
+  height: 50%;
+  overflow: auto;
+  resize: none;
+  border: none;
+  width: 90%;
+}
+
+
+
+
 .tweet h1{
   padding: 0;
   margin: 0;

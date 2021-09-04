@@ -2,6 +2,14 @@ import {FaTwitter} from 'react-icons/fa';
 import { useEffect ,useRef} from 'react';
 
 
+
+/**
+ * 
+ * Start_Load() Load At the String of App
+ * 
+ */
+
+
 function Start_Load() {
   const Load=useRef<HTMLDivElement>(null);
 

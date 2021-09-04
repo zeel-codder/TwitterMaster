@@ -7,10 +7,17 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
-import Search from '../Same/Search'
+import Search from '../Same/Search';
+import NewTweet from './helper/tweet';
+import { useRef,useEffect } from "react";
+
 
 
 export default function Home() {
+
+    const newTweet=useRef<HTMLDivElement>(null);
+
+
 
 
     const tem:TweetSchema[] =[
@@ -58,6 +65,7 @@ export default function Home() {
 
     ]
 
+ 
 
 
 
@@ -65,9 +73,34 @@ export default function Home() {
         <div>
             <h1>Home</h1>
 
+            <div className="newTweetBox" ref={newTweet}>
+            <Button  className="cross" variant="contained" color="primary" 
+             onClick={()=>{
+
+                // console.log('click')
+                newTweet.current?.classList.toggle("shownewTweetBox");
+            }}
+            >
+                x
+            </Button>
+
+            <NewTweet  />
+
+            </div>
             <Search placeName="Tweet " />
 
-            <Button className="tweet" variant="contained" color="primary"> <h1># Tweet</h1></Button>
+            <Button className="tweet" variant="contained" color="primary"
+
+            onClick={()=>{
+
+                // console.log('click')
+                newTweet.current?.classList.toggle("shownewTweetBox");
+            }}
+            
+            
+            > <h1># Tweet</h1>
+            
+            </Button>
             {
                 tem.map((data)=>{
 
@@ -81,8 +114,6 @@ export default function Home() {
 
 
 // interface TweetSchema{
-
-
 //     creator:undefined|string;
 //     img?:undefined|Url;
 //     video?:undefined|Url;

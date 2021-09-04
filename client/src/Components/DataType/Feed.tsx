@@ -1,15 +1,17 @@
-import { Url } from "url";
+
 
 interface TweetSchema{
-
-
     creator:undefined|string;
-    img?:undefined|string;
-    video?:undefined|string;
+    img?:undefined|string ;
+    video?:undefined|string ;
     message:undefined|string;
-    like:undefined|number;
-    retweet:undefined|number;
+    like?:undefined|number;
+    retweet?:undefined|number;
 }
+
+
+
+
 
 
 interface HashTage{
