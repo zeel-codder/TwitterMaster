@@ -51,7 +51,7 @@ export default function Explore() {
             <h3>
 
             {index+1}. 
-            <a href="#" className="a">
+            <a href="/" className="a">
             # {data.name}
 
             </a>

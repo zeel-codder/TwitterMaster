@@ -131,7 +131,7 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
 
             <div className="creator-section flex">
             <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
-                <a href="#" className="a">
+                <a href="/" className="a">
                 {creator}
                 </a>
             </div>

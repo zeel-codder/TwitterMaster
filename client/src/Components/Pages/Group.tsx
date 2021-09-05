@@ -52,7 +52,7 @@ export default function Group() {
                                 <h3>
 
                                     
-                                    <a href="#" className="a">
+                                    <a href="/" className="a">
                                         #_{data.name}
 
                                     </a>
