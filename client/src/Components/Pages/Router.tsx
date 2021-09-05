@@ -15,15 +15,16 @@ import {
 import React from "react";
 
 interface Tem{
-    Com:React.FC;
+    Com:React.FC | any;
+    type?:string;
 }
-const Template:React.FC<Tem>=({Com})=>{
-    // console.log(com);
+const Template:React.FC<Tem>=({Com,type})=>{
+    console.log(type);
     return (
 
         <>
         <Navbar />
-        <Com></Com>
+        <Com type={type}></Com>
         <LeftSide></LeftSide>
         </>
     )
@@ -59,8 +60,12 @@ export default function Router() {
                     <Template Com={Group} />
                     {/* <Group />/ */}
                 </Route>
+                <Route path="/profile/group" exact>
+                <Template Com={Profile}  type="group"/>
+                    {/* <Profile /> */}
+                </Route>
                 <Route path="/profile" exact>
-                <Template Com={Profile} />
+                <Template Com={Profile}  type="tweet"/>
                     {/* <Profile /> */}
                 </Route>
                 <Route path="/signup" exact>

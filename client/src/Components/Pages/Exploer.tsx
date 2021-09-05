@@ -1,8 +1,13 @@
+// import { Search } from '@material-ui/icons'
+import Search from '../Same/Search';
 import React from 'react'
 import { HashTage } from '../DataType/Feed'
+import {ExploreSchema} from '../DataType/pages'
 
 
-export default function Explore() {
+
+
+const Explore:React.FC<ExploreSchema>=()=>{
 
     const tem: HashTage[] = [
         {
@@ -36,6 +41,7 @@ export default function Explore() {
     return (
         <div className="pad">
             <h1>Explore</h1>
+            <Search placeName="Explore " />
             {
 
 
@@ -76,4 +82,5 @@ export default function Explore() {
 }
 
 
+export default Explore;
 

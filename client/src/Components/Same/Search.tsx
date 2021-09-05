@@ -1,6 +1,11 @@
-import { Button, TextField } from '@material-ui/core';
+import {  TextField } from '@material-ui/core';
 import React from 'react'
 import SearchIcon from '@material-ui/icons/Search';
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+
+
+
 
 interface SearchBox{
 
@@ -25,10 +30,19 @@ const Search:React.FC<SearchBox> = ({placeName})=> {
             
             type="string"
             variant="outlined"
+            InputProps={{
+                endAdornment: (
+                 
+                    <IconButton>
+                      <SearchIcon />
+                    </IconButton>
+                  
+                )
+              }}
 
             
             
-            placeholder={`👉 find ${placeName}...`}
+            placeholder={`Search ${placeName}...`}
             ></TextField>
 
             

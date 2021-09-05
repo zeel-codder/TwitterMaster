@@ -1,19 +1,20 @@
 import React from "react";
 
 import { TweetSchema } from "../DataType/Feed";
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+// import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
-import { Share } from "@material-ui/icons";
+// import { Share } from "@material-ui/icons";
 import Search from '../Same/Search';
 import NewTweet from './helper/tweet';
-import { useRef,useEffect } from "react";
+import { useRef } from "react";
+import {HomeSchema} from '../DataType/pages'
 
 
 
-export default function Home() {
+const  Home :React.FC<HomeSchema> =({type}) =>{
 
     const newTweet=useRef<HTMLDivElement>(null);
 
@@ -71,7 +72,7 @@ export default function Home() {
 
     return (
         <div>
-            <h1>Home</h1>
+            <h1> { type || 'Home' }</h1>
 
             <div className="newTweetBox" ref={newTweet}>
             <Button  className="cross" variant="contained" color="primary" 
@@ -83,6 +84,8 @@ export default function Home() {
             >
                 x
             </Button>
+
+            <div className="h"></div>
 
             <NewTweet  />
 
@@ -189,3 +192,5 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
     )
 
 }
+
+export default Home;

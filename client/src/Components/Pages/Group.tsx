@@ -1,8 +1,17 @@
 import React from 'react'
 import { GroupSchema } from '../DataType/Feed'
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button, TextField } from '@material-ui/core';
+import Search from '../Same/Search';
+import { useRef } from "react";
+import { GroupCSchema } from '../DataType/pages';
 
-export default function Group() {
+
+
+
+
+
+const Group:React.FC<GroupCSchema> =({type}) =>{
+    const newGroup=useRef<HTMLDivElement>(null);
     const tem: GroupSchema[] = [
         {
             name: 'tem1',
@@ -34,11 +43,45 @@ export default function Group() {
 
     return (
         <div className="pad">
-            <h1>Groups You Follow</h1>
+           
+            <h1 className="blue">
+                
+                {type ||"Groups"}</h1>
+
+            <div className="newGroup newTweetBox" ref={newGroup}>
+
+            <Button  className="cross" variant="contained" color="primary" 
+             onClick={()=>{
+
+                // console.log('click')
+                newGroup.current?.classList.toggle("shownewTweetBox");
+            }}
+            >
+                x
+            </Button>
+            <div className="h"></div>
+
+            <GroupDiv />
+
+            </div>
+
+
+            <Button className="tweet" variant="contained" color="primary"
+
+            onClick={()=>{
+
+                // console.log('click')
+                newGroup.current?.classList.toggle("shownewTweetBox");
+            }}
+            
+            
+            > <h1>+ Group</h1>
+            
+            </Button>
+            
+            
+            <Search placeName="Explore " />
             {
-
-
-
                 tem.map((data, index) => {
 
                     return (
@@ -79,3 +122,48 @@ export default function Group() {
           </div>
         )
 }
+
+
+const GroupDiv: React.FC<{}>=()=>{
+
+    return (
+
+        <div>
+        <h1 className="center">
+            Group
+        </h1>
+
+        <div className="flex column auth">
+        {/* <img className="profile_img" alt="Remy" src="https://zeelcodder.tech/images/home/zeel.jpeg" /> */}
+
+
+            <TextField 
+                type="string"
+                placeholder="Enter Name"
+              
+                value="demo"
+
+                variant="outlined"
+             
+                required>
+
+
+            </TextField >
+
+            <Button variant="contained" color="primary" href="#contained-buttons">
+                            + Create
+                        </Button>
+
+
+
+
+       
+        </div>
+
+
+    </div>
+    )
+}
+
+
+export default Group;

@@ -1,23 +1,14 @@
-import React, { useReducer, useEffect } from 'react';
-import { TextField as Input, Button,ButtonGroup } from '@material-ui/core';
+import React, { useReducer } from 'react';
+import { TextField as Input, Button} from '@material-ui/core';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import {AiOutlineGoogle} from 'react-icons/ai';
-import { FaDivide } from 'react-icons/fa';
+// import { FaDivide } from 'react-icons/fa';
 import {Link} from 'react-router-dom';
+import {LoginData} from '../DataType/pages'
+import {UserData} from '../DataType/Feed'
 
 
-interface LoginData {
-
-    IsSignUp: undefined | boolean | string;
-
-}
-interface UserData {
-    email: undefined | string;
-    password: undefined | string;
-    confirm_password: undefined | string;
-    username: undefined | string;
-}
 
 interface action {
     type: undefined | string;

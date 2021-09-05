@@ -10,7 +10,13 @@ interface TweetSchema{
 }
 
 
-
+interface UserData {
+    type?:string;
+    email: undefined | string;
+    password?: undefined | string;
+    confirm_password?: undefined | string;
+    username: undefined | string;
+}
 
 
 
@@ -31,4 +37,4 @@ interface GroupSchema{
 }
 
 
-export type {TweetSchema,HashTage,GroupSchema};
+export type {TweetSchema,HashTage,GroupSchema,UserData};

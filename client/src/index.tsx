@@ -16,7 +16,12 @@ const theme = createTheme({
       main: red[500],
     },
   },
+
+
+  spacing: 4
 });
+
+// theme.spacing(2);
 
 ReactDOM.render(
   <React.StrictMode>
