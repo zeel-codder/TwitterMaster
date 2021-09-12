@@ -1,6 +1,7 @@
-import  express, { Router,Request,Response} from "express";
+import express, { Router, Request, Response } from "express";
+import { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet } from "../controllers/tweet/CRUD";
 
-var router:Router = express.Router()
+var router: Router = express.Router()
 
 // middleware that is specific to this router
 // router.use(function timeLog (req, res, next) {
@@ -8,83 +9,40 @@ var router:Router = express.Router()
 //   next()
 // })
 
-console.log('tweet')
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @return  Function returns List of All Tweets
- */
+// console.log('tweet')
 
 
- router.get('/', function (req :Request, res :Response) {
-    res.send('Birds home page')
-  })
 
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Add New Tweet
- * @return  Response
- */
-
-
-router.post('/tweet', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Remove  Tweet by id
- * @return  Response
- */
-
-
-router.delete('/delete', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Update  Tweet by id
- * @return  Response
- */
-
-
-router.put('/update', function (req :Request, res :Response) {
-  res.send('Birds home page')
+router.get('/', function (req: Request, res: Response) {
+  GetTweets(req, res);
 })
 
 
 
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Use to get tweet by name
- * @return  Response
- */
+
+router.post('/create', function (req: Request, res: Response) {
+  AddTweet(req, res);
+})
 
 
- router.get('/:name', function (req :Request, res :Response) {
-    res.send('Birds home page')
- })
-  
-  
- export default router;
+
+
+router.delete('/delete', function (req: Request, res: Response) {
+  DeleteTweet(req, res);
+})
+
+
+
+router.put('/update', function (req: Request, res: Response) {
+  UpdateTweet(req, res);
+})
+
+
+router.get('/:_id', function (req: Request, res: Response) {
+  GetTweet(req, res);
+})
+
+
+export default router;
 
 

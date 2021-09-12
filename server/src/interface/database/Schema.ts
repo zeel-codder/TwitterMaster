@@ -16,19 +16,19 @@ interface User {
 }
 
 interface Tweet extends Basic{
-    like: String[];
-    retweet: String[];
-    explore: String[];
+    like?: String[];
+    retweet?: String[];
+    explore?: String[];
 }
 
 interface Explore extends Basic{
-    tweets:String[];
+    tweets?:String[];
     creator:String;
 }
 
 interface Group  extends Basic{
-    admin: String[];
-    users: String[];
+    admin?: String[];
+    users?: String[];
 }
 
 export {User,Tweet,Explore,Group};

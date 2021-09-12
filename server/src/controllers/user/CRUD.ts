@@ -29,6 +29,8 @@ const GetUsers = async (req: Request, res: Response) => {
 
 }
 
+
+
 const GetUser = async (req: Request, res: Response) => {
 
     try {

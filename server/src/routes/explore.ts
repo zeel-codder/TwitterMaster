@@ -1,6 +1,7 @@
-import  express, { Router,Request,Response} from "express";
+import express, { Router, Request, Response } from "express";
+import { GetExplores, AddExplore, DeleteExplore, UpdateExplore, GetExplore } from '../controllers/explore/CRUD'
 
-var router:Router = express.Router()
+var router: Router = express.Router()
 
 // middleware that is specific to this router
 // router.use(function timeLog (req, res, next) {
@@ -9,81 +10,36 @@ var router:Router = express.Router()
 // })
 
 
-console.log('explore')
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @return  Function returns List of All Explores
- */
+// console.log('explore')
 
 
- router.get('/', function (req :Request, res :Response) {
-    res.send('Birds home page')
-  })
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Add New Explore
- * @return  Response
- */
-
-
-router.post('/Explore', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Remove  Explore by id
- * @return  Response
- */
-
-
-router.delete('/delete', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Update  Explore by id
- * @return  Response
- */
-
-
-router.put('/update', function (req :Request, res :Response) {
-  res.send('Birds home page')
+router.get('/', function (req: Request, res: Response) {
+  GetExplores(req, res);
 })
 
 
 
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Use to get Explore by name
- * @return  Response
- */
+router.post('/create', function (req: Request, res: Response) {
+  AddExplore(req, res);
+})
 
 
- router.get('/:name', function (req :Request, res :Response) {
-    res.send('Birds home page')
- })
-  
+
+router.delete('/delete', function (req: Request, res: Response) {
+  DeleteExplore(req, res);
+})
+
+
+router.put('/update', function (req: Request, res: Response) {
+  UpdateExplore(req, res);
+})
+
+
+
+
+router.get('/:_id', function (req: Request, res: Response) {
+  GetExplore(req, res);
+})
+
 
 export default router;

@@ -1,6 +1,7 @@
-import  express, { Router,Request,Response} from "express";
+import express, { Router, Request, Response } from "express";
+import { GetGroups, AddGroup, DeleteGroup, UpdateGroup, GetGroup } from '../controllers/group/CRUD'
 
-var router:Router = express.Router()
+var router: Router = express.Router()
 
 // middleware that is specific to this router
 // router.use(function timeLog (req, res, next) {
@@ -10,81 +11,39 @@ var router:Router = express.Router()
 
 console.log('group')
 
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @return  Function returns List of All Groups
- */
 
-
- router.get('/', function (req :Request, res :Response) {
-    res.send('Birds home page')
-  })
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Add New Group
- * @return  Response
- */
-
-
-router.post('/Group', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Remove  Group by id
- * @return  Response
- */
-
-
-router.delete('/delete', function (req :Request, res :Response) {
-  res.send('Birds home page')
-})
-
-
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Update  Group by id
- * @return  Response
- */
-
-
-router.put('/update', function (req :Request, res :Response) {
-  res.send('Birds home page')
+router.get('/', function (req: Request, res: Response) {
+  GetGroups(req, res);
 })
 
 
 
-/**
- * @author  zeel-codder
- * @param 
- * req : Request
- * res : Response
- * @use Function Use to get Group by name
- * @return  Response
- */
 
 
- router.get('/:name', function (req :Request, res :Response) {
-    res.send('Birds home page')
- })
-  
-  
+router.post('/create', function (req: Request, res: Response) {
+  AddGroup(req, res);
+})
+
+
+
+
+
+router.delete('/delete', function (req: Request, res: Response) {
+  DeleteGroup(req, res);
+})
+
+
+
+router.put('/update', function (req: Request, res: Response) {
+  UpdateGroup(req, res);
+})
+
+
+router.get('/:_id', function (req: Request, res: Response) {
+  GetGroup(req, res);
+})
+
+
 
 
 export default router;
