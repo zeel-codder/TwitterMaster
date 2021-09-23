@@ -7,6 +7,9 @@ body{
 
 }
 
+.sca{
+  transform: scale(1.2)
+}
 
 /* width */
 *::-webkit-scrollbar {
@@ -146,6 +149,9 @@ a:hover{
   text-decoration: none;
   color: var(--MainBackGround);
   padding: .3rem;
+}
+.a{
+  cursor: pointer;
 }
 
 .navbar-link:hover{
@@ -347,6 +353,11 @@ a:hover{
 
 .auth input{
   width: 100%;
+}
+
+.textp{
+  text-align: center;
+  color: var(--MainBackGround);
 }
 
 

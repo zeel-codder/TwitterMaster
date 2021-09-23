@@ -1,40 +1,40 @@
 
 
-interface TweetSchema{
-    creator:undefined|string;
-    img?:undefined|string ;
-    video?:undefined|string ;
-    message:undefined|string;
-    like?:undefined|number;
-    retweet?:undefined|number;
+interface TweetSchema {
+    creator:  string|undefined;
+    img?:  string|undefined;
+    video?:  string|undefined;
+    message:  string|undefined;
+    like?:  number|undefined;
+    retweet?:  number|undefined;
 }
 
 
 interface UserData {
-    type?:string;
-    email: undefined | string;
-    password?: undefined | string;
-    confirm_password?: undefined | string;
-    username: undefined | string;
+    type?: string|undefined;
+    email: string|undefined;
+    password?: string|undefined;
+    confirm_password?: string|undefined;
+    name: string|undefined;
 }
 
 
 
-interface HashTage{
+interface HashTage {
 
-    name:undefined | string;
-    about?:undefined | string;
-    img?:undefined | string;
+    name: string|undefined;
+    about?: string|undefined;
+    img?: string|undefined;
 }
 
 
 
-interface GroupSchema{
+interface GroupSchema {
 
-    name:undefined | string;
-    tagline:undefined | string;
-    img?:undefined | string;
+    name: string|undefined;
+    tagline: string|undefined;
+    img?: string|undefined;
 }
 
 
-export type {TweetSchema,HashTage,GroupSchema,UserData};
+export type { TweetSchema, HashTage, GroupSchema, UserData };

@@ -1,0 +1,19 @@
+{
+  "name": "typescript-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\"",
+    "prod": "node dist/app.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+ 
+  },
+  "devDependencies": {
+ 
+  }
+}

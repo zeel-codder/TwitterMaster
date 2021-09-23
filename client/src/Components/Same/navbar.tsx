@@ -1,13 +1,15 @@
-import { BottomNavigation, BottomNavigationAction, colors, TextField } from '@material-ui/core';
+import { BottomNavigationAction } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import ExplicitIcon from '@material-ui/icons/Explicit';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import GroupIcon from '@material-ui/icons/Group';
-import { useState, useEffect } from 'react';
-import { useHistory } from 'react-router';
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import { Button } from '@material-ui/core';
-import {useStyles} from '../../App_M';
+import { useState } from 'react';
+// import { useHistory } from 'react-router-dom';
+// import VpnKeyIcon from '@material-ui/icons/VpnKey';
+// import { Button } from '@material-ui/core';
+// import { useStyles } from '../../App_M';
+// import {FiLogOut} from 'react-icons/fi';
+
 
 
 import { Link } from 'react-router-dom';
@@ -15,8 +17,11 @@ import { Link } from 'react-router-dom';
 
 export default function Navbar() {
 
-    const History = useHistory();
-    const classes = useStyles();
+    // const History = useHistory();
+
+    // const classes = useStyles();
+    // const userData:boolean=localStorage.getItem('User')?true:false;
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('User') || '{}'))
 
 
 
@@ -24,7 +29,7 @@ export default function Navbar() {
 
 
 
-    const [value, setValue] = useState<string>('home');
+    // const [value, setValue] = useState<string>('home');
 
 
 
@@ -54,25 +59,44 @@ export default function Navbar() {
 
                     <BottomNavigationAction label="Group" value="/group" icon={<GroupIcon />} />
                 </Link>
-                <Link to="/profile" title="User">
+
+                {
+                    user.name
+                        ?
+                        <>
+                        
+                        <Link to="/profile" title="User">
+                            <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
+                        </Link>
+
+                        <span className="a"
+                        
+                        onClick={()=>{
+
+                            localStorage.removeItem('User')
+                            setUser({})
+                            // History.replace('/');
+
+                        }}>Logout </span>
+                        </>
+                        :
+                        <>
+                            <Link to="/signin" title="SignIn" className="navbar-link">
 
 
-                    <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
-                </Link>
+                                SingIn
 
-                <Link to="/signin" title="SignIn" className="navbar-link">
+                            </Link>
 
-                   
-                        SingIn
-                   
-                </Link>
+                            <Link to="/signup" title="SignUp" className="navbar-link">
 
-                <Link to="/signup" title="SignUp" className="navbar-link">
 
-                   
-                        SingUp
-                    
-                </Link>
+                                SingUp
+
+                            </Link>
+                        </>
+                }
+
 
 
             </div>

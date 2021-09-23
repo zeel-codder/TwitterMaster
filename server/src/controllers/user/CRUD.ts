@@ -40,6 +40,10 @@ const GetUser = async (req: Request, res: Response) => {
 
         const User = await UserModel.findOne({name:name});
 
+        if(User===null){
+            return  res.sendStatus(500);
+        }
+
         res.status(200).send(ResultLoader("User",User));
 
     } catch (e: any) {

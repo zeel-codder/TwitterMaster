@@ -1,21 +1,24 @@
-import React, { useReducer } from 'react';
-import { TextField as Input, Button} from '@material-ui/core';
+import React, { useReducer, useState, useEffect } from 'react';
+import { TextField as Input, Button } from '@material-ui/core';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import {AiOutlineGoogle} from 'react-icons/ai';
-// import { FaDivide } from 'react-icons/fa';
-import {Link} from 'react-router-dom';
-import {LoginData} from '../DataType/pages'
-import {UserData} from '../DataType/Feed'
+// import GitHubIcon from '@material-ui/icons/GitHub';
+import { AiOutlineGoogle } from 'react-icons/ai';
+import { FaDivide } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { LoginData } from '../DataType/pages'
+import { UserData } from '../DataType/Feed'
+import GooogleAuth from './Auth/GoogleAuth';
+import { SingUpRequest,SingInRequest } from '../Actions/Api';
+import {useHistory} from 'react-router-dom';
 
 
 
 interface action {
-    type: undefined | string;
-    email?: undefined | string;
-    password?: undefined | string;
-    confirm_password?: undefined | string;
-    username?: undefined | string;
+    type:  string |undefined;
+    email?:  string |undefined;
+    password?: string |undefined;
+    confirm_password?:  string |undefined;
+    name?: string |undefined;
 }
 
 
@@ -30,7 +33,7 @@ const initialState: UserData = {
     email: "",
     password: "",
     confirm_password: "",
-    username: ""
+    name: ""
 }
 
 function reducer(state: UserData, action: action) {
@@ -38,7 +41,7 @@ function reducer(state: UserData, action: action) {
         case ChangeEmail:
             return { ...state, email: action.email };
         case ChangeName:
-            return { ...state, username: action.username };
+            return { ...state,name: action.name };
         case ChangePassword:
             return { ...state, password: action.password };
         case ChangeCPassword:
@@ -55,6 +58,104 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
 
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [message, setMessage] = useState("");
+    const history=useHistory();
+
+
+    const handleSingUp = async () => {
+
+        // console.log(state);
+
+        if (ValidateSingUp()) {
+            try {
+
+                const ans = await SingUpRequest(state);
+                localStorage.setItem('User',JSON.stringify(ans.data.data));
+                history.push('/');
+            } catch (e) {
+                setMessage("User Name our Email is Exits")
+            }
+        }
+
+    }
+
+    const handleSingIn = async () => {
+
+        // console.log(state);
+
+        if (ValidateSingIn()) {
+            try {
+                const ans = await SingInRequest(state);
+                localStorage.setItem('User',JSON.stringify(ans.data.data));
+                history.push('/');
+            } catch (e) {
+                setMessage("User Name our Password Wrong")
+            }
+        }
+
+    }
+
+    useEffect(() => {
+
+        const timeOut = setTimeout(() => {
+            setMessage("")
+        }, 3000);
+
+        return () => {
+
+            clearTimeout(timeOut);
+
+        }
+
+    }, [message])
+
+
+    const ValidateSingUp = (): Boolean => {
+
+        if(state.name===""){
+            setMessage("Enter user name");
+            return false;
+        }
+
+        if(!validateEmail(state.email)){
+            setMessage("Enter email in write formate")
+            return false;
+        }
+
+        if(!validatePassword(state.password)){
+            setMessage("PassWord Must be minimum eight characters")
+            return false;
+        }
+
+
+        return true;
+    }
+    
+
+    const ValidateSingIn = (): Boolean => {
+
+        if(state.name===""){
+            setMessage("Enter user name");
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateEmail(email:string | undefined):boolean {
+        
+        const re:RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function validatePassword(password:string |undefined):boolean {
+
+        if(password === undefined) return false;
+        return password!=="" && password?.length>8;
+    }
+
+
+    
 
 
     return (
@@ -71,25 +172,44 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                 }
             </h1>
 
-            <div className="flex column auth">
 
+            <div className="flex column auth">
+            <form className="flex column auth">
+                <span className="textp">
+
+                    {message}
+                </span>
+
+                <Input
+                    type="string"
+                    placeholder="Enter Name"
+                    inputProps={{
+                        style: {
+                            padding: 10
+                        }
+                    }}
+
+                    variant="outlined"
+                    onChange={(event: any) => dispatch({ type: ChangeName, name: event.target.value })}
+
+                    required></Input>
                 {
                     IsSignUp
                         ?
+                        
                         <Input
-                            type="string"
-                            placeholder="Enter Name"
+                            type="email"
+                            placeholder="Email"
+                            variant="outlined"
                             inputProps={{
                                 style: {
-                                  padding: 10
+                                    padding: 10
                                 }
-                             }}
-
-                            variant="outlined"
-                            onChange={(event: any) => dispatch({ type: ChangeName, username: event.target.value })}
-
+                            }}
+        
+                            onChange={(event: any) => dispatch({ type: ChangeEmail, email: event.target.value })}
+        
                             required></Input>
-
                         :
                         ''
 
@@ -97,19 +217,6 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
 
 
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    variant="outlined"
-                    inputProps={{
-                        style: {
-                          padding: 10
-                        }
-                     }}
-
-                    onChange={(event: any) => dispatch({ type: ChangeEmail, email: event.target.value })}
-
-                    required></Input>
 
                 <Input
                     type="password"
@@ -117,9 +224,9 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                     variant="outlined"
                     inputProps={{
                         style: {
-                          padding: 10
+                            padding: 10
                         }
-                     }}
+                    }}
 
 
                     onChange={(event: any) => dispatch({ type: ChangePassword, password: event.target.value })}
@@ -132,13 +239,13 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                         <Input
                             type="password"
                             placeholder="Password Again"
-                            
+
                             variant="outlined"
                             inputProps={{
                                 style: {
-                                  padding: 10
+                                    padding: 10
                                 }
-                             }}
+                            }}
 
                             onChange={(event: any) => dispatch({ type: ChangeCPassword, confirm_password: event.target.value })}
 
@@ -153,68 +260,78 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                 {
                     IsSignUp
                         ?
-                        <Button variant="contained" color="primary" href="#contained-buttons">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSingUp}
+
+                        >
                             SingUp
                         </Button>
                         :
-                        <Button variant="contained" color="primary" href="#contained-buttons">
+                        <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={handleSingIn}
+                        >
                             SingIn
                         </Button>
                 }
 
+</form>
                 <h3 className="center"> OR </h3>
 
 
-                    <div className="flex blue full space icons" >
+                <div className="flex blue full space icons" >
 
-                        <Button 
+                    <Button
 
                         className="flex"
-                        startIcon={<FacebookIcon />} 
-                        
-                        />
-                     
-                   
+                        startIcon={<FacebookIcon />}
 
-                  
-                        <Button startIcon={<GitHubIcon />} />
-                     
-                  
-
-
-                        <Button startIcon={<AiOutlineGoogle />} />
-
-
-                   
-
-                    </div>
+                    />
 
 
 
-                  
-                    {
+
+
+                    {/* <Button startIcon={<GitHubIcon />} /> */}
+
+
+
+
+                    <GooogleAuth />
+
+
+
+                </div>
+
+
+
+
+                {
                     IsSignUp
                         ?
                         <div className="flex center">
 
-                       <Link to='/signin' className="a"> Have Account ? Sign In</Link>
-                      </div>
+                            <Link to='/signin' className="a"> Have Account ? Sign In</Link>
+                        </div>
 
                         :
                         <div className="flex center">
-                       
-                      <Link to='/signup' className="a"> Create New Account Sign Up</Link>
+
+                            <Link to='/signup' className="a"> Create New Account Sign Up</Link>
                         </div>
 
                 }
 
-                
 
-                    <div className="flex center">
 
-<Link to='/' className="a">Twitter Master</Link>
+                <div className="flex center">
 
-</div>
+                    <Link to='/' className="a">Twitter Master</Link>
+
+                </div>
 
 
 

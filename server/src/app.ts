@@ -1,21 +1,24 @@
 import express, { Application, Request, Response } from 'express';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 require('dotenv').config()
 require('./database/Connection')
 import UserRoute from './routes/user';
 import ExploreRoute from './routes/explore';
 import GroupRoute from './routes/group';
+var cors = require('cors');
+
 import TweetRoute from './routes/tweet';
 
 
 
 const app: Application = express()
 
+app.use(cors());
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.urlencoded({ extended: false }))/
  
 // parse application/json
-app.use(bodyParser.json())
+app.use(express.json())
 
 
 
