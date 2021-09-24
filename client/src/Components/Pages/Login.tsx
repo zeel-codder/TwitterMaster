@@ -10,6 +10,7 @@ import { UserData } from '../DataType/Feed'
 import GooogleAuth from './Auth/GoogleAuth';
 import { SingUpRequest,SingInRequest } from '../Actions/Api';
 import {useHistory} from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 
 
@@ -69,7 +70,10 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         if (ValidateSingUp()) {
             try {
 
-                const ans = await SingUpRequest(state);
+                
+
+                const ans = await SingUpRequest({...state});
+
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
                 history.push('/');
             } catch (e) {
@@ -85,10 +89,12 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
         if (ValidateSingIn()) {
             try {
-                const ans = await SingInRequest(state);
+                // const hash=await bcrypt.hash(state.password || "",10);
+                const ans = await SingInRequest({...state});
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
                 history.push('/');
             } catch (e) {
+                console.log(e)
                 setMessage("User Name our Password Wrong")
             }
         }
@@ -102,9 +108,7 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         }, 3000);
 
         return () => {
-
             clearTimeout(timeOut);
-
         }
 
     }, [message])

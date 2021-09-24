@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 // import {UserModel} from '../database/Schema';
-import { GetUsers, AddUser, UpdateUser, DeleteUser, GetUser } from '../controllers/user/CRUD';
-
+import { GetUsers, AddUser, UpdateUser, DeleteUser, GetUser,SingIn } from '../controllers/user/CRUD';
+import { Auth } from "../middlewares/Auth";
 
 var router: Router = express.Router()
 
@@ -15,7 +15,7 @@ var router: Router = express.Router()
 
 
 
-router.get('/', function (req: Request, res: Response) {
+router.get('/',function (req: Request, res: Response) {
 
 
   GetUsers(req, res);
@@ -41,6 +41,11 @@ router.post('/create', function (req: Request, res: Response) {
 
 router.delete('/delete', function (req: Request, res: Response) {
   DeleteUser(req, res);
+})
+
+
+router.post('/singin', function (req: Request, res: Response) {
+  SingIn(req, res);
 })
 
 

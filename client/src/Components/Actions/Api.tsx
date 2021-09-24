@@ -1,10 +1,20 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 import { UserData } from '../DataType/Feed';
 
 
+const token:string=JSON.parse(localStorage.getItem('User') || '{}').token || "";
+
+const API = axios.create({
+    baseURL: 'http://localhost:3001',
+    timeout: 200,
+    headers: {'authorization': `Bearer ${token}`}
+});
+
+
 const SingUpRequest=(user:UserData) =>axios.post("http://localhost:3001/user/create",user)
-const SingInRequest=(user:UserData) =>axios.get("http://localhost:3001/user/"+user.name);
+const SingInRequest=(user:UserData) =>axios.post("http://localhost:3001/user/singin",user);
+const GetUserByName=(name:string) =>axios.get("http://localhost:3001/user/"+name);
     
 
 export {SingUpRequest,SingInRequest};
