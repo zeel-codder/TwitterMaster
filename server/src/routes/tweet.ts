@@ -11,6 +11,25 @@ var router: Router = express.Router()
 
 // console.log('tweet')
 
+import multer  from 'multer';
+import path from "path";
+
+const storage = multer.diskStorage({
+    destination: function (req:Request, file:any, cb:Function) {
+
+      console.log(file);
+      cb(null, `./${process.env.upload}/files`)
+      // cb(null, path.join('../files'))
+    },
+    filename: function (req:Request, file:any, cb:Function) {
+      const uniqueSuffix:string = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null,  new Date().toISOString() + file.originalname);
+      // cb(null, file.fieldname + '-' + uniqueSuffix)
+    }
+})
+  
+const upload = multer({ storage: storage })
+
 
 
 router.get('/', function (req: Request, res: Response) {
@@ -20,9 +39,7 @@ router.get('/', function (req: Request, res: Response) {
 
 
 
-router.post('/create', function (req: Request, res: Response) {
-  AddTweet(req, res);
-})
+router.post('/create',upload.single('media'),AddTweet)
 
 
 

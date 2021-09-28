@@ -2,11 +2,12 @@
 
 interface TweetSchema {
     creator:  string|undefined;
-    img?:  string|undefined;
+    image?:  string|undefined;
     video?:  string|undefined;
-    message:  string|undefined;
-    like?:  number|undefined;
-    retweet?:  number|undefined;
+    description?:  string|undefined;
+    like?:  string[];
+    retweet?:  string[];
+    _id?: string;
 }
 
 

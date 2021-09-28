@@ -8,7 +8,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 
 interface SearchBox{
-
     placeName:undefined | string;
     data ?:undefined | any[];
 }

@@ -8,16 +8,16 @@ import ImageIcon from '@material-ui/icons/Image';
 
 
 const NullTweet: TweetSchema = {
-    message: '',
-    img: '',
+    description: '',
+    image: '',
     video: '',
     creator: '',
 }
 
 interface actionSchema {
     type: undefined | string,
-    message?: undefined | string,
-    img?: undefined | any,
+    description?: undefined | string,
+    image?: undefined | any,
     video?: undefined | any,
     creator?: undefined | string,
 }
@@ -33,9 +33,9 @@ const ChangeCreator: string = "4";
 function reducer(state: TweetSchema, action: actionSchema) {
     switch (action.type) {
         case ChangeMessage:
-            return { ...state, message: action.message };
+            return { ...state, description: action.description };
         case ChangeImg:
-            return { ...state, img: action.img };
+            return { ...state, image: action.image };
         case ChangeVideo:
             return { ...state, video: action.video };
         case ChangeCreator:
@@ -78,7 +78,7 @@ const Tweet = () => {
             <div className="flex media relative">
 
                 {
-                    state?.img || state?.video
+                    state?.image || state?.video
 
                     ?
 
@@ -88,7 +88,7 @@ const Tweet = () => {
                         
                 // console.log('click')
 
-                dispatch({type:ChangeImg,img:""})
+                dispatch({type:ChangeImg,image:""})
                 dispatch({type:ChangeVideo,video:""})
                 // newTweet.current?.classList.toggle("shownewTweetBox");
             }}
@@ -102,9 +102,9 @@ const Tweet = () => {
 
 
                 {
-                    state?.img
+                    state?.image
                         ?
-                        <img src={state?.img} alt="none"
+                        <img src={state?.image} alt="none"
                             ref={disImge}
                         >
 
@@ -141,7 +141,7 @@ const Tweet = () => {
                         let reader = new FileReader();
                         reader.onload = (e: any) => {
                             // console.log(e)
-                            dispatch({ type: ChangeImg, img: e.target.result });
+                            dispatch({ type: ChangeImg, image: e.target.result });
                         };
                         reader.readAsDataURL(event.target.files[0]);
 
@@ -182,7 +182,7 @@ const Tweet = () => {
                 <Button
                     onClick={(event) => {
 
-                        if (!state?.img && !state?.video) {
+                        if (!state?.image && !state?.video) {
 
 
                             InputVideo.current?.click();
@@ -206,7 +206,7 @@ const Tweet = () => {
                 <Button startIcon={<ImageIcon />}
                     onClick={(event) => {
 
-                        if (!state?.img && !state?.video) {
+                        if (!state?.image && !state?.video) {
 
 
                             InputImg.current?.click();

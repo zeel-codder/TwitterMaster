@@ -9,8 +9,9 @@ import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
 // import { Share } from "@material-ui/icons";
 import Search from '../Same/Search';
 import NewTweet from './helper/tweet';
-import { useRef } from "react";
-import {HomeSchema} from '../DataType/pages'
+import { useRef,useState,useEffect } from "react";
+import {HomeSchema} from '../DataType/pages';
+import { GetUserTweetList } from "../Actions/Api";
 
 
 
@@ -21,52 +22,17 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
 
 
 
-    const tem:TweetSchema[] =[
+    const [List,setList] = useState([]);
 
-        {
-                creator:'demo',
-    img:'https://images.unsplash.com/photo-1586227740560-8cf2732c1531?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=828&q=80',
-    
-    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
-    like:1,
-    retweet:12,
+    useEffect(()=>{
+        GetUserTweetList().then(res=>{
+            // console.log(res.data)
+            setList(res.data.data);
+        }).catch((e)=>{
+            console.log(e);
 
-
-        },
-        {
-                creator:'demo2',
-    img:'https://images.unsplash.com/photo-1630510589619-a6e1f502274e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
-    
-    message:"An array is a special type of data type which can store multiple values of different data types sequentially using a special syntax.",
-    like:1,
-    retweet:122,
-
-
-        },
-        {
-                creator:'demo3',
-    video:'https://www.w3schools.com/html/mov_bbb.mp4',
-    
-    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
-    like:1,
-    retweet:12,
-
-
-        },
-        {
-                creator:'demo',
-    img:'https://images.unsplash.com/photo-1586227740560-8cf2732c1531?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=828&q=80',
-    
-    message:"My name is Zeel Sureshbhai Prajapati.I am living in kalol, Gujarat. Presently, I am pursuing Computer Science at Nirma University. I love to code. I am doing competitive programming and using java for competitive programming",
-    like:1,
-    retweet:12,
-
-
-        }
-
-    ]
-
- 
+        })
+    },[])
 
 
 
@@ -105,7 +71,7 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
             
             </Button>
             {
-                tem.map((data)=>{
+                List.map((data)=>{
 
                     return <Tweet {...data}></Tweet>
 
@@ -125,7 +91,7 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
 //     retweet:undefined|number;
 // }
 
-const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
+const Tweet: React.FC<TweetSchema>=({image,video,creator,description,like,retweet})=>{
 
     return (
 
@@ -140,16 +106,16 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
             </div>
 
             <div className="text">
-                {message}
+                {description}
             </div>
 
             <div className="media">
 
                 {
-                    img ? <img src={img} alt={img} /> :''
+                    image ? <img src={`http://localhost:3001/files/${image}`} alt={image} /> :''
                 }
                 {
-                    video ? <video src={video}  controls></video> :''
+                    video ? <video src={`http://localhost:3001/files/${video}`}  controls></video> :''
                 }
             </div>
 
@@ -160,7 +126,7 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
                 <BottomNavigationAction  icon={<FavoriteBorderRoundedIcon  />} />
                 <div className="flex">
 
-                    {like}
+                    {like?.length}
                 </div>
                 </div>
 
@@ -168,7 +134,7 @@ const Tweet: React.FC<TweetSchema>=({img,video,creator,message,like,retweet})=>{
                 <BottomNavigationAction  icon={<ExitToAppRoundedIcon  />} />
                 <div>
 
-                    {retweet}
+                    {retweet?.length}
                 </div>
                 </div>
 

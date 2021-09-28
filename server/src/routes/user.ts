@@ -27,14 +27,7 @@ router.get('/',function (req: Request, res: Response) {
 
 
 
-router.post('/create', function (req: Request, res: Response) {
-
-
-  AddUser(req, res);
-
-
-
-})
+router.post('/create',  AddUser)
 
 
 

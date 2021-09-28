@@ -8,6 +8,7 @@ import GroupRoute from './routes/group';
 var cors = require('cors');
 
 import TweetRoute from './routes/tweet';
+import path from 'path';
 
 
 
@@ -20,6 +21,10 @@ app.use(cors());
 // parse application/json
 app.use(express.json())
 
+// console.log();
+
+app.use('/files',express.static(path.join(__dirname,'files')))
+
 
 
 
@@ -28,6 +33,8 @@ const port: number = 3001
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello Zeel')
 })
+
+
 
 
 app.use('/user',UserRoute);

@@ -21,11 +21,11 @@ const TweetSchema = new Schema<Tweet>({
 
     title: String,
     description: String,
-    image: String,
-    video: String,
     like:[{type:String}],
     retweet:[{type:String}],
     explore:[{type:String}],
+    image:String,
+    video:String
 
 },{ versionKey: false });
 

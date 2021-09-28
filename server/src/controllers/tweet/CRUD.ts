@@ -1,4 +1,4 @@
-import { Response, Request } from 'express';
+import express,{ Response, Request } from 'express';
 import { TweetModel } from '../../database/Schema';
 import { Tweet } from '../../interface/database/Schema';
 import { ErrorLoader, ResultLoader } from "../Response";
@@ -9,17 +9,14 @@ import { ErrorLoader, ResultLoader } from "../Response";
 const GetTweets = async (req: Request, res: Response) => {
 
     try {
-
-        const TweetList = await TweetModel.find({});
+        const List = await TweetModel.find({});
+        const TweetList= Array.from(List).reverse();
+        // console.log(TweetList)
 
         res.status(200).send(ResultLoader("All Tweet", TweetList));
-
     } catch (e: any) {
-
-
-
+        // console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
-
     }
 
 
@@ -56,9 +53,15 @@ const GetTweet = async (req: Request, res: Response) => {
 }
 
 
-const AddTweet = async (req: Request, res: Response) => {
+const AddTweet = async (req: Request, res: Response,next:Function) => {
 
     try {
+
+       
+
+        console.log(req.file)
+
+        let fileName:string=req.file?.filename as string;
 
         let newTweet: Tweet = req.body;
 
@@ -66,14 +69,23 @@ const AddTweet = async (req: Request, res: Response) => {
             return res.status(500).send(ErrorLoader("Invalid Input", "Input"))
         }
 
+        console.log(fileName);
+
 
         newTweet = {
             image: '',
             like: [],
             retweet: [],
             explore: [],
-
             ...newTweet,
+        }
+
+        if(fileName){
+            if(req.file?.mimetype=='image/png'){
+                newTweet.image =fileName;
+            }else{
+                newTweet.video =fileName;
+            }
         }
 
 
