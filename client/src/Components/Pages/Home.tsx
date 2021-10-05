@@ -15,13 +15,10 @@ import { GetUserTweetList } from "../Actions/Api";
 
 
 
+
 const  Home :React.FC<HomeSchema> =({type}) =>{
 
     const newTweet=useRef<HTMLDivElement>(null);
-
-
-
-
     const [List,setList] = useState([]);
 
     useEffect(()=>{
@@ -53,7 +50,7 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
 
             <div className="h"></div>
 
-            <NewTweet  />
+            <NewTweet close={newTweet}  />
 
             </div>
             <Search placeName="Tweet " />
@@ -144,12 +141,6 @@ const Tweet: React.FC<TweetSchema>=({image,video,creator,description,like,retwee
 
 
                 </div>
-
-
-
-
-
-
             </div>
 
 

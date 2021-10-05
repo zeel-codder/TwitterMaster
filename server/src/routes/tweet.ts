@@ -39,7 +39,8 @@ router.get('/', function (req: Request, res: Response) {
 
 
 
-router.post('/create',upload.single('media'),AddTweet)
+router.post('/create'
+,upload.single('media'),AddTweet)
 
 
 

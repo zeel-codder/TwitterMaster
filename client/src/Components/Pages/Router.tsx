@@ -18,8 +18,10 @@ interface Tem{
     Com:React.FC | any;
     type?:string;
 }
+
+
 const Template:React.FC<Tem>=({Com,type})=>{
-    console.log(type);
+    // console.log(type);
     return (
 
         <>
