@@ -184,19 +184,19 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
                 </div>
 
                 <div className="retweet flex" onClick={handleShare}>
-                <ExitToAppRoundedIcon  />
+                <ShareRoundedIcon />
                 <div>
 
                     {Retweet}
                 </div>
                 </div>
 
-                <div className="share flex">
+                {/* <div className="share flex">
 
-                <ShareRoundedIcon />
+                <ExitToAppRoundedIcon  />
 
 
-                </div>
+                </div> */}
             </div>
 
 
