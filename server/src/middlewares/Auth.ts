@@ -13,9 +13,15 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
         const tokenString:string=req.headers["authorization"] || "";
         const token:string=tokenString?.split(" ")[1];
 
-        const user=await jwt.verify(token, process.env.Secrete||"");
+        let user=await jwt.verify(token, process.env.Secrete||"");
+        user=user as object;
 
-        console.log(user)
+      
+        req.user_id=user._id;
+        req.user_name=user.name;
+
+        console.log(req.user_name+" "+req.user_id)
+
 
         next();
         

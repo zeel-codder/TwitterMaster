@@ -11,16 +11,10 @@ import GooogleAuth from './Auth/GoogleAuth';
 import { SingUpRequest,SingInRequest } from '../Actions/Api';
 import {useHistory} from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+import { useAppSelector, useAppDispatch } from '../../store';
 
 
 
-interface action {
-    type:  string |undefined;
-    email?:  string |undefined;
-    password?: string |undefined;
-    confirm_password?:  string |undefined;
-    name?: string |undefined;
-}
 
 
 const ChangeEmail: string = "ChangeEmail";
@@ -29,28 +23,7 @@ const ChangeCPassword: string = "ChangeCPassword";
 const ChangeName: string = "ChangeName";
 
 
-const initialState: UserData = {
 
-    email: "",
-    password: "",
-    confirm_password: "",
-    name: ""
-}
-
-function reducer(state: UserData, action: action) {
-    switch (action.type) {
-        case ChangeEmail:
-            return { ...state, email: action.email };
-        case ChangeName:
-            return { ...state,name: action.name };
-        case ChangePassword:
-            return { ...state, password: action.password };
-        case ChangeCPassword:
-            return { ...state, confirm_password: action.confirm_password };
-        default:
-            throw new Error();
-    }
-}
 
 
 
@@ -58,9 +31,15 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
 
 
-    const [state, dispatch] = useReducer(reducer, initialState);
+    // const [state, dispatch] = useReducer(reducer, initialState);
     const [message, setMessage] = useState("");
     const history=useHistory();
+
+    const state=useAppSelector((state)=>state.AuthReducer);
+    const dispatch = useAppDispatch()
+    console.log(state)
+    
+
 
 
     const handleSingUp = async () => {
@@ -69,12 +48,11 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
         if (ValidateSingUp()) {
             try {
-
-                
-
                 const ans = await SingUpRequest({...state});
-
+                
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
+                dispatch({type:"AddUser",data:ans.data.data})
+
                 history.push('/');
             } catch (e) {
                 setMessage("User Name our Email is Exits")
@@ -91,7 +69,9 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
             try {
                 // const hash=await bcrypt.hash(state.password || "",10);
                 const ans = await SingInRequest({...state});
+                console.log(ans);
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
+                dispatch({type:"AddUser",data:ans.data.data})
                 history.push('/');
             } catch (e) {
                 console.log(e)

@@ -69,16 +69,20 @@ const AddTweet = async (req: Request, res: Response,next:Function) => {
             return res.status(500).send(ErrorLoader("Invalid Input", "Input"))
         }
 
-        console.log(fileName);
+        // console.log(fileName);
 
 
         newTweet = {
             image: '',
             like: [],
-            retweet: [],
+            retweet: 0,
             explore: [],
-            ...newTweet,
+            ...newTweet
         }
+
+        newTweet.Creator_ID=req.user_id;
+        newTweet.Creator_Name=req.user_name;
+        console.log(newTweet);
 
         if(fileName){
             if(req.file?.mimetype=='image/png'){
@@ -133,6 +137,10 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
         let Tweet = await TweetModel.findOne({ _id });
 
+        if(Tweet==null){
+            res.status(404).send(ErrorLoader("Tweet Not Found",Tweet));
+        }
+
         switch (type) {
 
             case "like":
@@ -140,7 +148,7 @@ const UpdateTweet = async (req: Request, res: Response) => {
                 await Tweet.save();
             break;
             case "retweet":
-                Tweet.retweet.push(user_id);
+                Tweet.retweet++;
                 await Tweet.save();
             break;
             case "remove like":
@@ -157,13 +165,13 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
         }
 
-        if(Tweet==null){
-            res.status(404).send(ErrorLoader("Tweet Not Found",Tweet));
-        }
+      
 
         res.status(200).send(ResultLoader("Tweets Updated", Tweet));
 
     } catch (e: any) {
+
+        console.log(e);
 
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
 

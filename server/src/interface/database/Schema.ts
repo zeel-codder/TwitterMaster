@@ -17,8 +17,11 @@ interface User {
 
 interface Tweet extends Basic{
     like?: String[];
-    retweet?: String[];
+    retweet?: number;
     explore?: String[];
+    Creator_Name?:String|any;
+    Creator_ID?:String|any;
+
 }
 
 interface Explore extends Basic{

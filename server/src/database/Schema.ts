@@ -22,10 +22,12 @@ const TweetSchema = new Schema<Tweet>({
     title: String,
     description: String,
     like:[{type:String}],
-    retweet:[{type:String}],
+    retweet:Number,
     explore:[{type:String}],
     image:String,
-    video:String
+    video:String,
+    Creator_ID:String,
+    Creator_Name:String
 
 },{ versionKey: false });
 

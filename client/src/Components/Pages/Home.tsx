@@ -11,12 +11,15 @@ import Search from '../Same/Search';
 import NewTweet from './helper/tweet';
 import { useRef,useState,useEffect } from "react";
 import {HomeSchema} from '../DataType/pages';
-import { GetUserTweetList } from "../Actions/Api";
+import { GetUserTweetList, UpdateTweet } from "../Actions/Api";
+import { useAppSelector } from "../../store";
+
 
 
 
 
 const  Home :React.FC<HomeSchema> =({type}) =>{
+    console.log('Home')
 
     const newTweet=useRef<HTMLDivElement>(null);
     const [List,setList] = useState([]);
@@ -88,7 +91,58 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
 //     retweet:undefined|number;
 // }
 
-const Tweet: React.FC<TweetSchema>=({image,video,creator,description,like,retweet})=>{
+const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name})=>{
+ 
+    const User=useAppSelector((state)=>state.UserReducer);
+
+    const type={_id,user_id:User._id,type:""};
+    const [TweetData,setTweetData]=useState({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name});
+    const [isLike,setIsLike]=useState(like?.includes(User._id as string));
+    const [Like,setLike]=useState(like?.length);
+    const [Retweet,setReteet]=useState(retweet);
+
+
+
+
+
+    const handleLike=()=>{
+
+        if(isLike){
+            type.type="remove like";
+        }else{
+            type.type="like"
+        }
+        UpdateTweet(type,TweetData)
+        .then((res)=>{
+            setIsLike(!isLike);
+            const newTweet=res.data.data;
+            setTweetData(newTweet);
+            setLike(newTweet.like.length);
+            setReteet(newTweet.retweet);
+        }).catch((e)=>{
+            console.log(e);
+        })
+
+    }
+
+    const handleShare=()=>{
+
+    
+        type.type="retweet";
+       
+        UpdateTweet(type,TweetData)
+        .then((res)=>{
+            setIsLike(!isLike);
+            const newTweet=res.data.data;
+            setTweetData(newTweet);
+            setLike(newTweet.like.length);
+            setReteet(newTweet.retweet);
+        }).catch((e)=>{
+            console.log(e);
+        })
+
+    }
+
 
     return (
 
@@ -97,47 +151,49 @@ const Tweet: React.FC<TweetSchema>=({image,video,creator,description,like,retwee
 
             <div className="creator-section flex">
             <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
-                <a href="/" className="a">
-                {creator}
+                <a href={"/user/"+TweetData.Creator_Name} className="a">
+                {TweetData.Creator_Name}
                 </a>
+               
+
             </div>
 
             <div className="text">
-                {description}
+                {TweetData.description}
             </div>
 
             <div className="media">
 
                 {
-                    image ? <img src={`http://localhost:3001/files/${image}`} alt={image} /> :''
+                    TweetData.image ? <img src={`http://localhost:3001/files/${TweetData.image}`} alt={TweetData.image} /> :''
                 }
                 {
-                    video ? <video src={`http://localhost:3001/files/${video}`}  controls></video> :''
+                    TweetData.video ? <video src={`http://localhost:3001/files/${TweetData.video}`}  controls></video> :''
                 }
             </div>
 
             <div className="Socials flex blue">
 
-                <div className="like flex">
+                <div className="like flex" onClick={handleLike}>
 
-                <BottomNavigationAction  icon={<FavoriteBorderRoundedIcon  />} />
+                <FavoriteBorderRoundedIcon  />
                 <div className="flex">
 
-                    {like?.length}
+                    {Like}
                 </div>
                 </div>
 
-                <div className="retweet flex">
-                <BottomNavigationAction  icon={<ExitToAppRoundedIcon  />} />
+                <div className="retweet flex" onClick={handleShare}>
+                <ExitToAppRoundedIcon  />
                 <div>
 
-                    {retweet?.length}
+                    {Retweet}
                 </div>
                 </div>
 
                 <div className="share flex">
 
-                <BottomNavigationAction  icon={<ShareRoundedIcon />} />
+                <ShareRoundedIcon />
 
 
                 </div>

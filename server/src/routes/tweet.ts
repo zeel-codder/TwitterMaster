@@ -1,6 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet } from "../controllers/tweet/CRUD";
-
+import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
 // middleware that is specific to this router
@@ -39,8 +39,7 @@ router.get('/', function (req: Request, res: Response) {
 
 
 
-router.post('/create'
-,upload.single('media'),AddTweet)
+router.post('/create',Auth,upload.single('media'),AddTweet)
 
 
 
@@ -51,9 +50,7 @@ router.delete('/delete', function (req: Request, res: Response) {
 
 
 
-router.put('/update', function (req: Request, res: Response) {
-  UpdateTweet(req, res);
-})
+router.put('/update',Auth,UpdateTweet)
 
 
 router.get('/:_id', function (req: Request, res: Response) {

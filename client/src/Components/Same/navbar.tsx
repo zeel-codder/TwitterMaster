@@ -4,11 +4,9 @@ import ExplicitIcon from '@material-ui/icons/Explicit';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import GroupIcon from '@material-ui/icons/Group';
 import { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
-// import VpnKeyIcon from '@material-ui/icons/VpnKey';
-// import { Button } from '@material-ui/core';
-// import { useStyles } from '../../App_M';
-// import {FiLogOut} from 'react-icons/fi';
+
+import {useAppSelector,useAppDispatch} from '../../store';
+
 
 
 
@@ -21,16 +19,13 @@ export default function Navbar() {
 
     // const classes = useStyles();
     // const userData:boolean=localStorage.getItem('User')?true:false;
+    const User=useAppSelector((state)=>state.UserReducer);
+    const dispatch=useAppDispatch();
+    
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('User') || '{}'))
-
-
-
-
-
-
-
-    // const [value, setValue] = useState<string>('home');
-
+    if(!User.name){
+        dispatch({ type:"AddUser",data:user})
+    }
 
 
     return (

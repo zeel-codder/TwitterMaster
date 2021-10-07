@@ -94,6 +94,10 @@ a:hover{
   overflow-y: scroll;
 }
 
+.Socials > div > *{
+  margin: 0.2rem;
+}
+
 .end{
   flex: 2;
   float: right;

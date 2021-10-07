@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UserData } from '../DataType/Feed';
+import { TweetSchema, UserData } from '../DataType/Feed';
 
 const web=process.env.REACT_APP_WebSite;
 
@@ -22,6 +22,23 @@ const GetUserByName=(name:string) =>axios.get(web+"/user/"+name);
 const GetUserTweetList=() =>axios.get(web+"/tweet");
 
 const CreateNewPost=(TweetData:object) => API.post("/tweet/create",TweetData);
+
+const UpdateTweet=(odd:object,newd:TweetSchema) => API.put("/tweet/update",{
+    before:odd,
+    after:newd
+})
     
 
-export {SingUpRequest,SingInRequest,GetUserTweetList,CreateNewPost};
+// {
+
+//     "before":{
+//         "_id":"615c34a9394b4feb3f1f04d7",
+//         "user_id":"613cb0fcab3911b09a59a56a",
+//         "type":"remove like"
+//     },
+//     "after":{
+//         "description":"zeel"
+//     }
+// }
+
+export {SingUpRequest,SingInRequest,GetUserTweetList,CreateNewPost,UpdateTweet};

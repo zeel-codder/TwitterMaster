@@ -6,17 +6,20 @@ interface TweetSchema {
     video?:  string|undefined;
     description?:  string|undefined;
     like?:  string[];
-    retweet?:  string[];
+    retweet?:  number;
     _id?: string;
+    Creator_ID?:string|undefined;
+    Creator_Name?:string|undefined;
 }
 
 
 interface UserData {
     type?: string|undefined;
-    email: string|undefined;
+    email?: string|undefined;
     password?: string|undefined;
     confirm_password?: string|undefined;
-    name: string|undefined;
+    name?: string|undefined;
+    _id?:string|undefined;
 }
 
 
