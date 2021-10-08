@@ -27,7 +27,7 @@ app.use('/files',express.static(path.join(__dirname,'files')))
 
 
 
-const port: number = 3001
+const port= process.env.PORT ||3001 ;
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello Zeel')

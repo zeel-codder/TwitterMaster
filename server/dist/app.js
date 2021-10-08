@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express_1.default.json());
 // console.log();
 app.use('/files', express_1.default.static(path_1.default.join(__dirname, 'files')));
-var port = 3001;
+var port = process.env.PORT || 3001;
 app.get('/', function (req, res) {
     res.send('Hello Zeel');
 });
