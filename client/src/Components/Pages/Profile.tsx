@@ -5,10 +5,14 @@ import Home from './Home';
 import Group from './Group';
 import { UserData } from '../DataType/Feed'
 import { Link, useHistory } from 'react-router-dom';
+import { useAppSelector, useAppDispatch } from '../../store';
+
 
 const Profile: React.FC<UserData> = ({ type }) => {
 
     const router = useHistory();
+    const User=useAppSelector((state)=>state.UserReducer);
+    const List=useAppSelector((state)=>state.DataReducer);
 
     const userprofile=useRef<HTMLDivElement>(null);
 
@@ -44,7 +48,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
 
                 <div className="creator-section flex">
-                    <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
+                    <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
                     <a href="/" className="a">
                         @zeel
                     </a>
@@ -96,9 +100,9 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
                     type === "tweet"
                         ?
-                        <Home type="Your Tweets" />
+                        <Home type="Your Tweets" isMe={true} />
                         :
-                        <Group type="Group You are in"></Group>
+                        <Group type="Group You are in" isMe={false}></Group>
 
 
                 }

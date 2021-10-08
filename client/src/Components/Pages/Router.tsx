@@ -1,7 +1,7 @@
 import Navbar from "../Same/navbar";
 import LeftSide from '../Same/LeftSide';
 import Group from "./Group";
-import Exploer from "./Exploer";
+import Users from './Users';
 import Profile from "./Profile";
 import Home from "./Home";
 import Login from "./Login";
@@ -54,12 +54,14 @@ export default function Router() {
                     <Template Com={Home} />
                     {/* <Home /> */}
                 </Route>
-                <Route path="/explore" exact>
-                    <Template Com={Exploer} />
-                    {/* <Exploer /> */}
-                </Route>
+           
                 <Route path="/group" exact>
                     <Template Com={Group} />
+                    {/* <Group />/ */}
+                </Route>
+
+                <Route path="/users" exact>
+                    <Template Com={Users} />
                     {/* <Group />/ */}
                 </Route>
                 <Route path="/profile/group" exact>

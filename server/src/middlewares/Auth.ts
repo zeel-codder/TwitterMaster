@@ -27,6 +27,7 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
         
     
     }catch{
+        console.log('e')
         res.sendStatus(404);
     }
 }

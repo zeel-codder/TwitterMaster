@@ -32,25 +32,15 @@ const TweetSchema = new Schema<Tweet>({
 },{ versionKey: false });
 
 
-const ExploreSchema = new Schema<Explore>({
-    title: String,
-    description: String,
-    image: String,
-    video: String,
-    tweets:[{type:String}],
-    creator:String,
-},{ versionKey: false })
+
 
 
 
 const GroupSchema = new Schema<Group>({
     title: String,
     description: String,
-    image: String,
-    video: String,
     admin:[{type:String}],
     users:[{type:String}],
-    
 },{ versionKey: false })
 
 
@@ -58,7 +48,7 @@ const GroupSchema = new Schema<Group>({
 const UserModel=model('User',UserSchema);
 const TweetModel=model('Tweet',TweetSchema);
 const GroupModel=model('Group',GroupSchema);
-const ExploreModel=model('Explore',ExploreSchema);
+
 
 
 // const small = new TweetModel({ name:'zeel',description:'none' });
@@ -70,4 +60,4 @@ const ExploreModel=model('Explore',ExploreSchema);
 
 
 
-export {UserModel,TweetModel,GroupModel,ExploreModel};
+export {UserModel,TweetModel,GroupModel};

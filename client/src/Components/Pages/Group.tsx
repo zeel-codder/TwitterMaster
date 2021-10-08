@@ -1,45 +1,35 @@
-import React from 'react'
+import React ,{useEffect, useState} from 'react'
 import { GroupSchema } from '../DataType/Feed'
 import { Avatar, Button, TextField } from '@material-ui/core';
 import Search from '../Same/Search';
 import { useRef } from "react";
 import { GroupCSchema } from '../DataType/pages';
+import { useAppSelector, useAppDispatch } from '../../store';
+import { CrateGroup, GetAllGroups } from '../../Actions/Api';
+import {useHistory} from 'react-router-dom';
 
 
 
 
 
 
-const Group:React.FC<GroupCSchema> =({type}) =>{
+const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
     const newGroup=useRef<HTMLDivElement>(null);
-    const tem: GroupSchema[] = [
-        {
-            name: 'tem1',
-            tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.'
-        },
-        {
-            name: 'tem2'
-            ,
-            tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.,  .'
-        },
-        {
-            name: 'tem3'
-            , tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.,  .'
-        },
-        {
-            name: 'tem4',
-            tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.,  .'
-        },
-        {
-            name: 'tem5',
-            tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.,  .'
-        },
-        {
-            name: 'tem6'
-            , tagline: ' Space is the boundless three-dimensional extent in which objects and events have relative position and direction.,  .'
-        },
 
-    ]
+    const List:any=useAppSelector((state)=>state.DataReducer);
+    const User=useAppSelector((state)=>state.UserReducer);
+    const dispatch=useAppDispatch();
+
+    useEffect(()=>{
+        GetAllGroups()
+        .then((res)=>{
+            console.log(res.data.data);
+           dispatch({ type:"AddGroups",data:res.data.data});
+        });
+    },[]);
+    console.log(List)
+
+   
 
     return (
         <div className="pad">
@@ -80,51 +70,107 @@ const Group:React.FC<GroupCSchema> =({type}) =>{
             </Button>
             
             
-            <Search placeName="Explore " />
+            <Search placeName="Group " />
             {
-                tem.map((data, index) => {
+                List.Groups.map((data:GroupSchema, index :number) => {
 
-                    return (
-
-                        <div className="tweet-container flex">
-
-                            <Avatar alt="Remy Sharp" src={data?.img || "https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"} />
-
-
-                            <div className="flex column start explore">
-                                <h3>
-
-                                    
-                                    <a href="/" className="a">
-                                        #_{data.name}
-
-                                    </a>
-                                </h3>
-
-                                <div>
-                                    {data.tagline}
-                                </div>
-                            </div>
-                            </div>
-                    )
-
-
-
-                    })
+                    const {admin,users}=data;
+                    if(isMe){
+                        if(admin.includes(User._id || "") || users.includes(User._id || "")){
+                            return <GroupPeek {...data} ></GroupPeek>
+                        }else{
+                            
+                            return <></>
+                        }
+                    }else{
+                        return <GroupPeek {...data}></GroupPeek>
+                    }
+                })
+            }
                 
             
-                        
-                    
-                    
-
-                }
                    
           </div>
         )
 }
 
 
+const GroupPeek: React.FC<GroupSchema>=({title,description}) => {
+
+    return (
+
+        <div className="tweet-container flex">
+
+        <Avatar 
+        alt="Remy Sharp" 
+        src={"https://images.unsplash.com/photo-1618042164219-62c820f10723?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1374&q=80"} 
+        
+        variant='square'
+        />
+
+
+        <div className="flex column start explore">
+            <h3>
+
+                
+                <a href="/" className="a">
+                    #{title}
+
+                </a>
+            </h3>
+
+            <div className="Group_Div">
+                {description}
+            </div>
+        </div>
+        </div>
+
+
+    )
+
+
+}
+
+
 const GroupDiv: React.FC<{}>=()=>{
+
+    const Data=useAppSelector((state)=>state.GroupCreateReducer);
+    const dispatch=useAppDispatch();
+    const [message, setMessage] = useState("");
+    const history = useHistory();
+
+    useEffect(() => {
+
+        const timeOut = setTimeout(() => {
+            setMessage("")
+        }, 3000);
+
+        return () => {
+            clearTimeout(timeOut);
+        }
+
+    }, [message])
+
+
+    async function handleGroup(){
+
+        if(Data.title==="" || Data.description===""){
+            setMessage("Title and Description Must be not have Empty");
+            return;
+        }
+
+        CrateGroup(Data)
+        .then((res)=>{
+            window.location.href="/group"
+        })
+        .catch((e)=>{
+            console.log(e)
+        })
+
+    }
+
+
+
 
     return (
 
@@ -133,31 +179,66 @@ const GroupDiv: React.FC<{}>=()=>{
             Group
         </h1>
 
-        <div className="flex column auth">
-        {/* <img className="profile_img" alt="Remy" src="https://zeelcodder.tech/images/home/zeel.jpeg" /> */}
 
+        <div className="flex column auth">
+
+        <span className="textp">
+
+        {message}
+        </span>
 
             <TextField 
                 type="string"
                 placeholder="Enter Name"
               
-                value="demo"
+                value={Data.title}
 
                 variant="outlined"
              
-                required>
+                required
+                onChange={
+                    (e)=>{
+                        console.log(e)
+                        dispatch({type:"ChangeTitle",data:e.target.value})
+                    }
+                }
+
+                >
 
 
             </TextField >
 
-            <Button variant="contained" color="primary" href="#contained-buttons">
+
+            <TextField 
+                type="string"
+                placeholder="Enter About"
+              
+                value={Data.description}
+
+                variant="outlined"
+             
+                required
+                onChange={
+                    (e)=>{
+                        console.log(e)
+                        dispatch({type:"ChangeDescription",data:e.target.value})
+                    }
+                }
+
+                >
+
+
+            </TextField >
+
+
+            <Button 
+            variant="contained"
+             color="primary" 
+             onClick={handleGroup}
+             
+             >
                             + Create
-                        </Button>
-
-
-
-
-       
+            </Button>       
         </div>
 
 

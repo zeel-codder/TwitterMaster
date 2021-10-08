@@ -10,7 +10,10 @@ const GetGroups = async (req: Request, res: Response) => {
 
     try {
 
-        const GroupList = await GroupModel.find({});
+        let GroupList = await GroupModel.find({});
+        GroupList= Array.from(GroupList).reverse();
+
+
 
         res.status(200).send(ResultLoader("All Group",GroupList));
 
@@ -69,7 +72,6 @@ const AddGroup = async (req: Request, res: Response) => {
 
 
         newGroup = {
-            image: '',
             admin: [],
             users:[],   
             ...newGroup,

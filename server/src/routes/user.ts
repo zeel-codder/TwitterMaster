@@ -19,9 +19,6 @@ router.get('/',function (req: Request, res: Response) {
 
 
   GetUsers(req, res);
-
-
-
 })
 
 

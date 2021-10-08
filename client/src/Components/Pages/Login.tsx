@@ -1,16 +1,9 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, {  useState, useEffect } from 'react';
 import { TextField as Input, Button } from '@material-ui/core';
-import FacebookIcon from '@material-ui/icons/Facebook';
-// import GitHubIcon from '@material-ui/icons/GitHub';
-import { AiOutlineGoogle } from 'react-icons/ai';
-import { FaDivide } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { LoginData } from '../DataType/pages'
-import { UserData } from '../DataType/Feed'
-import GooogleAuth from './Auth/GoogleAuth';
-import { SingUpRequest,SingInRequest } from '../Actions/Api';
+import { SingUpRequest,SingInRequest } from '../../Actions/Api';
 import {useHistory} from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 import { useAppSelector, useAppDispatch } from '../../store';
 
 
@@ -263,34 +256,7 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                 }
 
 </form>
-                <h3 className="center"> OR </h3>
-
-
-                <div className="flex blue full space icons" >
-
-                    <Button
-
-                        className="flex"
-                        startIcon={<FacebookIcon />}
-
-                    />
-
-
-
-
-
-                    {/* <Button startIcon={<GitHubIcon />} /> */}
-
-
-
-
-                    <GooogleAuth />
-
-
-
-                </div>
-
-
+           
 
 
                 {

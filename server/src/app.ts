@@ -3,7 +3,6 @@ import express, { Application, Request, Response } from 'express';
 require('dotenv').config()
 require('./database/Connection')
 import UserRoute from './routes/user';
-import ExploreRoute from './routes/explore';
 import GroupRoute from './routes/group';
 var cors = require('cors');
 
@@ -39,7 +38,6 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/user',UserRoute);
 app.use('/group',GroupRoute);
-app.use('/explore',ExploreRoute);
 app.use('/tweet',TweetRoute);
 
 app.listen(port, function () {

@@ -2,7 +2,7 @@
 
 import StartLoader from './Components/Loaders/MainPage';
 import Home from './Components/Pages/Router';
-import Loading from './Components/Loaders/Loading';
+// import Loading from './Components/Loaders/Loading';
 
 
 import './App.css';

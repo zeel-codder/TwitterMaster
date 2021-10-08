@@ -11,26 +11,31 @@ import Search from '../Same/Search';
 import NewTweet from './helper/tweet';
 import { useRef,useState,useEffect } from "react";
 import {HomeSchema} from '../DataType/pages';
-import { GetUserTweetList, UpdateTweet } from "../Actions/Api";
-import { useAppSelector } from "../../store";
+import { GetUserTweetList, UpdateTweet } from "../../Actions/Api";
+import { useAppSelector, useAppDispatch } from '../../store';
 
 
 
 
 
-const  Home :React.FC<HomeSchema> =({type}) =>{
-    console.log('Home')
+const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
+    // console.log('Home')
 
     const newTweet=useRef<HTMLDivElement>(null);
-    const [List,setList] = useState([]);
+
+    const List:any=useAppSelector((state)=>state.DataReducer);
+    const User=useAppSelector((state)=>state.UserReducer);
+    const dispatch=useAppDispatch();
+
+    // console.log(List);
+
 
     useEffect(()=>{
         GetUserTweetList().then(res=>{
-            // console.log(res.data)
-            setList(res.data.data);
+            
+            dispatch({type:"AddTweets",data:res.data.data}) 
         }).catch((e)=>{
             console.log(e);
-
         })
     },[])
 
@@ -71,10 +76,18 @@ const  Home :React.FC<HomeSchema> =({type}) =>{
             
             </Button>
             {
-                List.map((data)=>{
-
-                    return <Tweet {...data}></Tweet>
-
+                List.Tweets.map((data:TweetSchema)=>{
+                    const {Creator_ID}=data;
+                    if(isMe){
+                        if(Creator_ID===User._id){
+                            return <Tweet {...data}></Tweet>
+                        }else{
+                            
+                            return <></>
+                        }
+                    }else{
+                        return <Tweet {...data}></Tweet>
+                    }
                 })
             }
         </div>
@@ -150,7 +163,7 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             
 
             <div className="creator-section flex">
-            <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
+            <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
                 <a href={"/user/"+TweetData.Creator_Name} className="a">
                 {TweetData.Creator_Name}
                 </a>

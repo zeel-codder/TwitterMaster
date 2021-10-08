@@ -159,7 +159,7 @@ const SingIn = async (req: Request, res: Response) => {
 
         const result: ValidResponse = {
             message: "User fount",
-            data: {name:findByName.name,id:findByName._id,token},
+            data: {name:findByName.name,_id:findByName._id,token},
             
         }
 
@@ -167,11 +167,6 @@ const SingIn = async (req: Request, res: Response) => {
     } catch (e: any) {
 
         console.log(e);
-        // const error: ErrorSchema = {
-        //     message: "User Found",
-        //     type: e.message
-        // }
-
 
         res.status(404).send(ErrorLoader(e.message,"Error"));
 

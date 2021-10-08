@@ -1,5 +1,6 @@
 
 
+
 interface TweetSchema {
     creator:  string|undefined;
     image?:  string|undefined;
@@ -34,11 +35,19 @@ interface HashTage {
 
 
 interface GroupSchema {
+    _id:string;
+    title:string;
+    description: string;
+    admin:[string];
+    users:[string];
+}
 
-    name: string|undefined;
-    tagline: string|undefined;
-    img?: string|undefined;
+interface ExploreSchema {
+    title: string;
+    tweets?:String[];
+    creator:String;
+    _id?:String;
 }
 
 
-export type { TweetSchema, HashTage, GroupSchema, UserData };
+export type { TweetSchema, HashTage, GroupSchema, UserData,ExploreSchema };
