@@ -4,17 +4,18 @@ import { TweetSchema, UserData } from '../Components/DataType/Feed';
 
 const web=process.env.REACT_APP_WebSite;
 
-console.log(web);
 
 
 const token:string=JSON.parse(localStorage.getItem('User') || "{}").token || "";
+// console.log(`Bearer ${token}`);
 
 const API = axios.create({
     baseURL:web,
-    timeout: 200,
+    timeout: 400,
     headers: {'authorization': `Bearer ${token}`}
 });
 
+// console.log(API);
 
 const SingUpRequest=(user:UserData) =>axios.post(web+"/user/create",user)
 const SingInRequest=(user:UserData) =>axios.post(web+"/user/singin",user);

@@ -5,6 +5,10 @@ body{
   --font-small-head:1.5rem;
 }
 
+*{
+-webkit-tap-highlight-color: transparent;
+}
+
 
 #root{
   overflow-x: hidden;

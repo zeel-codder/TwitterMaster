@@ -13,6 +13,10 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
         const tokenString:string=req.headers["authorization"] || "";
         const token:string=tokenString?.split(" ")[1];
 
+        
+
+        // console.log(req.headers)
+
         let user=await jwt.verify(token, process.env.Secrete||"");
         user=user as object;
 
@@ -26,8 +30,8 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
         next();
         
     
-    }catch{
-        console.log('e')
+    }catch(e){
+        console.log(e)
         res.sendStatus(404);
     }
 }
