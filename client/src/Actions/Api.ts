@@ -11,7 +11,7 @@ const token:string=JSON.parse(localStorage.getItem('User') || "{}").token || "";
 
 const API = axios.create({
     baseURL:web,
-    timeout: 1000,
+    timeout: 10000,
     headers: {'authorization': `Bearer ${token}`}
 });
 
