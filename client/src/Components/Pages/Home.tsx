@@ -211,10 +211,10 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             <div className="media">
 
                 {
-                    TweetData.image ? <img src={`${Link}/files/${TweetData.image}`} alt={TweetData.image} /> :''
+                    TweetData.image ? <img src={TweetData.image} alt={TweetData.image} /> :''
                 }
                 {
-                    TweetData.video ? <video src={`${Link}/files/${TweetData.video}`}  controls></video> :''
+                    TweetData.video ? <video src={TweetData.video}  controls></video> :''
                 }
             </div>
 

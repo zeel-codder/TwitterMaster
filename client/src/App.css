@@ -326,6 +326,7 @@ a:hover{
   max-height: 23rem;
   object-fit: cover;
   border-radius: .3rem;
+  object-fit: cover;
 }
 
 .right{

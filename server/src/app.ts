@@ -6,6 +6,14 @@ import UserRoute from './routes/user';
 import GroupRoute from './routes/group';
 var cors = require('cors');
 
+var fs = require('fs');
+var dir = `./${process.env.upload}/files`;
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+}
+
+
 import TweetRoute from './routes/tweet';
 import path from 'path';
 
