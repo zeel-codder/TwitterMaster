@@ -107,8 +107,9 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
                     function (error: Error, result: any) {
                         if (error) return;
+                        // console.log(result)
 
-                        newTweet.image = result.url;
+                        newTweet.image = result.secure_url;
                     }
                 );
             }
@@ -120,7 +121,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
                     function (error: Error, result: any) {
                         if (error) return;
 
-                        newTweet.video = result.url;
+                        newTweet.video = result.secure_url;
                     }
                 )
             }

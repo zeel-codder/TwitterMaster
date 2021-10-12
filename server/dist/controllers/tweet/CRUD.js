@@ -133,7 +133,8 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename), function (error, result) {
                         if (error)
                             return;
-                        newTweet_1.image = result.url;
+                        // console.log(result)
+                        newTweet_1.image = result.secure_url;
                     })];
             case 1:
                 // // newTweet.image =fName;
@@ -143,7 +144,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 }, function (error, result) {
                     if (error)
                         return;
-                    newTweet_1.video = result.url;
+                    newTweet_1.video = result.secure_url;
                 })];
             case 3:
                 _c.sent();
