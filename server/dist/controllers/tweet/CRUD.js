@@ -99,11 +99,11 @@ var GetTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 exports.GetTweet = GetTweet;
 var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var fileName, newTweet, newDoc, Tweet, e_3;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var _a, _b, _c, _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0:
-                _c.trys.push([0, 2, , 3]);
+                _e.trys.push([0, 2, , 3]);
                 console.log(req.file);
                 fileName = (_a = req.file) === null || _a === void 0 ? void 0 : _a.filename;
                 newTweet = req.body;
@@ -116,7 +116,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 newTweet.Creator_Name = req.user_name;
                 console.log(newTweet);
                 if (fileName) {
-                    if (((_b = req.file) === null || _b === void 0 ? void 0 : _b.mimetype) == 'image/png') {
+                    if (((_b = req.file) === null || _b === void 0 ? void 0 : _b.mimetype) == 'image/png' || ((_c = req.file) === null || _c === void 0 ? void 0 : _c.mimetype) == 'image/jpg' || ((_d = req.file) === null || _d === void 0 ? void 0 : _d.mimetype) == 'image/jpeg') {
                         newTweet.image = fileName;
                     }
                     else {
@@ -126,11 +126,11 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 newDoc = new Schema_1.TweetModel(newTweet);
                 return [4 /*yield*/, newDoc.save()];
             case 1:
-                Tweet = _c.sent();
+                Tweet = _e.sent();
                 res.status(200).send(Response_1.ResultLoader("Tweet Added", Tweet));
                 return [3 /*break*/, 3];
             case 2:
-                e_3 = _c.sent();
+                e_3 = _e.sent();
                 res.status(404).send(Response_1.ErrorLoader(e_3.message, "Error"));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

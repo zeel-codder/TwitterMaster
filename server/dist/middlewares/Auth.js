@@ -42,16 +42,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var Auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var tokenString, token, user, _a;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var tokenString, token, user, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 2, , 3]);
                 tokenString = req.headers["authorization"] || "";
                 token = tokenString === null || tokenString === void 0 ? void 0 : tokenString.split(" ")[1];
                 return [4 /*yield*/, jsonwebtoken_1.default.verify(token, process.env.Secrete || "")];
             case 1:
-                user = _b.sent();
+                user = _a.sent();
                 user = user;
                 req.user_id = user._id;
                 req.user_name = user.name;
@@ -59,8 +59,8 @@ var Auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
                 next();
                 return [3 /*break*/, 3];
             case 2:
-                _a = _b.sent();
-                console.log('e');
+                e_1 = _a.sent();
+                console.log(e_1);
                 res.sendStatus(404);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

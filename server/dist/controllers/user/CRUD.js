@@ -136,7 +136,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 token = jsonwebtoken_1.default.sign(JSON.stringify(user), process.env.Secrete || "");
                 result = {
                     message: "User Added",
-                    data: { name: user.name, id: user._id, token: token },
+                    data: { name: user.name, id: user._id, token: token, email: user.email },
                 };
                 res.status(200).send(result);
                 return [3 /*break*/, 6];
@@ -185,7 +185,7 @@ var SingIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 token = jsonwebtoken_1.default.sign(JSON.stringify(findByName), process.env.Secrete);
                 result = {
                     message: "User fount",
-                    data: { name: findByName.name, _id: findByName._id, token: token },
+                    data: { name: findByName.name, _id: findByName._id, token: token, email: findByName.email },
                 };
                 res.status(200).send(result);
                 return [3 /*break*/, 4];
