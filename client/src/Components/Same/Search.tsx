@@ -1,27 +1,56 @@
 import {  TextField } from '@material-ui/core';
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-
+// import InputAdornment from "@material-ui/core/InputAdornment";
+import { useAppSelector, useAppDispatch } from '../../store';
 
 
 
 interface SearchBox{
     placeName:undefined | string;
-    data ?:undefined | any[];
+    data ?:any[];
+    cb ?: any;
 }
 
 
 
 
 
-const Search:React.FC<SearchBox> = ({placeName})=> {
+const Search:React.FC<SearchBox> = ({placeName,data,cb})=> {
+
+    const isHome=placeName === "Tweet";
+    const [query,setQuery]=useState("");
+    
+
+
+    useEffect(()=>{
+
+        if(!query){
+            cb(null);
+            return;
+        }
+        const Regex=new RegExp(query,'gi');
+    
+        const newData=data?.filter((data)=>{
+            const title=data?.title || data?.name;
+            const description=data?.description ;
+
+        
+            return !isHome ?title.match(Regex):description.match(Regex);
+        })
+        cb(newData);
+    },[query])
+
+
+
+
+
+
+
     return (
         <div className="full flex">
-            {/* <Button className="btn" startIcon={<SearchIcon></SearchIcon>}> */}
-                
-            {/* </Button> */}
+
 
             <TextField
 
@@ -38,6 +67,10 @@ const Search:React.FC<SearchBox> = ({placeName})=> {
                   
                 )
               }}
+
+              value={query}
+
+              onChange={(e:any)=>setQuery(e.target.value)}
 
             
             

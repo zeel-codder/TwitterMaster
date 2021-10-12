@@ -5,7 +5,7 @@ import { LoginData } from '../DataType/pages'
 import { SingUpRequest,SingInRequest } from '../../Actions/Api';
 import {useHistory} from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../store';
-
+import Loader from '../Loaders/Loading';
 
 
 
@@ -27,10 +27,11 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
     // const [state, dispatch] = useReducer(reducer, initialState);
     const [message, setMessage] = useState("");
     const history=useHistory();
+    const [IsLoading,setLoading]=useState(false);
 
     const state=useAppSelector((state)=>state.AuthReducer);
     const dispatch = useAppDispatch()
-    console.log(state)
+    // console.log(state)
     
 
 
@@ -41,14 +42,16 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
         if (ValidateSingUp()) {
             try {
+                setLoading(true);
                 const ans = await SingUpRequest({...state});
-                
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
                 dispatch({type:"AddUser",data:ans.data.data})
-
+                setLoading(false);
                 history.push('/');
+
             } catch (e) {
                 setMessage("User Name our Email is Exits")
+                setLoading(false);
             }
         }
 
@@ -61,14 +64,17 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         if (ValidateSingIn()) {
             try {
                 // const hash=await bcrypt.hash(state.password || "",10);
+                setLoading(true);
                 const ans = await SingInRequest({...state});
                 console.log(ans);
                 localStorage.setItem('User',JSON.stringify(ans.data.data));
                 dispatch({type:"AddUser",data:ans.data.data})
+                setLoading(false);
                 history.push('/');
             } catch (e) {
                 console.log(e)
                 setMessage("User Name our Password Wrong")
+                setLoading(false);
             }
         }
 
@@ -148,6 +154,10 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
                 }
             </h1>
+
+            {
+                IsLoading && <Loader></Loader>
+            }
 
 
             <div className="flex column auth">

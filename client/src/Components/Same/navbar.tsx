@@ -100,6 +100,7 @@ export default function Navbar() {
                         onClick={()=>{
                             
                             localStorage.removeItem('User')
+                            window.location.href="/"
                             dispatch({type:"AddUser",data:{}});
                             // History.replace('/');
                             

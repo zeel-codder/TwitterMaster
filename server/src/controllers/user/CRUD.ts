@@ -93,7 +93,7 @@ const AddUser = async (req: Request, res: Response) => {
 
         const result: ValidResponse = {
             message: "User Added",
-            data: {name:user.name,id:user._id,token},
+            data: {name:user.name,id:user._id,token,email:user.email},
             
         }
 
@@ -159,7 +159,7 @@ const SingIn = async (req: Request, res: Response) => {
 
         const result: ValidResponse = {
             message: "User fount",
-            data: {name:findByName.name,_id:findByName._id,token},
+            data: {name:findByName.name,_id:findByName._id,token,email:findByName.email},
             
         }
 

@@ -85,7 +85,7 @@ const AddTweet = async (req: Request, res: Response,next:Function) => {
         console.log(newTweet);
 
         if(fileName){
-            if(req.file?.mimetype=='image/png'){
+            if(req.file?.mimetype=='image/png' || req.file?.mimetype=='image/jpg' || req.file?.mimetype=='image/jpeg'){
                 newTweet.image =fileName;
             }else{
                 newTweet.video =fileName;

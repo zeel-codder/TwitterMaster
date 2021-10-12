@@ -13,6 +13,7 @@ import { useRef,useState,useEffect } from "react";
 import {HomeSchema} from '../DataType/pages';
 import { GetUserTweetList, UpdateTweet } from "../../Actions/Api";
 import { useAppSelector, useAppDispatch } from '../../store';
+import Loader from '../Loaders/Loading';
 
 
 
@@ -26,33 +27,54 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
     const List:any=useAppSelector((state)=>state.DataReducer);
     const User=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
+    const [IsLoading,setLoading]=useState(true);
+
+    const [DataList,setDataList]=useState([]);
 
     // console.log(List);
 
 
     useEffect(()=>{
         GetUserTweetList().then(res=>{
-            
-            dispatch({type:"AddTweets",data:res.data.data}) 
+            setDataList(res.data.data);
+            dispatch({type:"AddTweets",data:res.data.data})
+            setLoading(false); 
         }).catch((e)=>{
             console.log(e);
         })
     },[])
 
-
-
+    function handleSearch(data:any[]){
+        if(data==null){
+            return setDataList(List.Tweets);
+        }
+        const newData:any[]=data;
+        setDataList(newData as any);
+        // console.log(data);
+    }
+    
+    
+    
     return (
         <div>
             <h1> { type || 'Home' }</h1>
 
+            <Search placeName="Tweet"  cb={handleSearch} data={DataList} />
+            {
+            IsLoading 
+            ?
+            <Loader></Loader>
+            :
+            <>
+            
             <div className="newTweetBox" ref={newTweet}>
             <Button  className="cross" variant="contained" color="primary" 
              onClick={()=>{
-
-                // console.log('click')
-                newTweet.current?.classList.toggle("shownewTweetBox");
-            }}
-            >
+                 
+                 // console.log('click')
+                 newTweet.current?.classList.toggle("shownewTweetBox");
+                }}
+                >
                 x
             </Button>
 
@@ -61,12 +83,11 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             <NewTweet close={newTweet}  />
 
             </div>
-            <Search placeName="Tweet " />
 
             <Button className="tweet" variant="contained" color="primary"
 
             onClick={()=>{
-
+                
                 // console.log('click')
                 newTweet.current?.classList.toggle("shownewTweetBox");
             }}
@@ -76,7 +97,7 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             
             </Button>
             {
-                List.Tweets.map((data:TweetSchema)=>{
+                DataList.map((data:TweetSchema)=>{
                     const {Creator_ID}=data;
                     if(isMe){
                         if(Creator_ID===User._id){
@@ -90,14 +111,17 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
                     }
                 })
             }
-        </div>
-    )
+            </>
+
 }
+</div>
+        )
+        }
 
-
-// interface TweetSchema{
-//     creator:undefined|string;
-//     img?:undefined|Url;
+        
+        // interface TweetSchema{
+            //     creator:undefined|string;
+            //     img?:undefined|Url;
 //     video?:undefined|Url;
 //     message:undefined|string;
 //     link:undefined|number;
@@ -113,6 +137,7 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
     const [isLike,setIsLike]=useState(like?.includes(User._id as string));
     const [Like,setLike]=useState(like?.length);
     const [Retweet,setReteet]=useState(retweet);
+    const [IsLoading,setLoading]=useState(false);
 
 
 
@@ -125,8 +150,10 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
         }else{
             type.type="like"
         }
+        setLoading(true);
         UpdateTweet(type,TweetData)
         .then((res)=>{
+            
             setIsLike(!isLike);
             const newTweet=res.data.data;
             setTweetData(newTweet);
@@ -134,6 +161,8 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             setReteet(newTweet.retweet);
         }).catch((e)=>{
             console.log(e);
+        }).finally(()=>{
+            setLoading(false);
         })
 
     }
@@ -142,6 +171,7 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
 
     
         type.type="retweet";
+        setLoading(true);
        
         UpdateTweet(type,TweetData)
         .then((res)=>{
@@ -152,6 +182,8 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             setReteet(newTweet.retweet);
         }).catch((e)=>{
             console.log(e);
+        }).finally(()=>{
+            setLoading(false);
         })
 
     }
@@ -188,6 +220,8 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             <div className="Socials flex blue">
 
                 <div className="like flex" onClick={handleLike}>
+
+                    {IsLoading && <Loader></Loader>}
 
                 <FavoriteBorderRoundedIcon  />
                 <div className="flex">

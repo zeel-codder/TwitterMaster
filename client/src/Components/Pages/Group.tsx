@@ -7,8 +7,7 @@ import { GroupCSchema } from '../DataType/pages';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { CrateGroup, GetAllGroups } from '../../Actions/Api';
 import {useHistory} from 'react-router-dom';
-
-
+import Loader from '../Loaders/Loading';
 
 
 
@@ -19,30 +18,55 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
     const List:any=useAppSelector((state)=>state.DataReducer);
     const User=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
+    const [IsLoading,setLoading]=useState(true);
+    const [DataList,setDataList]=useState([]);
 
     useEffect(()=>{
         GetAllGroups()
         .then((res)=>{
-            console.log(res.data.data);
+            // console.log(res.data.data);/
+            setDataList(res.data.data);
            dispatch({ type:"AddGroups",data:res.data.data});
+           setLoading(false);
         });
     },[]);
-    console.log(List)
+
+    function handleSearch(data:any[]){
+        if(data==null){
+            return setDataList(List.Groups);
+        }
+        const newData:any[]=data;
+        setDataList(newData as any);
+        // console.log(data);
+    }
+    // console.log(List)
 
    
 
     return (
         <div className="pad">
-           
             <h1 className="blue">
                 
                 {type ||"Groups"}</h1>
+
+                <Search placeName="Group"  data={DataList} cb={handleSearch}/>
+
+
+            {
+                IsLoading
+
+                ?
+                <Loader></Loader>
+                :
+            
+            <> 
+           
 
             <div className="newGroup newTweetBox" ref={newGroup}>
 
             <Button  className="cross" variant="contained" color="primary" 
              onClick={()=>{
-
+                 
                 // console.log('click')
                 newGroup.current?.classList.toggle("shownewTweetBox");
             }}
@@ -58,9 +82,9 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
 
             <Button className="tweet" variant="contained" color="primary"
 
-            onClick={()=>{
+onClick={()=>{
 
-                // console.log('click')
+    // console.log('click')
                 newGroup.current?.classList.toggle("shownewTweetBox");
             }}
             
@@ -70,10 +94,10 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
             </Button>
             
             
-            <Search placeName="Group " />
+            
             {
-                List.Groups.map((data:GroupSchema, index :number) => {
-
+                DataList.map((data:GroupSchema, index :number) => {
+                    
                     const {admin,users}=data;
                     if(isMe){
                         if(admin.includes(User._id || "") || users.includes(User._id || "")){
@@ -87,7 +111,10 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
                     }
                 })
             }
+
                 
+</>
+        }
             
                    
           </div>
@@ -96,7 +123,7 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
 
 
 const GroupPeek: React.FC<GroupSchema>=({title,description}) => {
-
+    
     return (
 
         <div className="tweet-container flex">

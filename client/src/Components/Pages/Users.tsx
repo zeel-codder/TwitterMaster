@@ -1,10 +1,10 @@
-import React ,{useEffect,} from 'react';
+import React ,{useEffect,useState} from 'react';
 import { Avatar, Button} from '@material-ui/core';
 import Search from '../Same/Search';
 import { UserData } from '../DataType/Feed';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { GetUsers } from '../../Actions/Api';
-
+import Loader from '../Loaders/Loading';
 
 
 
@@ -13,6 +13,8 @@ const Group:React.FC<{}> =() =>{
     
 
     const List:any=useAppSelector((state)=>state.DataReducer);
+    const [IsLoading,setLoading]=useState(true);
+    const [DataList,setDataList]=useState([]);
 
 
     const dispatch=useAppDispatch();
@@ -20,11 +22,23 @@ const Group:React.FC<{}> =() =>{
     useEffect(()=>{
         GetUsers()
         .then((res)=>{
-            console.log(res.data.data);
+           setDataList(res.data.data);
+           console.log(res.data.data);
            dispatch({ type:"AddUsers",data:res.data.data});
+           setLoading(false);
         });
     },[]);
-    console.log(List)
+    // console.log(List)
+
+
+    function handleSearch(data:any[]){
+        if(data==null){
+            return setDataList(List.Users);
+        }
+        const newData:any[]=data;
+        setDataList(newData as any);
+        // console.log(data);
+    }
 
    
 
@@ -38,15 +52,29 @@ const Group:React.FC<{}> =() =>{
             </h1>
 
             
-            
-            <Search placeName="Group " />
-            {
-                List.Users.map((data:UserData, index :number) => {
 
-        
-                        return <User {...data}></User>
+            
+            
+            <Search placeName="Users" cb={handleSearch} data={DataList} />
+
+            {
+
+            IsLoading 
+            ?
+            <Loader/>
+            :
+
+            <>
+            {
+                DataList.map((data:UserData, index :number) => {
+                    
+                    
+                    return <User {...data}></User>
                     
                 })
+            }
+
+            </>
             }
                 
             

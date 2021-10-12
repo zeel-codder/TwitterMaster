@@ -1,14 +1,14 @@
 import { Button, Input } from '@material-ui/core';
 // import React from 'react';
 import { TweetSchema } from '../../DataType/Feed';
-import React, { useReducer, useRef } from 'react';
+import React, { useReducer, useRef,useState } from 'react';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import ImageIcon from '@material-ui/icons/Image';
 import { useHistory } from 'react-router';
 import { CreateNewPost } from '../../../Actions/Api';
 import FormData from 'form-data'
-
+import Loader from '../../Loaders/Loading';
 
 const NullTweet: TweetSchema = {
     description: '',
@@ -63,6 +63,7 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
     const InputVideo = useRef<HTMLInputElement>(null)
     const disImge = useRef<HTMLImageElement>(null);
     const disVideo = useRef<HTMLVideoElement>(null);
+    const [IsLoading,setLoading]=useState(false);
 
     const history = useHistory();
 
@@ -84,13 +85,17 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
         console.log(newTweet)
 
+        setLoading(true);
+
         CreateNewPost(formData)
             .then((data) => {
                 dispatch({ type: "Reset" });
+                setLoading(false)
                 window.location.reload();
                 close.current?.classList.toggle("shownewTweetBox");
 
-            }).catch(err => console.log(err));
+            }).catch(err => console.log(err))
+            .finally(()=>setLoading(false));
 
 
 
@@ -100,17 +105,21 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
     return (
         <div className="flex column pad ">
 
+            {IsLoading && <Loader></Loader>}
+
 
 
 
 
             <TextareaAutosize className="newtweet_text"
 
-                placeholder="Enter Tweet ...."
+                placeholder="Enter Tweet(500 char At most) ...."
 
                 maxRows="10"
 
                 value={state.description}
+
+                maxLength={500}
 
         
 
@@ -182,6 +191,7 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
                 <input type="file" className="none"
                     ref={InputImg}
+                    accept="image/png,image/jpeg,image/jpg"
 
                     onChange={(event: any) => {
 
@@ -198,7 +208,7 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
 
                     }}
-                    accept="image/*"
+                
 
                 />
 

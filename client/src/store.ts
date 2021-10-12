@@ -15,6 +15,8 @@ const store = createStore(reducerAll)
 
 // store.subscribe(() => )
 
+console.log(store)
+
 
 
 type RootState = ReturnType<typeof store.getState>

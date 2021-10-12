@@ -5,21 +5,16 @@ import Home from './Home';
 import Group from './Group';
 import { UserData } from '../DataType/Feed'
 import { Link, useHistory } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../store';
+import { useAppSelector} from '../../store';
 
 
 const Profile: React.FC<UserData> = ({ type }) => {
 
     const router = useHistory();
-    const User=useAppSelector((state)=>state.UserReducer);
+   
     const List=useAppSelector((state)=>state.DataReducer);
 
     const userprofile=useRef<HTMLDivElement>(null);
-
-
-
-
-
 
 
     const tab: number = type === "tweet" ? 0 : 1;
@@ -116,8 +111,11 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
 const UserDataChnage: React.FC<{}> = () => {
 
+    const User=useAppSelector((state)=>state.UserReducer);
+    console.log(User)
+
     return (
-        <div>
+        <div className="box">
             <h1 className="center">
                 User Data
             </h1>
@@ -134,7 +132,7 @@ const UserDataChnage: React.FC<{}> = () => {
                             padding: 10
                         }
                     }}
-                    value="demo"
+                    value={User.name}
 
                     variant="outlined"
                     aria-readonly="true"
@@ -156,7 +154,7 @@ const UserDataChnage: React.FC<{}> = () => {
                             padding: 10
                         }
                     }}
-                    value="xwsjd@mail"
+                    value={User.email}
 
 
                     required
@@ -168,6 +166,8 @@ const UserDataChnage: React.FC<{}> = () => {
                     <Link to='/' className="a">Twitter Master</Link>
 
                 </div>
+
+                
             </div>
 
 
