@@ -131,6 +131,7 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
 const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name})=>{
  
     const User=useAppSelector((state)=>state.UserReducer);
+    const Link=process.env.REACT_APP_WebSite;
 
     const type={_id,user_id:User._id,type:""};
     const [TweetData,setTweetData]=useState({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name});
@@ -210,10 +211,10 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
             <div className="media">
 
                 {
-                    TweetData.image ? <img src={`http://localhost:3001/files/${TweetData.image}`} alt={TweetData.image} /> :''
+                    TweetData.image ? <img src={`${Link}/files/${TweetData.image}`} alt={TweetData.image} /> :''
                 }
                 {
-                    TweetData.video ? <video src={`http://localhost:3001/files/${TweetData.video}`}  controls></video> :''
+                    TweetData.video ? <video src={`${Link}/files/${TweetData.video}`}  controls></video> :''
                 }
             </div>
 
