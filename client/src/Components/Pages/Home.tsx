@@ -206,7 +206,7 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
 
             <div className="text">
                 {TweetData.description}
-            </div>
+            </div> 
 
             <div className="media">
 
