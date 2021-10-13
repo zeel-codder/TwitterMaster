@@ -323,9 +323,10 @@ a:hover{
 
 .media img,.media video{
   width: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
+  max-height: 25rem;
   border-radius: .3rem;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .right{
