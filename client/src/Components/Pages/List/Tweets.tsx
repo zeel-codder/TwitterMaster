@@ -1,19 +1,19 @@
 import React from "react";
 
-import { TweetSchema } from "../../DataType/Feed";
+import { TweetSchema } from "../../../DataType/Feed";
 // import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
 // import { Share } from "@material-ui/icons";
-import Search from './Same/Search';
-import NewTweet from './helper/tweet';
+import Search from '../Same/Search';
+import NewTweet from '../helper/tweet';
 import { useRef,useState,useEffect } from "react";
-import {HomeSchema} from '../../DataType/pages';
-import { GetUserTweetList, UpdateTweet } from "../../Actions/Api";
-import { useAppSelector, useAppDispatch } from '../../store';
-import Loader from '../Loaders/Loading';
+import {HomeSchema} from '../../../DataType/pages';
+import { GetUserTweetList, UpdateTweet } from "../../../Actions/Api";
+import { useAppSelector, useAppDispatch } from '../../../store';
+import Loader from '../../Loaders/Loading';
 import {Link as MyLink} from 'react-router-dom';
 import VaildUrl from 'validator';
 
@@ -37,7 +37,6 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
 
 
     useEffect(()=>{
-        // if(List.Tweets.length===0){
         GetUserTweetList().then(res=>{
             setDataList(res.data.data);
             dispatch({type:"AddTweets",data:res.data.data})
@@ -45,9 +44,6 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
         }).catch((e)=>{
             console.log(e);
         })
-    // }else{
-        // setLoading(false)
-    // }/
     },[])
 
     function handleSearch(data:any[]){

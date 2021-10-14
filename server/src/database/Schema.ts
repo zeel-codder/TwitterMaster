@@ -27,7 +27,8 @@ const TweetSchema = new Schema<Tweet>({
     image:String,
     video:String,
     Creator_ID:String,
-    Creator_Name:String
+    Creator_Name:String,
+    groups:String,
 
 },{ versionKey: false });
 
@@ -40,7 +41,7 @@ const GroupSchema = new Schema<Group>({
     title: String,
     description: String,
     admin:[{type:String}],
-    users:[{type:String}],
+    tweets:[{type:String}],
 },{ versionKey: false })
 
 

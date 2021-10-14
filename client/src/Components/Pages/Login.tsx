@@ -1,7 +1,7 @@
 import React, {  useState, useEffect } from 'react';
 import { TextField as Input, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { LoginData } from '../DataType/pages'
+import { LoginData } from '../../DataType/pages'
 import { SingUpRequest,SingInRequest } from '../../Actions/Api';
 import {useHistory} from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../store';

@@ -1,4 +1,4 @@
-import {UserData} from '../Components/DataType/Feed'
+import {UserData} from '../DataType/Feed'
 
 
 interface action  {
@@ -21,7 +21,7 @@ function UserReducer(state = initialState, action:action) {
         case "AddUser":
             return { ...state, ...action.data };
         default:
-            return initialState;
+            return state;
     }
 }
 

@@ -5,15 +5,18 @@ import { ErrorLoader,ResultLoader } from "../Response";
 
 
 
+const GetGroupList= async()=>{
+    let GroupList = await GroupModel.find({});
+    GroupList= Array.from(GroupList).reverse();
+    return GroupList;
+}
+
 
 const GetGroups = async (req: Request, res: Response) => {
 
     try {
 
-        let GroupList = await GroupModel.find({});
-        GroupList= Array.from(GroupList).reverse();
-
-
+        const GroupList=await GetGroupList();
 
         res.status(200).send(ResultLoader("All Group",GroupList));
 
@@ -73,7 +76,7 @@ const AddGroup = async (req: Request, res: Response) => {
 
         newGroup = {
             admin: [],
-            users:[],   
+            tweets:[],   
             ...newGroup,
         }
 
@@ -163,6 +166,6 @@ const UpdateGroup = async (req: Request, res: Response) => {
 
 
 
-export { GetGroups, AddGroup ,DeleteGroup,UpdateGroup ,GetGroup};
+export { GetGroups, AddGroup ,DeleteGroup,UpdateGroup ,GetGroup , GetGroupList};
 
 

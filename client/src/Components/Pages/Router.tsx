@@ -1,14 +1,15 @@
-import Navbar from "../Same/navbar";
-import LeftSide from '../Same/LeftSide';
+import Navbar from "./Same/navbar";
+import LeftSide from './Same/LeftSide';
 import Group from "./Group";
 import Users from './Users';
 import Profile from "./Profile";
 import Home from "./Home";
 import Login from "./Login";
+import {Link} from 'react-router-dom';
 
 
 import {
-    BrowserRouter as Router1,
+    BrowserRouter as Router1, 
     Switch,
     Route,
 } from "react-router-dom";
@@ -77,6 +78,11 @@ export default function Router() {
                 </Route>
                 <Route path="/signin" exact>
                 <Login IsSignUp={false}/>
+                </Route>
+
+                <Route path="/">
+                <h1>404 Page Not Found</h1>
+                <Link to="/" className="a">Go To Home</Link>
                 </Route>
             </Switch>
                  </div>   

@@ -11,6 +11,7 @@ interface TweetSchema {
     _id?: string;
     Creator_ID?:string|undefined;
     Creator_Name?:string|undefined;
+    groups?:string;
 }
 
 
@@ -38,8 +39,8 @@ interface GroupSchema {
     _id:string;
     title:string;
     description: string;
-    admin:[string];
-    users:[string];
+    admin?:[string];
+    users?:[string];
 }
 
 interface ExploreSchema {

@@ -23,13 +23,14 @@ var TweetSchema = new Schema({
     image: String,
     video: String,
     Creator_ID: String,
-    Creator_Name: String
+    Creator_Name: String,
+    groups: String,
 }, { versionKey: false });
 var GroupSchema = new Schema({
     title: String,
     description: String,
     admin: [{ type: String }],
-    users: [{ type: String }],
+    tweets: [{ type: String }],
 }, { versionKey: false });
 var UserModel = model('User', UserSchema);
 exports.UserModel = UserModel;

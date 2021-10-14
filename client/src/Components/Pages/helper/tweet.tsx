@@ -1,7 +1,6 @@
-import { Button, Input } from '@material-ui/core';
-// import React from 'react';
-import { TweetSchema } from '../../DataType/Feed';
-import React, { useReducer, useRef,useState } from 'react';
+import { Button} from '@material-ui/core';
+
+import React, { useRef,useState } from 'react';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import ImageIcon from '@material-ui/icons/Image';
@@ -9,54 +8,21 @@ import { useHistory } from 'react-router';
 import { CreateNewPost } from '../../../Actions/Api';
 import FormData from 'form-data'
 import Loader from '../../Loaders/Loading';
+import { useAppSelector, useAppDispatch } from '../../../store';
+import GroupSelect from './GroupSelect';
+// import { useDispatch } from 'react-redux';
 
-const NullTweet: TweetSchema = {
-    description: '',
-    image: '',
-    video: '',
-    creator: '',
-}
-
-interface actionSchema {
-    type: undefined | string,
-    description?: undefined | string,
-    image?: undefined | any,
-    video?: undefined | any,
-    creator?: undefined | string,
-}
-
-const ChangeMessage: string = "1";
-const ChangeImg: string = "2";
-const ChangeVideo: string = "3";
-const ChangeCreator: string = "4";
-
-
-
-
-function reducer(state: TweetSchema, action: actionSchema) {
-    switch (action.type) {
-        case ChangeMessage:
-            return { ...state, description: action.description };
-        case ChangeImg:
-            return { ...state, image: action.image };
-        case ChangeVideo:
-            return { ...state, video: action.video };
-        case ChangeCreator:
-            return { ...state, creator: action.creator };
-        case "Reset":
-            return { ...NullTweet }
-        default:
-            throw new Error();
-    }
-}
 
 
 
 const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
 
-    const [state, dispatch] = useReducer(reducer, NullTweet);
+    const state=useAppSelector((state)=>state.TweetReducer);
+    // const Groups=useAppSelector((state)=>state.DataReducer);
+    const dispatch=useAppDispatch();
 
+    // console.log(state)
     // const text=useRef(null);
 
     const InputImg = useRef<HTMLInputElement>(null)
@@ -64,12 +30,13 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
     const disImge = useRef<HTMLImageElement>(null);
     const disVideo = useRef<HTMLVideoElement>(null);
     const [IsLoading,setLoading]=useState(false);
+    
 
-    const history = useHistory();
+    // const history = useHistory();
 
 
     const AddTweet = () => {
-        console.log(state);
+        // console.log(state);
 
         if (state.description?.length === 0) return;
 
@@ -78,18 +45,23 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
         let formData = new FormData();
         
-        const newTweet = { description: state.description, media: state.image || state.video || null };
+        const newTweet = { description: state.description ,groups:state.groups,media:state.isImage?state.image:state.isVideo?state.video:null };
         formData.append('description', newTweet.description);
-        if(newTweet.media!=null)
-        formData.append('media', newTweet.media.file,newTweet.media.file.name);
+        formData.append('groups', newTweet.groups);
 
-        console.log(newTweet)
+       
+
+
+        if(newTweet.media!=null)
+        formData.append('media', newTweet.media.file,newTweet.media?.file?.name);
+
+        // console.log(newTweet)
 
         setLoading(true);
 
         CreateNewPost(formData)
             .then((data) => {
-                dispatch({ type: "Reset" });
+                dispatch({ type: "Reset", data:null });
                 setLoading(false)
                 window.location.reload();
                 close.current?.classList.toggle("shownewTweetBox");
@@ -103,9 +75,10 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
 
     return (
-        <div className="flex column pad ">
-
+        <>
             {IsLoading && <Loader></Loader>}
+        <div className="flex column pad user-tweet">
+
 
 
 
@@ -116,17 +89,19 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
                 placeholder="Enter Tweet(500 char At most) ...."
 
                 maxRows="10"
-
+                
                 value={state.description}
-
+                
                 maxLength={500}
+                
+                
+                
+                onChange={(node)=>{
+                    
+                    // console.log('call')
 
         
-
-                onChange={(node)=>{
-
-                
-                    dispatch({type:ChangeMessage,description:node.target.value});
+                    dispatch({type:"ChangeTweetDescription",description:node.target.value});
 
                 }}
 
@@ -134,12 +109,18 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
                 required></TextareaAutosize>
 
+
+            <GroupSelect></GroupSelect>
+
+
+            
+
             <div className="flex media relative">
 
                 {
-                    state?.image || state?.video
+                    state?.isImage || state?.isVideo
 
-                        ?
+                    ?
 
 
                         <Button className="cross" variant="contained" color="primary"
@@ -147,8 +128,8 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
                                 // console.log('click')
 
-                                dispatch({ type: ChangeImg, image: "" })
-                                dispatch({ type: ChangeVideo, video: "" })
+                                dispatch({ type: "ChangeTweetImage", image: {} , isImage:false})
+                                dispatch({ type: "ChangeTweetVideo", video: {} , isVideo:false})
                                 // newTweet.current?.classList.toggle("shownewTweetBox");
                             }}
                         >
@@ -161,28 +142,28 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
 
                 {
-                    state?.image
+                       state.isImage
                         ?
-                        <img src={state?.image.bit} alt="none"
+                        <img src={state.image?.bit} alt="none"
                             ref={disImge}
-                        >
+                            >
 
                         </img>
                         :
                         ''
-                }
+                    }
                 {
-                    state?.video
-                        ?
-                        <video src={state?.video.bit}
-                            controls
+                    state.isVideo
+                    ?
+                    <video src={state.video?.bit}
+                    controls
                             ref={disVideo}
-                        >
+                            >
 
                         </video>
                         :
                         ''
-                }
+                    }
             </div>
 
 
@@ -194,22 +175,22 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
                     accept="image/png,image/jpeg,image/jpg"
 
                     onChange={(event: any) => {
-
+                        
                         const file = event.target.files[0];
-
-
+                        
+                        
                         let reader = new FileReader();
                         reader.onload = (e: any) => {
                             // console.log(e)
-                            dispatch({ type: ChangeImg, image: { bit:e.target.result,file:file} });
+                            dispatch({ type: "ChangeTweetImage", image: { bit:e.target.result,file:file}, isImage:true });
                         };
                         reader.readAsDataURL(event.target.files[0]);
 
 
-
+                        
                     }}
-                
-
+                    
+                    
                 />
 
 
@@ -224,29 +205,29 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
                         let reader = new FileReader();
                         reader.onload = (e: any) => {
                             console.log(e)
-                            dispatch({ type: ChangeVideo, video: { bit:e.target.result,file:file} });
+                            dispatch({ type: "ChangeTweetVideo", video: { bit:e.target.result,file:file}, isVideo:true });
                         };
                         reader.readAsDataURL(event.target.files[0]);
                     }}
                     accept="video/mp4"
-
-                />
+                    
+                    />
 
 
 
                 <Button
                     onClick={(event) => {
-
-                        if (!state?.image && !state?.video) {
+                        
+                        if (!state?.isImage && !state?.isVideo) {
                             InputVideo.current?.click();
                         }
-
-
+                        
+                        
                     }}
-
+                    
                     startIcon={<VideoLibraryIcon />}
-
-                />
+                    
+                    />
 
 
 
@@ -257,19 +238,16 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
                 <Button startIcon={<ImageIcon />}
                     onClick={(event) => {
-
-                        if (!state?.image && !state?.video) {
-
-
+                        
+                        if (!state?.isImage && !state?.isVideo) {
                             InputImg.current?.click();
-
                         }
-
+                        
 
                     }}
-
-
-                />
+                    
+                    
+                    />
 
 
 
@@ -288,11 +266,12 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
             {/* <span className="a"
                oncl
-            >
-
+               >
+               
             </span> */}
 
         </div>
+        </>
     );
 }
 

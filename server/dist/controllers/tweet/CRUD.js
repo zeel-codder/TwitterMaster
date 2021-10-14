@@ -53,6 +53,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
 var Schema_1 = require("../../database/Schema");
 var Response_1 = require("../Response");
+var CRUD_1 = require("../group/CRUD");
 var cloudinary = require('cloudinary').v2;
 var fs_1 = __importDefault(require("fs"));
 cloudinary.config({
@@ -109,12 +110,12 @@ var GetTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.GetTweet = GetTweet;
 var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var file, newTweet_1, newDoc, Tweet, e_3;
+    var file, newTweet_1, newDoc, Tweet_1, groups, listGroup_1, GroupList, e_3;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
-                _c.trys.push([0, 7, , 8]);
+                _c.trys.push([0, 8, , 9]);
                 file = req.file;
                 console.log(file);
                 newTweet_1 = req.body;
@@ -158,14 +159,36 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 newDoc = new Schema_1.TweetModel(newTweet_1);
                 return [4 /*yield*/, newDoc.save()];
             case 6:
-                Tweet = _c.sent();
-                res.status(200).send(Response_1.ResultLoader("Tweet Added", Tweet));
-                return [3 /*break*/, 8];
+                Tweet_1 = _c.sent();
+                res.status(200).send(Response_1.ResultLoader("Tweet Added", Tweet_1));
+                console.log('call after');
+                groups = newTweet_1.groups;
+                listGroup_1 = groups === null || groups === void 0 ? void 0 : groups.split("|");
+                return [4 /*yield*/, CRUD_1.GetGroupList()];
             case 7:
+                GroupList = _c.sent();
+                // console.log(GroupList,listGroup);
+                GroupList.forEach(function (data) { return __awaiter(void 0, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (!(listGroup_1 === null || listGroup_1 === void 0 ? void 0 : listGroup_1.includes(data.title))) return [3 /*break*/, 2];
+                                // console.log("add")
+                                data.tweets.push(Tweet_1._id);
+                                return [4 /*yield*/, data.save()];
+                            case 1:
+                                _a.sent();
+                                _a.label = 2;
+                            case 2: return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [3 /*break*/, 9];
+            case 8:
                 e_3 = _c.sent();
                 res.status(404).send(Response_1.ErrorLoader(e_3.message, "Error"));
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };

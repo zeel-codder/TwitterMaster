@@ -2,6 +2,8 @@ import express, { Response, Request } from 'express';
 import { TweetModel } from '../../database/Schema';
 import { Tweet } from '../../interface/database/Schema';
 import { ErrorLoader, ResultLoader } from "../Response";
+import { GetGroupList } from '../group/CRUD';
+
 var cloudinary = require('cloudinary').v2;
 import fs, { PathLike } from 'fs';
 
@@ -138,6 +140,31 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
 
         res.status(200).send(ResultLoader("Tweet Added", Tweet));
+
+        console.log('call after');
+
+
+        let {groups}=newTweet;
+
+       
+
+        const listGroup=groups?.split("|");
+
+        const GroupList:any[]=await GetGroupList();
+
+        // console.log(GroupList,listGroup);
+
+
+
+        GroupList.forEach(async (data)=>{
+            if(listGroup?.includes(data.title)){
+                // console.log("add")
+                data.tweets.push(Tweet._id);
+                await data.save();
+            }
+        });
+
+
     } catch (e: any) {
 
         res.status(404).send(ErrorLoader(e.message, "Error"));

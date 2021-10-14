@@ -1,12 +1,12 @@
 import React ,{useEffect, useState} from 'react'
-import { GroupSchema } from '../DataType/Feed'
+import { GroupSchema } from '../../DataType/Feed'
 import { Avatar, Button, TextField } from '@material-ui/core';
-import Search from '../Same/Search';
+import Search from './Same/Search';
 import { useRef } from "react";
-import { GroupCSchema } from '../DataType/pages';
+import { GroupCSchema } from '../../DataType/pages';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { CrateGroup, GetAllGroups } from '../../Actions/Api';
-import {useHistory} from 'react-router-dom';
+import {useHistory,Link} from 'react-router-dom';
 import Loader from '../Loaders/Loading';
 
 
@@ -29,7 +29,9 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
            dispatch({ type:"AddGroups",data:res.data.data});
            setLoading(false);
         });
+        // console.log('call1');
     },[]);
+    // console.log('call2');
 
     function handleSearch(data:any[]){
         if(data==null){
@@ -100,7 +102,7 @@ onClick={()=>{
                     
                     const {admin,users}=data;
                     if(isMe){
-                        if(admin.includes(User._id || "") || users.includes(User._id || "")){
+                        if(admin?.includes(User._id || "") || users?.includes(User._id || "")){
                             return <GroupPeek {...data} ></GroupPeek>
                         }else{
                             
@@ -140,10 +142,10 @@ const GroupPeek: React.FC<GroupSchema>=({title,description}) => {
             <h3>
 
                 
-                <a href="/" className="a">
+                <Link to={"/group/"+title} className="a">
                     #{title}
 
-                </a>
+                </Link>
             </h3>
 
             <div className="Group_Div">
@@ -165,6 +167,7 @@ const GroupDiv: React.FC<{}>=()=>{
     const dispatch=useAppDispatch();
     const [message, setMessage] = useState("");
     const history = useHistory();
+    const [IsLoading,setLoading]=useState(false);
 
     useEffect(() => {
 
@@ -183,6 +186,7 @@ const GroupDiv: React.FC<{}>=()=>{
 
         if(Data.title==="" || Data.description===""){
             setMessage("Title and Description Must be not have Empty");
+            setLoading(false);
             return;
         }
 
@@ -192,6 +196,8 @@ const GroupDiv: React.FC<{}>=()=>{
         })
         .catch((e)=>{
             console.log(e)
+        }).finally(()=>{
+            setLoading(false);
         })
 
     }
@@ -202,6 +208,10 @@ const GroupDiv: React.FC<{}>=()=>{
     return (
 
         <div>
+
+        {
+            IsLoading && <Loader></Loader>
+        }
         <h1 className="center">
             Group
         </h1>

@@ -47,19 +47,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetGroup = exports.UpdateGroup = exports.DeleteGroup = exports.AddGroup = exports.GetGroups = void 0;
+exports.GetGroupList = exports.GetGroup = exports.UpdateGroup = exports.DeleteGroup = exports.AddGroup = exports.GetGroups = void 0;
 var Schema_1 = require("../../database/Schema");
 var Response_1 = require("../Response");
+var GetGroupList = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var GroupList;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, Schema_1.GroupModel.find({})];
+            case 1:
+                GroupList = _a.sent();
+                GroupList = Array.from(GroupList).reverse();
+                return [2 /*return*/, GroupList];
+        }
+    });
+}); };
+exports.GetGroupList = GetGroupList;
 var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var GroupList, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Schema_1.GroupModel.find({})];
+                return [4 /*yield*/, GetGroupList()];
             case 1:
                 GroupList = _a.sent();
-                GroupList = Array.from(GroupList).reverse();
                 res.status(200).send(Response_1.ResultLoader("All Group", GroupList));
                 return [3 /*break*/, 3];
             case 2:
@@ -105,7 +117,7 @@ var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 if (!newGroup) {
                     return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
                 }
-                newGroup = __assign({ admin: [], users: [] }, newGroup);
+                newGroup = __assign({ admin: [], tweets: [] }, newGroup);
                 newDoc = new Schema_1.GroupModel(newGroup);
                 return [4 /*yield*/, newDoc.save()];
             case 1:

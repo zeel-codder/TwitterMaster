@@ -3,11 +3,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import ExplicitIcon from '@material-ui/icons/Explicit';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import GroupIcon from '@material-ui/icons/Group';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import {useRef} from 'react';
 
-import {useAppSelector,useAppDispatch} from '../../store';
+import {useAppSelector,useAppDispatch} from '../../../store';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
@@ -25,16 +25,22 @@ export default function Navbar() {
     const user=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
 
+    
     const bar=useRef<HTMLDivElement>(null);
     const navbar=useRef<HTMLDivElement>(null);
     
     const User=JSON.parse(localStorage.getItem('User') || '{}')
+    console.log(user,User,"Nav");
 
-    if(!user.name  && User.name){
-        console.log(User,user)
-        dispatch({ type:"AddUser",data:User})
-    }
+    // useEffect(() => {
+        if(User?.name && !user.name){
+            console.log(User,user);
+            dispatch({ type:"AddUser",data:User})
+        }
+    // }, [])
 
+
+    
     function handleClick(){
         bar.current?.classList.toggle("spin");
         navbar.current?.classList.toggle("show");

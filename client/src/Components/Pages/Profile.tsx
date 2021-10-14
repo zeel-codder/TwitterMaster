@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { TextField as Input } from '@material-ui/core';
 import Home from './Home';
 import Group from './Group';
-import { UserData } from '../DataType/Feed'
+import { UserData } from '../../DataType/Feed'
 import { Link, useHistory } from 'react-router-dom';
 import { useAppSelector} from '../../store';
 

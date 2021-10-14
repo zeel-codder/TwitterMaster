@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { TweetSchema, UserData } from '../Components/DataType/Feed';
+import { TweetSchema, UserData } from '../DataType/Feed';
 
 const web=process.env.REACT_APP_WebSite;
 

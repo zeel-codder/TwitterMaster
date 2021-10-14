@@ -1,7 +1,7 @@
 import React ,{useEffect,useState} from 'react';
 import { Avatar, Button} from '@material-ui/core';
-import Search from '../Same/Search';
-import { UserData } from '../DataType/Feed';
+import Search from './Same/Search';
+import { UserData } from '../../DataType/Feed';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { GetUsers } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';

@@ -1,4 +1,4 @@
-import {TweetSchema,GroupSchema,UserData} from '../Components/DataType/Feed'
+import {TweetSchema,GroupSchema,UserData} from '../DataType/Feed'
 
 
 interface action  {
@@ -22,6 +22,7 @@ const initialState: data= {
 
 
 function DataReducer(state = initialState, action:action) {
+    // console.log(action,"1")
     switch (action.type) {
         case "AddTweets":
             return { ...state, Tweets:action.data };

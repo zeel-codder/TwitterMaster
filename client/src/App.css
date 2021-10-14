@@ -3,6 +3,7 @@ body{
   overflow-x: hidden;
   font-family: system-ui;
   --font-small-head:1.5rem;
+  --font-size:1rem;
 }
 
 *{
@@ -14,6 +15,7 @@ body{
   overflow-x: hidden;
 
 }
+
 
 .newTweetBox{
   z-index: 122 !important;
@@ -240,6 +242,10 @@ a:hover{
   overflow-y: auto;
 }
 
+.user-tweet *{
+  font-size: var(--font-size);
+}
+
 
 .relative{
   position: relative;
@@ -399,6 +405,7 @@ a:hover{
 
 .text{
   font-size: 1rem;
+    margin-left: 14px !important;
 }
 
 /*Other*/
@@ -422,6 +429,13 @@ a:hover{
 }
 
 
+.css-1txnhvm{
+  width: 90%;
+}
+
+/* .groups a{ */
+  
+/* } */
 
 
 @media only screen and (max-width: 1200px) {

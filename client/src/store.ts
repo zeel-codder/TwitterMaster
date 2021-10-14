@@ -1,17 +1,25 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore,combineReducers } from '@reduxjs/toolkit'
-import {createStore} from 'redux'
+import {compose, createStore} from 'redux'
 
-import {AuthReducer,UserReducer,DataReducer,GroupCreateReducer} from './reducer/index';
+import {AuthReducer,UserReducer,DataReducer,GroupCreateReducer,TweetReducer} from './reducer/index';
 
 const reducerAll=combineReducers({
     AuthReducer,
     UserReducer,
     DataReducer,
-    GroupCreateReducer
+    GroupCreateReducer,
+    TweetReducer,
   })
+  declare global {
+    interface Window {
+      __REDUX_DEVTOOLS_EXTENSION__?: any;
+    }
+}
 
-const store = createStore(reducerAll)
+const store = createStore(reducerAll,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 
 // store.subscribe(() => )
 
