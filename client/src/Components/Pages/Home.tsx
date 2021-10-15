@@ -1,21 +1,14 @@
 import React from "react";
-
 import { TweetSchema } from "../../DataType/Feed";
-// import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
-import { Avatar, BottomNavigationAction, Button } from "@material-ui/core";
-// import { Share } from "@material-ui/icons";
+import {  Button } from "@material-ui/core";
 import Search from './Same/Search';
 import NewTweet from './helper/tweet';
 import { useRef,useState,useEffect } from "react";
 import {HomeSchema} from '../../DataType/pages';
-import { GetUserTweetList, UpdateTweet } from "../../Actions/Api";
+import { GetAllGroups, GetUserTweetList } from "../../Actions/Api";
 import { useAppSelector, useAppDispatch } from '../../store';
 import Loader from '../Loaders/Loading';
-import {Link as MyLink} from 'react-router-dom';
-import VaildUrl from 'validator';
+import Tweets from './List//Tweets';
 
 
 
@@ -25,30 +18,31 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
     // console.log('Home')
 
     const newTweet=useRef<HTMLDivElement>(null);
-
     const List:any=useAppSelector((state)=>state.DataReducer);
     const User=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
     const [IsLoading,setLoading]=useState(true);
+    const [DataList,setDataList]=useState<TweetSchema[]>([]);
 
-    const [DataList,setDataList]=useState([]);
-
-    // console.log(List);
-
-
+ 
     useEffect(()=>{
         // if(List.Tweets.length===0){
         GetUserTweetList().then(res=>{
+            if(isMe){
+                const newData:TweetSchema[]=res.data.data.filter((data:TweetSchema)=>data.Creator_ID===User._id);
+                setDataList(newData);
+            }
             setDataList(res.data.data);
             dispatch({type:"AddTweets",data:res.data.data})
             setLoading(false); 
         }).catch((e)=>{
             console.log(e);
+        }).finally(()=>{
+            setLoading(false);
         })
-    // }else{
-        // setLoading(false)
-    // }/
     },[])
+
+ 
 
     function handleSearch(data:any[]){
         if(data==null){
@@ -102,21 +96,7 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             > <h1># Tweet</h1>
             
             </Button>
-            {
-                DataList.map((data:TweetSchema)=>{
-                    const {Creator_ID}=data;
-                    if(isMe){
-                        if(Creator_ID===User._id){
-                            return <Tweet {...data}></Tweet>
-                        }else{
-                            
-                            return <></>
-                        }
-                    }else{
-                        return <Tweet {...data}></Tweet>
-                    }
-                })
-            }
+            <Tweets DataList={DataList}></Tweets>
             </>
 
 }
@@ -125,186 +105,5 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
         }
 
         
-        // interface TweetSchema{
-            //     creator:undefined|string;
-            //     img?:undefined|Url;
-//     video?:undefined|Url;
-//     message:undefined|string;
-//     link:undefined|number;
-//     retweet:undefined|number; z 
-// }
-
-const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name,groups})=>{
- 
-    const User=useAppSelector((state)=>state.UserReducer);
-    const Link=process.env.REACT_APP_WebSite;
-
-    const type={_id,user_id:User._id,type:""};
-    const [TweetData,setTweetData]=useState({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name});
-    const [isLike,setIsLike]=useState(like?.includes(User._id as string));
-    const [Like,setLike]=useState(like?.length);
-    const [Retweet,setReteet]=useState(retweet);
-    const [IsLoading,setLoading]=useState(false);
-
-    const groupList:string[]=groups?.split("|") as string[];
-
-
-
-
-
-    const handleLike=()=>{
-
-        if(isLike){
-            type.type="remove like";
-        }else{
-            type.type="like"
-        }
-        setLoading(true);
-        UpdateTweet(type,TweetData)
-        .then((res)=>{
-            
-            setIsLike(!isLike);
-            const newTweet=res.data.data;
-            setTweetData(newTweet);
-            setLike(newTweet.like.length);
-            setReteet(newTweet.retweet);
-        }).catch((e)=>{
-            console.log(e);
-        }).finally(()=>{
-            setLoading(false);
-        })
-
-    }
-
-    const handleShare=()=>{
-
-    
-        type.type="retweet";
-        setLoading(true);
-       
-        UpdateTweet(type,TweetData)
-        .then((res)=>{
-            setIsLike(!isLike);
-            const newTweet=res.data.data;
-            setTweetData(newTweet);
-            setLike(newTweet.like.length);
-            setReteet(newTweet.retweet);
-        }).catch((e)=>{
-            console.log(e);
-        }).finally(()=>{
-            setLoading(false);
-        })
-
-    }
-
-
-    return (
-
-        <div className="tweet-container pad">
-            
-
-            <div className="creator-section flex">
-            <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
-                <a href={"/user/"+TweetData.Creator_Name} className="a">
-                {TweetData.Creator_Name}
-                </a>
-               
-
-            </div>
-
-            <div className="text">
-                {
-                    TweetData.description
-                
-                // TweetData.description?.split(" ").map((data,index)=>{
-
-                //     return (
-
-                //         VaildUrl.isURL(data)
-                //         ?
-                //         <a className="a" target="_blank" href={data}>{data}</a>
-                //         :
-
-                //         <span>{data+" "}</span>
-                //     )
-
-                    
-                // })
-
-
-                
-        
-                }
-
-            </div> 
-            <div className="groups">
-
-                {
-
-                    groupList?.map((data,index)=>{
-
-                        return  (
-
-                                data===""
-                                ?
-                                <></>
-                                :
-                                <MyLink className="a"  to={"/group/"+data}>
-                                #{data} 
-                                </MyLink>
-                            
-                        )
-
-
-                    }
-                    )
-                }
-            </div>
-
-            <div className="media">
-
-                {
-                    TweetData.image ? <img src={TweetData.image} alt={TweetData.image} /> :''
-                }
-                {
-                    TweetData.video ? <video src={TweetData.video}  controls></video> :''
-                }
-            </div>
-
-            <div className="Socials flex blue">
-
-                <div className="like flex" onClick={handleLike}>
-
-                    {IsLoading && <Loader></Loader>}
-
-                <FavoriteBorderRoundedIcon  />
-                <div className="flex">
-
-                    {Like}
-                </div>
-                </div>
-
-                <div className="retweet flex" onClick={handleShare}>
-                <ShareRoundedIcon />
-                <div>
-
-                    {Retweet}
-                </div>
-                </div>
-
-                {/* <div className="share flex">
-
-                <ExitToAppRoundedIcon  />
-
-
-                </div> */}
-            </div>
-
-
-
-        </div>
-    )
-
-}
 
 export default Home;

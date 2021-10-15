@@ -23,11 +23,13 @@ const GetUserByName=(name:string) =>axios.get(web+"/user/"+name);
 const GetUsers=()=>axios.get(web+"/user/")
 const GetAllGroups=()=>axios.get(web+"/group");
 const GetUserTweetList=() =>axios.get(web+"/tweet");
+const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
+
+
 
 
 const CreateNewPost=(TweetData:object) => API.post("/tweet/create",TweetData);
 const UpdateTweet=(odd:object,newd:TweetSchema) => API.put("/tweet/update",{before:odd,after:newd})
-
 const CrateGroup=(data:object)=>API.post("/group/create",data);
     
 
@@ -41,5 +43,6 @@ export {
     GetAllGroups,
     GetUserByName,
     CrateGroup,
-    GetUsers
+    GetUsers,
+    GetGroupsByIds
 };

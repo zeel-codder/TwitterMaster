@@ -75,7 +75,7 @@ const AddGroup = async (req: Request, res: Response) => {
 
 
         newGroup = {
-            admin: [],
+            users: [],
             tweets:[],   
             ...newGroup,
         }

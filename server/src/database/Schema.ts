@@ -40,7 +40,7 @@ const TweetSchema = new Schema<Tweet>({
 const GroupSchema = new Schema<Group>({
     title: String,
     description: String,
-    admin:[{type:String}],
+    users:[{type:String}],
     tweets:[{type:String}],
 },{ versionKey: false })
 

@@ -13,6 +13,7 @@ var router: Router = express.Router()
 
 import multer  from 'multer';
 import path from "path";
+import { GetTweetsByIds } from "../controllers/tweet/Other";
 
 const storage = multer.diskStorage({
     destination: function (req:Request, file:any, cb:Function) {
@@ -35,6 +36,8 @@ const upload = multer({ storage: storage })
 router.get('/', function (req: Request, res: Response) {
   GetTweets(req, res);
 })
+
+router.post('/tweetsbyid',GetTweetsByIds);
 
 
 

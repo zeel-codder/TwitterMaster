@@ -117,7 +117,7 @@ var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 if (!newGroup) {
                     return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
                 }
-                newGroup = __assign({ admin: [], tweets: [] }, newGroup);
+                newGroup = __assign({ users: [], tweets: [] }, newGroup);
                 newDoc = new Schema_1.GroupModel(newGroup);
                 return [4 /*yield*/, newDoc.save()];
             case 1:

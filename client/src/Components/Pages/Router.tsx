@@ -5,7 +5,8 @@ import Users from './Users';
 import Profile from "./Profile";
 import Home from "./Home";
 import Login from "./Login";
-import {Link} from 'react-router-dom';
+import GroupPage from './MainFeed/Group';
+import Page404 from './404';
 
 
 import {
@@ -13,7 +14,8 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import React from "react";
+
+
 
 interface Tem{
     Com:React.FC | any;
@@ -35,6 +37,13 @@ const Template:React.FC<Tem>=({Com,type})=>{
 
 
 export default function Router() {
+
+  
+
+  
+
+
+    
     return (
         <div className="flex column">
             <Router1>
@@ -80,9 +89,14 @@ export default function Router() {
                 <Login IsSignUp={false}/>
                 </Route>
 
+                <Route path="/group/:name" exact>
+                <Template Com={GroupPage} />
+                
+                </Route>
+
                 <Route path="/">
-                <h1>404 Page Not Found</h1>
-                <Link to="/" className="a">Go To Home</Link>
+            
+                <Page404></Page404>
                 </Route>
             </Switch>
                  </div>   

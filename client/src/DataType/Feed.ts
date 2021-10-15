@@ -39,8 +39,8 @@ interface GroupSchema {
     _id:string;
     title:string;
     description: string;
-    admin?:[string];
     users?:[string];
+    tweets?:[string];
 }
 
 interface ExploreSchema {

@@ -1,13 +1,13 @@
 import React ,{useEffect, useState} from 'react'
 import { GroupSchema } from '../../DataType/Feed'
-import { Avatar, Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import Search from './Same/Search';
 import { useRef } from "react";
 import { GroupCSchema } from '../../DataType/pages';
 import { useAppSelector, useAppDispatch } from '../../store';
 import { CrateGroup, GetAllGroups } from '../../Actions/Api';
-import {useHistory,Link} from 'react-router-dom';
 import Loader from '../Loaders/Loading';
+import Groups from './List/Groups';
 
 
 
@@ -19,13 +19,24 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
     const User=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
     const [IsLoading,setLoading]=useState(true);
-    const [DataList,setDataList]=useState([]);
+    const [DataList,setDataList]=useState<GroupSchema[]>([]);
 
     useEffect(()=>{
         GetAllGroups()
         .then((res)=>{
             // console.log(res.data.data);/
-            setDataList(res.data.data);
+
+            if(isMe){
+
+                const newData:GroupSchema[]=res.data.data.filter((data:GroupSchema)=>data.users?.includes(User._id || ""));
+
+                setDataList(newData);
+
+
+            }else{
+
+                setDataList(res.data.data);
+            }
            dispatch({ type:"AddGroups",data:res.data.data});
            setLoading(false);
         });
@@ -41,7 +52,7 @@ const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
         setDataList(newData as any);
         // console.log(data);
     }
-    // console.log(List)
+
 
    
 
@@ -95,24 +106,7 @@ onClick={()=>{
             
             </Button>
             
-            
-            
-            {
-                DataList.map((data:GroupSchema, index :number) => {
-                    
-                    const {admin,users}=data;
-                    if(isMe){
-                        if(admin?.includes(User._id || "") || users?.includes(User._id || "")){
-                            return <GroupPeek {...data} ></GroupPeek>
-                        }else{
-                            
-                            return <></>
-                        }
-                    }else{
-                        return <GroupPeek {...data}></GroupPeek>
-                    }
-                })
-            }
+            <Groups DataList={DataList}></Groups>
 
                 
 </>
@@ -124,41 +118,7 @@ onClick={()=>{
 }
 
 
-const GroupPeek: React.FC<GroupSchema>=({title,description}) => {
-    
-    return (
 
-        <div className="tweet-container flex">
-
-        <Avatar 
-        alt="Remy Sharp" 
-        src={"https://images.unsplash.com/photo-1618042164219-62c820f10723?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1374&q=80"} 
-        
-        variant='square'
-        />
-
-
-        <div className="flex column start explore">
-            <h3>
-
-                
-                <Link to={"/group/"+title} className="a">
-                    #{title}
-
-                </Link>
-            </h3>
-
-            <div className="Group_Div">
-                {description}
-            </div>
-        </div>
-        </div>
-
-
-    )
-
-
-}
 
 
 const GroupDiv: React.FC<{}>=()=>{
@@ -166,7 +126,6 @@ const GroupDiv: React.FC<{}>=()=>{
     const Data=useAppSelector((state)=>state.GroupCreateReducer);
     const dispatch=useAppDispatch();
     const [message, setMessage] = useState("");
-    const history = useHistory();
     const [IsLoading,setLoading]=useState(false);
 
     useEffect(() => {
@@ -282,6 +241,4 @@ const GroupDiv: React.FC<{}>=()=>{
     </div>
     )
 }
-
-
 export default Group;

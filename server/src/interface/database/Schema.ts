@@ -31,7 +31,7 @@ interface Explore extends Basic{
 }
 
 interface Group  extends Basic{
-    admin?: String[];
+    users?: String[];
     tweets?: String[];
 
 }

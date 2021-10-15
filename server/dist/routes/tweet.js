@@ -14,6 +14,7 @@ var router = express_1.default.Router();
 // })
 // console.log('tweet')
 var multer_1 = __importDefault(require("multer"));
+var Other_1 = require("../controllers/tweet/Other");
 var storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         console.log(file);
@@ -30,6 +31,7 @@ var upload = multer_1.default({ storage: storage });
 router.get('/', function (req, res) {
     CRUD_1.GetTweets(req, res);
 });
+router.post('/tweetsbyid', Other_1.GetTweetsByIds);
 router.post('/create', Auth_1.Auth, upload.single('media'), CRUD_1.AddTweet);
 router.delete('/delete', function (req, res) {
     CRUD_1.DeleteTweet(req, res);

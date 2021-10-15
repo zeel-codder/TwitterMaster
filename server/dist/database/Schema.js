@@ -29,7 +29,7 @@ var TweetSchema = new Schema({
 var GroupSchema = new Schema({
     title: String,
     description: String,
-    admin: [{ type: String }],
+    users: [{ type: String }],
     tweets: [{ type: String }],
 }, { versionKey: false });
 var UserModel = model('User', UserSchema);

@@ -6,7 +6,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import { useEffect, useState } from 'react';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import {useRef} from 'react';
-
+import { useHistory } from 'react-router';
 import {useAppSelector,useAppDispatch} from '../../../store';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -22,6 +22,7 @@ export default function Navbar() {
 
     // const classes = useStyles();
     // const userData:boolean=localStorage.getItem('User')?true:false;
+    const history=useHistory();
     const user=useAppSelector((state)=>state.UserReducer);
     const dispatch=useAppDispatch();
 
@@ -38,6 +39,10 @@ export default function Navbar() {
             dispatch({ type:"AddUser",data:User})
         }
     // }, [])
+
+    if(!User || !User?.name){
+        history.push('/singup');
+    }
 
 
     
