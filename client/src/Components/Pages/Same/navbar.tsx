@@ -41,7 +41,7 @@ export default function Navbar() {
     // }, [])
 
     if(!User || !User?.name){
-        history.push('/singup');
+        history.push('/signup');
     }
 
 
