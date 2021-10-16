@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var CRUD_1 = require("../controllers/tweet/CRUD");
+var Other_1 = require("../controllers/tweet/Other");
 var Auth_1 = require("../middlewares/Auth");
 var router = express_1.default.Router();
 // middleware that is specific to this router
@@ -14,7 +15,7 @@ var router = express_1.default.Router();
 // })
 // console.log('tweet')
 var multer_1 = __importDefault(require("multer"));
-var Other_1 = require("../controllers/tweet/Other");
+var Other_2 = require("../controllers/tweet/Other");
 var storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         console.log(file);
@@ -31,7 +32,8 @@ var upload = multer_1.default({ storage: storage });
 router.get('/', function (req, res) {
     CRUD_1.GetTweets(req, res);
 });
-router.post('/tweetsbyid', Other_1.GetTweetsByIds);
+router.post('/tweetsbyid', Other_2.GetTweetsByIds);
+router.get('/user/:name', Other_1.GetTweetsOfUser);
 router.post('/create', Auth_1.Auth, upload.single('media'), CRUD_1.AddTweet);
 router.delete('/delete', function (req, res) {
     CRUD_1.DeleteTweet(req, res);

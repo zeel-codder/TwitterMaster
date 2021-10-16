@@ -27,9 +27,34 @@ const GetTweetsByIds = async (req: Request, res: Response) => {
         console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
-
-
-
 }
 
-export {GetTweetsByIds};
+
+
+
+
+const GetTweetsOfUser = async (req: Request, res: Response) => {
+
+    try {
+        const name:string=req.params.name;
+
+        const List = await TweetModel.find({});
+        // console.log(List);
+        const filter = List.filter((data:any)=>
+        {            
+            return data.Creator_Name===name;
+        }
+        
+        );
+
+        const TweetList = Array.from(filter).reverse();
+
+        res.status(200).send(ResultLoader("All Tweet", TweetList));
+    } catch (e: any) {
+        console.log(e);
+        res.status(404).send(ErrorLoader("TweetList not found", e.message));
+    }
+}
+
+
+export {GetTweetsByIds,GetTweetsOfUser};

@@ -93,7 +93,7 @@ const AddUser = async (req: Request, res: Response) => {
 
         const result: ValidResponse = {
             message: "User Added",
-            data: {name:user.name,id:user._id,token,email:user.email},
+            data: {...user._doc,token},
             
         }
 
@@ -159,7 +159,7 @@ const SingIn = async (req: Request, res: Response) => {
 
         const result: ValidResponse = {
             message: "User fount",
-            data: {name:findByName.name,_id:findByName._id,token,email:findByName.email},
+            data: {...findByName._doc,token:token},
             
         }
 
@@ -196,13 +196,10 @@ const UpdateUser = async (req: Request, res: Response) => {
 
     try {
         let {before,after} = req.body;
-
         const name=before.name ;
         const newUser:User=after;
-
         const UserDelete = await UserModel.findOneAndUpdate({name}, newUser);
         res.status(200).send(ResultLoader("Users Updated",UserDelete));
-
     } catch (e: any) {
         
         res.status(404).send(ErrorLoader("UserList not found",e.message));

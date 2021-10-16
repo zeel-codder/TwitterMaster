@@ -13,7 +13,7 @@ function App() {
     <div className="App">
 
       {/* <Loading /> */}
-      <StartLoader ></StartLoader>
+      {/* <StartLoader ></StartLoader> */}
       <Home></Home>
     </div>
   );

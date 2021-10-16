@@ -12,6 +12,8 @@ const initialState: UserData = {
     confirm_password: "",
     name: "",
     _id:"",
+    follow:[],
+    followers:[]
 }
 
 

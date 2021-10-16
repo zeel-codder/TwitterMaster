@@ -31,8 +31,9 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             if(isMe){
                 const newData:TweetSchema[]=res.data.data.filter((data:TweetSchema)=>data.Creator_ID===User._id);
                 setDataList(newData);
+            }else{
+                setDataList(res.data.data);
             }
-            setDataList(res.data.data);
             dispatch({type:"AddTweets",data:res.data.data})
             setLoading(false); 
         }).catch((e)=>{

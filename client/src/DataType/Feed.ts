@@ -22,6 +22,8 @@ interface UserData {
     confirm_password?: string|undefined;
     name?: string|undefined;
     _id?:string|undefined;
+    followers?:string[];
+    follow?:string[];
 }
 
 

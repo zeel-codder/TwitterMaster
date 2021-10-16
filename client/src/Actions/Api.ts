@@ -24,6 +24,7 @@ const GetUsers=()=>axios.get(web+"/user/")
 const GetAllGroups=()=>axios.get(web+"/group");
 const GetUserTweetList=() =>axios.get(web+"/tweet");
 const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
+const GetTweetOfUser=(name:string)=>axios.get(web+"/tweet/user/"+name);
 
 
 
@@ -44,5 +45,6 @@ export {
     GetUserByName,
     CrateGroup,
     GetUsers,
-    GetGroupsByIds
+    GetGroupsByIds,
+    GetTweetOfUser
 };

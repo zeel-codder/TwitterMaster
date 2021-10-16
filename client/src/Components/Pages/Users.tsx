@@ -1,10 +1,9 @@
 import React ,{useEffect,useState} from 'react';
-import { Avatar, Button} from '@material-ui/core';
-import Search from './Same/Search';
-import { UserData } from '../../DataType/Feed';
+
 import { useAppSelector, useAppDispatch } from '../../store';
 import { GetUsers } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';
+import UserList from './List/Users';
 
 
 
@@ -25,8 +24,12 @@ const Group:React.FC<{}> =() =>{
            setDataList(res.data.data);
            console.log(res.data.data);
            dispatch({ type:"AddUsers",data:res.data.data});
-           setLoading(false);
-        });
+        //    setLoading(false);
+        }).catch((e)=>{
+            console.log(e);
+        }).finally(()=>{
+            setLoading(false);
+        })
     },[]);
     // console.log(List)
 
@@ -43,20 +46,8 @@ const Group:React.FC<{}> =() =>{
    
 
     return (
-        <div className="pad">
+        <div>
            
-            <h1 className="blue">
-                
-               Users
-                
-            </h1>
-
-            
-
-            
-            
-            <Search placeName="Users" cb={handleSearch} data={DataList} />
-
             {
 
             IsLoading 
@@ -65,14 +56,7 @@ const Group:React.FC<{}> =() =>{
             :
 
             <>
-            {
-                DataList.map((data:UserData, index :number) => {
-                    
-                    
-                    return <User {...data}></User>
-                    
-                })
-            }
+            <UserList List={DataList}></UserList>
 
             </>
             }
@@ -84,37 +68,7 @@ const Group:React.FC<{}> =() =>{
 }
 
 
-const User: React.FC<UserData>=({name}) => {
 
-    return (
-
-        <div className="tweet-container flex">
-
-        <Avatar 
-        alt="Remy Sharp" 
-        src={"https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"} 
-        
-        variant='square'
-        />
-
-
-        <div className="flex column start explore">
-            <h3>
-
-                
-                <a href="/" className="a">
-                    @{name}
-
-                </a>
-            </h3>
-        </div>
-        </div>
-
-
-    )
-
-
-}
 
 
 

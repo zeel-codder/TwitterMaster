@@ -41,7 +41,7 @@ export default function Navbar() {
     // }, [])
 
     if(!User || !User?.name){
-        history.push('/singup');
+        history.push('/signup');
     }
 
 
@@ -102,9 +102,9 @@ export default function Navbar() {
                         ?
                         <>
                         
-                        <Link to="/profile" title="User" onClick={handleClick}>
+                        <a href={`/user/${user.name}`} title="User" onClick={handleClick}>
                             <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
-                        </Link>
+                        </a>
 
                         <span className="a"
                         

@@ -1,5 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet } from "../controllers/tweet/CRUD";
+
+import { GetTweetsOfUser } from "../controllers/tweet/Other";
 import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
@@ -39,6 +41,8 @@ router.get('/', function (req: Request, res: Response) {
 
 router.post('/tweetsbyid',GetTweetsByIds);
 
+
+router.get('/user/:name',GetTweetsOfUser);
 
 
 

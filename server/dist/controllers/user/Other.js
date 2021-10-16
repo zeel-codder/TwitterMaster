@@ -36,61 +36,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetTweetsOfUser = exports.GetTweetsByIds = void 0;
-var Schema_1 = require("../../database/Schema");
+exports.UserFollow = void 0;
 var Response_1 = require("../Response");
-var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var Ids_1, List, filter, TweetList, e_1;
+var Schema_1 = require("../../database/Schema");
+var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var Name, MyName, Mydata, data, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                Ids_1 = req.body.ids;
-                console.log(Ids_1);
-                return [4 /*yield*/, Schema_1.TweetModel.find({})];
+                _a.trys.push([0, 7, , 8]);
+                Name = req.body.name;
+                MyName = req.user_name;
+                console.log(Name, MyName);
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: MyName })];
             case 1:
-                List = _a.sent();
-                filter = List.filter(function (data) {
-                    // console.log("61698898ca3992f9d2420d4c","61698898ca3992f9d2420d4c"===JSON.stringify(data._id),JSON.stringify(data._id))
-                    return Ids_1.includes(data._id.toString());
-                });
-                TweetList = Array.from(filter).reverse();
-                // console.log(TweetList)
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetList));
-                return [3 /*break*/, 3];
+                Mydata = _a.sent();
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: Name })];
             case 2:
+                data = _a.sent();
+                if (!Mydata || !data) {
+                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("User not found", "nothing"))];
+                }
+                if (!!Mydata.follow.includes(Name)) return [3 /*break*/, 4];
+                Mydata.follow.push(Name);
+                return [4 /*yield*/, Mydata.save()];
+            case 3:
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                if (!!data.followers.includes(MyName)) return [3 /*break*/, 6];
+                data.followers.push(MyName);
+                return [4 /*yield*/, data.save()];
+            case 5:
+                _a.sent();
+                _a.label = 6;
+            case 6:
+                res.status(200).send(Response_1.ResultLoader("Done", null));
+                return [3 /*break*/, 8];
+            case 7:
                 e_1 = _a.sent();
                 console.log(e_1);
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); };
-exports.GetTweetsByIds = GetTweetsByIds;
-var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, List, filter, TweetList, e_2;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                name_1 = req.params.name;
-                return [4 /*yield*/, Schema_1.TweetModel.find({})];
-            case 1:
-                List = _a.sent();
-                filter = List.filter(function (data) {
-                    return data.Creator_Name === name_1;
-                });
-                TweetList = Array.from(filter).reverse();
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetList));
-                return [3 /*break*/, 3];
-            case 2:
-                e_2 = _a.sent();
-                console.log(e_2);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_2.message));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.GetTweetsOfUser = GetTweetsOfUser;
+exports.UserFollow = UserFollow;
