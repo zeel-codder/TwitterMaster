@@ -35,12 +35,3 @@ app.use('/tweet', tweet_1.default);
 app.listen(port, function () {
     console.log("App is listening on port " + port + " !");
 });
-// /api/tweet/create
-// /api/tweet/detect
-// /api/tweet/update
-// /api/group/create
-// /api/group/detect
-// /api/group/update
-// /api/explore/create
-// /api/explore/detect
-// /api/explore/update

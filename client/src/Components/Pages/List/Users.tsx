@@ -2,19 +2,14 @@ import React, { useState } from 'react';
 import { Avatar, Button } from '@material-ui/core';
 import Search from '../Same/Search';
 import { UserData } from '../../../DataType/Feed';
-import { useAppSelector } from '../../../store';
-
-
-
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { ToggleFollowUser } from '../../../Actions/Api';
+import Loader from '../../Loaders/Loading';
 
 
 
 const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
-
     const [DataList, setDataList] = useState<UserData[]>(List);
-
-
-
 
     function handleSearch(data: any[]) {
         if (data == null) {
@@ -31,29 +26,16 @@ const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
 
     return (
         <div className="pad">
-
             <h1 className="blue">
 
                 Users
-
             </h1>
-
-
-
             <Search placeName="Users" cb={handleSearch} data={DataList} />
-
-
             {
                 DataList.map((data: UserData, index: number) => {
-
-
-                    return <User {...data}></User>
-
+                    return <User {...data} key={data._id}></User>
                 })
             }
-
-
-
         </div>
     )
 }
@@ -61,17 +43,35 @@ const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
 
 const User: React.FC<UserData> = ({ name }) => {
     const Data: any = useAppSelector((state) => state.UserReducer);
+    const [isLoading,setIsLoading]=useState<boolean>(false);
+    const dispatch=useAppDispatch();
 
-    console.log(Data,name)
+    // console.log(Data,name)
+
+    function UserFollowChange(name:string,isAdd:boolean){
+
+        setIsLoading(true);
+        ToggleFollowUser(name,isAdd)
+        .then((res)=>{
+
+            dispatch({type:"AddUser",data:res.data.data});
+
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>setIsLoading(false));
+
+    }
 
 
     return (
 
         <div className="tweet-container flex">
 
+            {isLoading && <Loader></Loader>}
+
             <Avatar
                 alt="Remy Sharp"
-                src={"https://images.unsplash.com/photo-1494959764136-6be9eb3c261e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80"}
+                src={"https://zeelcodder.tech/images/home/zeel.jpeg"}
 
                 variant='square'
             />
@@ -91,11 +91,25 @@ const User: React.FC<UserData> = ({ name }) => {
                     
                             Data?.follow?.includes(name)
                             ?
-                            <Button className="FollowBtn" variant="contained" color="primary">
+                            <Button 
+                            className="FollowBtn" 
+                            variant="contained" 
+                            color="primary"
+                            onClick={()=>UserFollowChange(name as string,false)}
+                    
+                            >
                                 unfollow
                             </Button>
                             :
-                            <Button className="FollowBtn" variant="contained" color="primary">
+                            <Button 
+                            className="FollowBtn" 
+                            
+                            variant="contained" 
+                            
+                            color="primary"
+                            
+                            onClick={()=>UserFollowChange(name as string,true)}
+                            >
                                 follow
                             </Button>
                     }

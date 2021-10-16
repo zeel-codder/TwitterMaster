@@ -1,9 +1,9 @@
-import React, {  useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField as Input, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { LoginData } from '../../DataType/pages'
-import { SingUpRequest,SingInRequest } from '../../Actions/Api';
-import {useHistory} from 'react-router-dom';
+import { SingUpRequest, SingInRequest } from '../../Actions/Api';
+import { useHistory } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../store';
 import Loader from '../Loaders/Loading';
 
@@ -23,16 +23,12 @@ const ChangeName: string = "ChangeName";
 const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
 
-
-    // const [state, dispatch] = useReducer(reducer, initialState);
-    const [message, setMessage] = useState("");
-    const history=useHistory();
-    const [IsLoading,setLoading]=useState(false);
-
-    const state=useAppSelector((state)=>state.AuthReducer);
+    const [message, setMessage] = useState<string>("");
+    const history = useHistory();
+    const [IsLoading, setLoading] = useState<boolean>(false);
+    const state = useAppSelector((state) => state.AuthReducer);
     const dispatch = useAppDispatch()
-    // console.log(state)
-    
+
 
 
 
@@ -43,9 +39,9 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         if (ValidateSingUp()) {
             try {
                 setLoading(true);
-                const ans = await SingUpRequest({...state});
-                localStorage.setItem('User',JSON.stringify(ans.data.data));
-                dispatch({type:"AddUser",data:ans.data.data})
+                const ans = await SingUpRequest({ ...state });
+                localStorage.setItem('User', JSON.stringify(ans.data.data));
+                dispatch({ type: "AddUser", data: ans.data.data })
                 setLoading(false);
                 history.push('/');
 
@@ -65,10 +61,10 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
             try {
                 // const hash=await bcrypt.hash(state.password || "",10);
                 setLoading(true);
-                const ans = await SingInRequest({...state});
+                const ans = await SingInRequest({ ...state });
                 console.log(ans);
-                localStorage.setItem('User',JSON.stringify(ans.data.data));
-                dispatch({type:"AddUser",data:ans.data.data})
+                localStorage.setItem('User', JSON.stringify(ans.data.data));
+                dispatch({ type: "AddUser", data: ans.data.data })
                 setLoading(false);
                 history.push('/');
             } catch (e) {
@@ -95,17 +91,17 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
     const ValidateSingUp = (): Boolean => {
 
-        if(state.name===""){
+        if (state.name === "") {
             setMessage("Enter user name");
             return false;
         }
 
-        if(!validateEmail(state.email)){
+        if (!validateEmail(state.email)) {
             setMessage("Enter email in write formate")
             return false;
         }
 
-        if(!validatePassword(state.password)){
+        if (!validatePassword(state.password)) {
             setMessage("PassWord Must be minimum eight characters")
             return false;
         }
@@ -113,11 +109,11 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
         return true;
     }
-    
+
 
     const ValidateSingIn = (): Boolean => {
 
-        if(state.name===""){
+        if (state.name === "") {
             setMessage("Enter user name");
             return false;
         }
@@ -125,20 +121,20 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         return true;
     }
 
-    function validateEmail(email:string | undefined):boolean {
-        
-        const re:RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    function validateEmail(email: string | undefined): boolean {
+
+        const re: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
 
-    function validatePassword(password:string |undefined):boolean {
+    function validatePassword(password: string | undefined): boolean {
 
-        if(password === undefined) return false;
-        return password!=="" && password?.length>8;
+        if (password === undefined) return false;
+        return password !== "" && password?.length > 8;
     }
 
 
-    
+
 
 
     return (
@@ -161,112 +157,112 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
 
 
             <div className="flex column auth">
-            <form className="flex column auth">
-                <span className="textp">
+                <form className="flex column auth">
+                    <span className="textp">
 
-                    {message}
-                </span>
+                        {message}
+                    </span>
 
-                <Input
-                    type="string"
-                    placeholder="Enter Name"
-                    inputProps={{
-                        style: {
-                            padding: 10
-                        }
-                    }}
+                    <Input
+                        type="string"
+                        placeholder="Enter Name"
+                        inputProps={{
+                            style: {
+                                padding: 10
+                            }
+                        }}
 
-                    variant="outlined"
-                    onChange={(event: any) => dispatch({ type: ChangeName, name: event.target.value })}
+                        variant="outlined"
+                        onChange={(event: any) => dispatch({ type: ChangeName, name: event.target.value })}
 
-                    required></Input>
-                {
-                    IsSignUp
-                        ?
-                        
-                        <Input
-                            type="email"
-                            placeholder="Email"
-                            variant="outlined"
-                            inputProps={{
-                                style: {
-                                    padding: 10
-                                }
-                            }}
-        
-                            onChange={(event: any) => dispatch({ type: ChangeEmail, email: event.target.value })}
-        
-                            required></Input>
-                        :
-                        ''
+                        required></Input>
+                    {
+                        IsSignUp
+                            ?
 
-                }
+                            <Input
+                                type="email"
+                                placeholder="Email"
+                                variant="outlined"
+                                inputProps={{
+                                    style: {
+                                        padding: 10
+                                    }
+                                }}
 
+                                onChange={(event: any) => dispatch({ type: ChangeEmail, email: event.target.value })}
 
+                                required></Input>
+                            :
+                            ''
+
+                    }
 
 
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    variant="outlined"
-                    inputProps={{
-                        style: {
-                            padding: 10
-                        }
-                    }}
 
 
-                    onChange={(event: any) => dispatch({ type: ChangePassword, password: event.target.value })}
-
-                    required></Input>
-
-                {
-                    IsSignUp
-                        ?
-                        <Input
-                            type="password"
-                            placeholder="Password Again"
-
-                            variant="outlined"
-                            inputProps={{
-                                style: {
-                                    padding: 10
-                                }
-                            }}
-
-                            onChange={(event: any) => dispatch({ type: ChangeCPassword, confirm_password: event.target.value })}
-
-                            required></Input>
-
-                        :
-                        ''
-
-                }
+                    <Input
+                        type="password"
+                        placeholder="Password"
+                        variant="outlined"
+                        inputProps={{
+                            style: {
+                                padding: 10
+                            }
+                        }}
 
 
-                {
-                    IsSignUp
-                        ?
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSingUp}
+                        onChange={(event: any) => dispatch({ type: ChangePassword, password: event.target.value })}
 
-                        >
-                            SingUp
-                        </Button>
-                        :
-                        <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={handleSingIn}
-                        >
-                            SingIn
-                        </Button>
-                }
+                        required></Input>
 
-</form>
-           
+                    {
+                        IsSignUp
+                            ?
+                            <Input
+                                type="password"
+                                placeholder="Password Again"
+
+                                variant="outlined"
+                                inputProps={{
+                                    style: {
+                                        padding: 10
+                                    }
+                                }}
+
+                                onChange={(event: any) => dispatch({ type: ChangeCPassword, confirm_password: event.target.value })}
+
+                                required></Input>
+
+                            :
+                            ''
+
+                    }
+
+
+                    {
+                        IsSignUp
+                            ?
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSingUp}
+
+                            >
+                                SingUp
+                            </Button>
+                            :
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleSingIn}
+                            >
+                                SingIn
+                            </Button>
+                    }
+
+                </form>
+
 
 
                 {

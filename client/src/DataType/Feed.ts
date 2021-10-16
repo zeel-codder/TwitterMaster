@@ -1,56 +1,53 @@
-
-
-
 interface TweetSchema {
-    creator:  string|undefined;
-    image?:  string|undefined;
-    video?:  string|undefined;
-    description?:  string|undefined;
-    like?:  string[];
-    retweet?:  number;
+    creator: string ;
+    image?: string ;
+    video?: string ;
+    description?: string ;
+    like?: string[];
+    retweet?: number;
     _id?: string;
-    Creator_ID?:string|undefined;
-    Creator_Name?:string|undefined;
-    groups?:string;
+    Creator_ID?: string ;
+    Creator_Name?: string ;
+    groups?: string;
 }
 
 
 interface UserData {
-    type?: string|undefined;
-    email?: string|undefined;
-    password?: string|undefined;
-    confirm_password?: string|undefined;
-    name?: string|undefined;
-    _id?:string|undefined;
-    followers?:string[];
-    follow?:string[];
+    type?: string ;
+    email?: string ;
+    password?: string ;
+    confirm_password?: string ;
+    name?: string ;
+    _id?: string ;
+    followers?: string[];
+    follow?: string[];
 }
 
 
 
 interface HashTage {
 
-    name: string|undefined;
-    about?: string|undefined;
-    img?: string|undefined;
+    name: string ;
+    about?: string ;
+    img?: string ;
 }
 
 
 
 interface GroupSchema {
-    _id:string;
-    title:string;
+    _id: string;
+    title: string;
     description: string;
-    users?:[string];
-    tweets?:[string];
+    users?: [string];
+    tweets?: [string];
 }
 
 interface ExploreSchema {
     title: string;
-    tweets?:String[];
-    creator:String;
-    _id?:String;
+    tweets?: String[];
+    creator: String;
+    _id?: String;
 }
 
 
-export type { TweetSchema, HashTage, GroupSchema, UserData,ExploreSchema };
+export type { TweetSchema, HashTage, GroupSchema, UserData, ExploreSchema };

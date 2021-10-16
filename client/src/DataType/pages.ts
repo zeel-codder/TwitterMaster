@@ -1,23 +1,15 @@
-
-
 interface HomeSchema{
 
     type?:string;
     isMe?:boolean;
 
 }
-
-
-
 interface GroupCSchema{
     type?: string;
     isMe?:boolean;
 }
 
 
-interface ProfileSchema{
-
-}
 
 interface LoginData {
 
@@ -30,4 +22,4 @@ interface LoginData {
 
 
 
-export type {HomeSchema,LoginData,ProfileSchema,GroupCSchema};
+export type {HomeSchema,LoginData,GroupCSchema};

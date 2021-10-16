@@ -21,6 +21,7 @@ const Group:React.FC<{}> =() =>{
     const dispatch=useAppDispatch();
     const [IsLoading,setLoading]=useState<boolean>(true);
     const [DataList,setDataList]=useState<TweetSchema[]>([]);
+    const [DataMain,setDataMain]=useState<TweetSchema[]>([]);
 
     
     console.log(name);
@@ -28,12 +29,13 @@ const Group:React.FC<{}> =() =>{
     const SetList=(data:GroupSchema[])=>{
 
         const TweetList:string[]=data.find((data:GroupSchema)=>data.title===name)?.tweets!;
-        console.log(TweetList);
+        // console.log(TweetList);
      
         GetGroupsByIds(TweetList)
         .then((res)=>{
-            console.log(res.data.data);
+            // console.log(res.data.data);
             setDataList(res.data.data);
+            setDataMain(res.data.data);
         })
         .catch((e)=>{
             console.log(e);
@@ -70,7 +72,7 @@ const Group:React.FC<{}> =() =>{
 
     function handleSearch(data:TweetSchema[]){
         if(data==null){
-            return setDataList(List.Groups);
+            return setDataList(DataMain);
         }
         const newData:any[]=data;
         setDataList(newData as any);

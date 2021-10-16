@@ -1,8 +1,10 @@
-
-
 export default function footer() {
     return (
-        <div>
+        <div className="full flex">
+
+            <a href="/" className="a">
+                TwitterMaster
+            </a>
             
         </div>
     )

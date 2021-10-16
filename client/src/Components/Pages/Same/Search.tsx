@@ -2,9 +2,6 @@ import {  TextField } from '@material-ui/core';
 import React,{useState,useEffect} from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from "@material-ui/core/IconButton";
-// import InputAdornment from "@material-ui/core/InputAdornment";
-import { useAppSelector, useAppDispatch } from '../../../store';
-
 
 
 interface SearchBox{
@@ -12,10 +9,6 @@ interface SearchBox{
     data ?:any[];
     cb ?: any;
 }
-
-
-
-
 
 const Search:React.FC<SearchBox> = ({placeName,data,cb})=> {
 
@@ -41,10 +34,6 @@ const Search:React.FC<SearchBox> = ({placeName,data,cb})=> {
         })
         cb(newData);
     },[query])
-
-
-
-
 
 
 

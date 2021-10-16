@@ -1,10 +1,9 @@
-import React,{useState} from 'react';
-import PropTypes from 'prop-types';
+import {useState} from 'react';
 import { useAutocomplete } from '@mui/core/AutocompleteUnstyled';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
-import { useAppSelector, useAppDispatch } from '../../../store';
+import {  useAppDispatch } from '../../../store';
 import { GetAllGroups } from '../../../Actions/Api';
 import { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
@@ -208,8 +207,7 @@ export default function CustomizedHook() {
     });
 
     dispatch({type:"ChangeTweetGroups",groups:c})
-},[value]);
-//   console.log(List)
+},[dispatch, value]);
 
   return (
     <Root>

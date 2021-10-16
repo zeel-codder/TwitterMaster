@@ -82,7 +82,6 @@ var GetUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 name_1 = req.params.name;
-                console.log(name_1);
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: name_1 })];
             case 1:
                 User = _a.sent();
@@ -107,7 +106,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
             case 0:
                 _a.trys.push([0, 5, , 6]);
                 newUser = req.body;
-                console.log(newUser);
+                //console.log(newUser);
                 if (!newUser || !newUser.name || !newUser.email) {
                     // const error: ErrorSchema = {
                     //     message: "Invalid Input",
@@ -159,7 +158,6 @@ var SingIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
-                console.log('call');
                 _a = req.body, name_2 = _a.name, password = _a.password;
                 // console.log(newUser);
                 if (!name_2) {
@@ -191,7 +189,7 @@ var SingIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [3 /*break*/, 4];
             case 3:
                 e_4 = _b.sent();
-                console.log(e_4);
+                //        console.log(e);
                 res.status(404).send(Response_1.ErrorLoader(e_4.message, "Error"));
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

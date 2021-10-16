@@ -7,6 +7,7 @@ import Loader from '../../Loaders/Loading';
 import Users from '../List/Users';
 
 
+
 const Profile: React.FC<UserData> = () => {
 
 
@@ -19,10 +20,6 @@ const Profile: React.FC<UserData> = () => {
     
 
     useEffect(() => {
-
-
-
-
         GetUserByName(name)
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
@@ -40,7 +37,6 @@ const Profile: React.FC<UserData> = () => {
                 setLoading(false);
             })
     }
-
         , [])
 
 

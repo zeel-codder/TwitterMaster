@@ -35,7 +35,7 @@ const GetUser = async (req: Request, res: Response) => {
 
     try {
         const {name}=req.params;
-        console.log(name);
+       // console.log(name);
         const User = await UserModel.findOne({name:name});
         if(User===null){
             return  res.sendStatus(500);
@@ -54,7 +54,7 @@ const AddUser = async (req: Request, res: Response) => {
 
         let newUser: User = req.body;
 
-        console.log(newUser);
+        //console.log(newUser);
 
         if (!newUser || !newUser.name || !newUser.email) {
             // const error: ErrorSchema = {
@@ -116,7 +116,7 @@ const SingIn = async (req: Request, res: Response) => {
 
     try {
 
-        console.log('call')
+       // console.log('call')
 
         const {name,password} = req.body;
 
@@ -166,7 +166,7 @@ const SingIn = async (req: Request, res: Response) => {
         res.status(200).send(result);
     } catch (e: any) {
 
-        console.log(e);
+//        console.log(e);
 
         res.status(404).send(ErrorLoader(e.message,"Error"));
 

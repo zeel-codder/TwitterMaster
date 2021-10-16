@@ -1,6 +1,4 @@
 
-
-import StartLoader from './Components/Loaders/MainPage';
 import Home from './Components/Pages/Router';
 // import Loading from './Components/Loaders/Loading';
 

@@ -1,56 +1,61 @@
 import { BottomNavigationAction } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
-import ExplicitIcon from '@material-ui/icons/Explicit';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import GroupIcon from '@material-ui/icons/Group';
-import { useEffect, useState } from 'react';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
-import {useRef} from 'react';
+import { useRef,useEffect } from 'react';
 import { useHistory } from 'react-router';
-import {useAppSelector,useAppDispatch} from '../../../store';
+import { useAppSelector, useAppDispatch } from '../../../store';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 
 
 
 import { Link } from 'react-router-dom';
+import { GetUserByName } from '../../../Actions/Api';
 
 
 export default function Navbar() {
+    const history = useHistory();
+    const user = useAppSelector((state) => state.UserReducer);
+    const dispatch = useAppDispatch();
 
-    // const History = useHistory();
 
-    // const classes = useStyles();
-    // const userData:boolean=localStorage.getItem('User')?true:false;
-    const history=useHistory();
-    const user=useAppSelector((state)=>state.UserReducer);
-    const dispatch=useAppDispatch();
+    const bar = useRef<HTMLDivElement>(null);
+    const navbar = useRef<HTMLDivElement>(null);
 
-    
-    const bar=useRef<HTMLDivElement>(null);
-    const navbar=useRef<HTMLDivElement>(null);
-    
-    const User=JSON.parse(localStorage.getItem('User') || '{}')
-    console.log(user,User,"Nav");
+    const User = JSON.parse(localStorage.getItem('User') || '{}')
+    // console.log(user, User, "Nav");
 
-    // useEffect(() => {
-        if(User?.name && !user.name){
-            console.log(User,user);
-            dispatch({ type:"AddUser",data:User})
-        }
-    // }, [])
-
-    if(!User || !User?.name){
+    if (!User || !User?.name) {
         history.push('/signup');
     }
 
 
-    
-    function handleClick(){
+    useEffect(()=>{
+        if(User?.name){
+
+            GetUserByName(User?.name)
+            .then((res)=>{
+                dispatch({ type: "AddUser", data: res.data.data })
+            })
+            .catch((e)=>{
+                dispatch({ type: "AddUser", data: User })
+            })
+        }
+
+    },[])
+
+
+
+
+
+
+    function handleClick() {
         bar.current?.classList.toggle("spin");
         navbar.current?.classList.toggle("show");
     }
- 
+
 
     return (
         <div className="flex blue space navbar relative">
@@ -61,11 +66,11 @@ export default function Navbar() {
 
             </div>
 
-            <div className="bar" 
-            
-            ref={bar}
-            onClick={handleClick}
-            
+            <div className="bar"
+
+                ref={bar}
+                onClick={handleClick}
+
             >
 
                 <ArrowBackIosIcon />
@@ -74,10 +79,10 @@ export default function Navbar() {
 
             {/* <TextField id="filled-basic" label="Filled" variant="filled" /> */}
 
-           
 
-            <div className="navbar-left" 
-            ref={navbar}
+
+            <div className="navbar-left"
+                ref={navbar}
             >
 
                 <Link to="/" title="Home" onClick={handleClick}>
@@ -88,10 +93,10 @@ export default function Navbar() {
 
                 <Link to="/group" title="Group" onClick={handleClick}>
 
-                    <BottomNavigationAction label="Group" value="/group" icon={<GroupWorkIcon/>} />
+                    <BottomNavigationAction label="Group" value="/group" icon={<GroupWorkIcon />} />
                 </Link>
 
-                
+
                 <Link to="/users" title="Users" onClick={handleClick}>
 
                     <BottomNavigationAction label="Users" value="/users" icon={<GroupIcon />} />
@@ -101,21 +106,21 @@ export default function Navbar() {
                     user.name
                         ?
                         <>
-                        
-                        <a href={`/user/${user.name}`} title="User" onClick={handleClick}>
-                            <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
-                        </a>
 
-                        <span className="a"
-                        
-                        onClick={()=>{
-                            
-                            localStorage.removeItem('User')
-                            window.location.href="/"
-                            dispatch({type:"AddUser",data:{}});
-                            // History.replace('/');
-                            
-                        }}>Logout </span>
+                            <a href={`/user/${user.name}`} title="User" onClick={handleClick}>
+                                <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
+                            </a>
+
+                            <span className="a"
+
+                                onClick={() => {
+
+                                    localStorage.removeItem('User')
+                                    window.location.href = "/"
+                                    dispatch({ type: "AddUser", data: {} });
+                                    // History.replace('/');
+
+                                }}>Logout </span>
                         </>
                         :
                         <>
@@ -138,7 +143,7 @@ export default function Navbar() {
 
 
             </div>
-            
+
 
         </div>
     )

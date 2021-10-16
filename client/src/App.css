@@ -4,10 +4,16 @@ body{
   font-family: system-ui;
   --font-small-head:1.5rem;
   --font-size:1rem;
+
+  font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI",;
 }
 
 *{
 -webkit-tap-highlight-color: transparent;
+}
+
+.Group_Div{
+  text-transform: capitalize;
 }
 
 
@@ -62,6 +68,10 @@ body{
 
 }
 
+.css-1txnhvm  input{
+  padding: .2rem !important;
+
+}
 
 
 
@@ -70,7 +80,7 @@ body{
 
 .pad > *{
   /* padding: .4rem 0; */
-  margin-bottom: .7rem; 
+  margin-bottom: 1.7rem; 
 
 }
 
@@ -326,7 +336,7 @@ a:hover{
 .tweet-container > div{
   margin: .5rem;
 }.tweet-container{
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }
 
 

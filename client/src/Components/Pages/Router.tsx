@@ -8,6 +8,7 @@ import Login from "./Login";
 import GroupPage from './MainFeed/Group';
 import Page404 from './404';
 import Profile_User from './MainFeed/Profile_Users';
+import Footer from './Same/footer';
 
 
 import {
@@ -107,6 +108,7 @@ export default function Router() {
                     {/* <LeftSide /> */}
                 </div>
             </Router1>
+            <Footer></Footer>
 
         </div>
     )

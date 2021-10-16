@@ -5,13 +5,6 @@ import { GetTweetsOfUser } from "../controllers/tweet/Other";
 import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
-// middleware that is specific to this router
-// router.use(function timeLog (req, res, next) {
-//   console.log('Time: ', Date.now())
-//   next()
-// })
-
-// console.log('tweet')
 
 import multer  from 'multer';
 import path from "path";
@@ -20,7 +13,7 @@ import { GetTweetsByIds } from "../controllers/tweet/Other";
 const storage = multer.diskStorage({
     destination: function (req:Request, file:any, cb:Function) {
 
-      console.log(file);
+      // console.log(file);
       cb(null, `./${process.env.upload}/files`)
       // cb(null, path.join('../files'))
     },
@@ -35,35 +28,13 @@ const upload = multer({ storage: storage })
 
 
 
-router.get('/', function (req: Request, res: Response) {
-  GetTweets(req, res);
-})
-
+router.get('/', GetTweets)
 router.post('/tweetsbyid',GetTweetsByIds);
-
-
 router.get('/user/:name',GetTweetsOfUser);
-
-
-
 router.post('/create',Auth,upload.single('media'),AddTweet)
-
-
-
-
-router.delete('/delete', function (req: Request, res: Response) {
-  DeleteTweet(req, res);
-})
-
-
-
+router.post('/delete', Auth,DeleteTweet)
 router.put('/update',Auth,UpdateTweet)
-
-
-router.get('/:_id', function (req: Request, res: Response) {
-  GetTweet(req, res);
-})
-
+router.get('/:_id',GetTweet)
 
 export default router;
 

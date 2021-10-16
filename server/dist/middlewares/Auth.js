@@ -55,12 +55,12 @@ var Auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, 
                 user = user;
                 req.user_id = user._id;
                 req.user_name = user.name;
-                console.log(req.user_name + " " + req.user_id);
+                //console.log(req.user_name+" "+req.user_id)
                 next();
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
-                console.log(e_1);
+                // console.log(e)
                 res.sendStatus(404);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

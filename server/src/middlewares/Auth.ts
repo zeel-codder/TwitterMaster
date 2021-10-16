@@ -24,14 +24,14 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
         req.user_id=user._id;
         req.user_name=user.name;
 
-        console.log(req.user_name+" "+req.user_id)
+        //console.log(req.user_name+" "+req.user_id)
 
 
         next();
         
     
     }catch(e){
-        console.log(e)
+       // console.log(e)
         res.sendStatus(404);
     }
 }

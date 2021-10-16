@@ -1,6 +1,6 @@
 import express, { Response, Request } from 'express';
 import { TweetModel } from '../../database/Schema';
-import { Tweet } from '../../interface/database/Schema';
+// import { Tweet } from '../../interface/database/Schema';
 import { ErrorLoader, ResultLoader } from "../Response";
 
 
@@ -8,7 +8,7 @@ const GetTweetsByIds = async (req: Request, res: Response) => {
 
     try {
         const Ids:string[]=req.body.ids;
-        console.log(Ids)
+        //console.log(Ids)
         const List = await TweetModel.find({});
         // console.log(List);
         const filter = List.filter((data:any)=>
@@ -24,7 +24,7 @@ const GetTweetsByIds = async (req: Request, res: Response) => {
 
         res.status(200).send(ResultLoader("All Tweet", TweetList));
     } catch (e: any) {
-        console.log(e);
+       // console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
 }
@@ -51,7 +51,7 @@ const GetTweetsOfUser = async (req: Request, res: Response) => {
 
         res.status(200).send(ResultLoader("All Tweet", TweetList));
     } catch (e: any) {
-        console.log(e);
+        //console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
 }

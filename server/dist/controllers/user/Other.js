@@ -40,45 +40,51 @@ exports.UserFollow = void 0;
 var Response_1 = require("../Response");
 var Schema_1 = require("../../database/Schema");
 var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var Name, MyName, Mydata, data, e_1;
+    var Name, isAdd, MyName, Mydata, data, flag, UserData, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 7, , 8]);
+                _a.trys.push([0, 5, , 6]);
                 Name = req.body.name;
+                isAdd = req.body.isAdd;
                 MyName = req.user_name;
-                console.log(Name, MyName);
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: MyName })];
             case 1:
                 Mydata = _a.sent();
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: Name })];
             case 2:
                 data = _a.sent();
-                if (!Mydata || !data) {
+                if (!Mydata || !data || isAdd == undefined) {
                     return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("User not found", "nothing"))];
                 }
-                if (!!Mydata.follow.includes(Name)) return [3 /*break*/, 4];
-                Mydata.follow.push(Name);
+                flag = Mydata.follow.includes(Name);
+                if (isAdd && !flag) {
+                    Mydata.follow.push(Name);
+                }
+                else if (flag) {
+                    Mydata.follow.splice(Mydata.follow.indexOf(Name), 1);
+                }
                 return [4 /*yield*/, Mydata.save()];
             case 3:
-                _a.sent();
-                _a.label = 4;
-            case 4:
-                if (!!data.followers.includes(MyName)) return [3 /*break*/, 6];
-                data.followers.push(MyName);
+                UserData = _a.sent();
+                flag = data.followers.includes(MyName);
+                if (isAdd && !flag) {
+                    data.followers.push(MyName);
+                }
+                else if (flag) {
+                    data.followers.splice(data.follow.indexOf(MyName), 1);
+                }
                 return [4 /*yield*/, data.save()];
-            case 5:
+            case 4:
                 _a.sent();
-                _a.label = 6;
-            case 6:
-                res.status(200).send(Response_1.ResultLoader("Done", null));
-                return [3 /*break*/, 8];
-            case 7:
+                res.status(200).send(Response_1.ResultLoader("Done", UserData._doc));
+                return [3 /*break*/, 6];
+            case 5:
                 e_1 = _a.sent();
-                console.log(e_1);
+                //console.log(e);
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };

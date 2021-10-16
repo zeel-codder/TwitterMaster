@@ -39,7 +39,7 @@ const ChangeGroups: string = "ChangeTweetGroups";
 
 
 function TweetReducer(state = NullTweet, action: actionSchema) {
-    console.log(action,12)
+    // console.log(action,12)
     switch (action.type) {
         case ChangeMessage:
             return { ...state, description: action.description };

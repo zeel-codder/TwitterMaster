@@ -1,6 +1,6 @@
 import { Avatar} from '@material-ui/core';
 import React, { useEffect,  useState } from 'react';
-import { TextField as Input } from '@material-ui/core';
+// import { TextField as Input } from '@material-ui/core';
 import { UserData } from '../../DataType/Feed'
 import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store';
@@ -21,6 +21,8 @@ const Profile: React.FC<UserData> = ({ type }) => {
         GetUserByName(name)
             .then((res) => {
                 dispatch({type:"Profile_AddUser",data:res.data.data});
+                dispatch({ type: "AddUser", data: res.data.data })
+            
             })
             .then(() => {
                 GetTweetOfUser(name)
@@ -92,71 +94,71 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
 
 
-const UserDataChnage: React.FC<{}> = () => {
+// const UserDataChnage: React.FC<{}> = () => {
 
-    const User = useAppSelector((state) => state.UserReducer);
-    console.log(User)
+//     const User = useAppSelector((state) => state.UserReducer);
+//     console.log(User)
 
-    return (
-        <div className="box">
-            <h1 className="center">
-                User Data
-            </h1>
+//     return (
+//         <div className="box">
+//             <h1 className="center">
+//                 User Data
+//             </h1>
 
-            <div className="flex column auth">
-                <img className="profile_img" alt="Remy" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
-
-
-                <Input
-                    type="string"
-                    placeholder="Enter Name"
-                    inputProps={{
-                        style: {
-                            padding: 10
-                        }
-                    }}
-                    value={User.name}
-
-                    variant="outlined"
-                    aria-readonly="true"
-                    required>
+//             <div className="flex column auth">
+//                 <img className="profile_img" alt="Remy" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
 
 
-                </Input>
+//                 <Input
+//                     type="string"
+//                     placeholder="Enter Name"
+//                     inputProps={{
+//                         style: {
+//                             padding: 10
+//                         }
+//                     }}
+//                     value={User.name}
+
+//                     variant="outlined"
+//                     aria-readonly="true"
+//                     required>
 
 
+//                 </Input>
 
 
 
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    variant="outlined"
-                    inputProps={{
-                        style: {
-                            padding: 10
-                        }
-                    }}
-                    value={User.email}
 
 
-                    required
-                    aria-readonly="true"
-                ></Input>
-
-                <div className="flex center">
-
-                    <Link to='/' className="a">Twitter Master</Link>
-
-                </div>
-
-
-            </div>
+//                 <Input
+//                     type="email"
+//                     placeholder="Email"
+//                     variant="outlined"
+//                     inputProps={{
+//                         style: {
+//                             padding: 10
+//                         }
+//                     }}
+//                     value={User.email}
 
 
-        </div>
-    )
-}
+//                     required
+//                     aria-readonly="true"
+//                 ></Input>
+
+//                 <div className="flex center">
+
+//                     <Link to='/' className="a">Twitter Master</Link>
+
+//                 </div>
+
+
+//             </div>
+
+
+//         </div>
+//     )
+// }
 
 
 export default Profile;

@@ -117,7 +117,6 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
             case 0:
                 _c.trys.push([0, 8, , 9]);
                 file = req.file;
-                console.log(file);
                 newTweet_1 = req.body;
                 // console.log(newTweet)
                 if (!newTweet_1) {
@@ -128,7 +127,6 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 newTweet_1.Creator_ID = req.user_id;
                 newTweet_1.Creator_Name = req.user_name;
                 if (!(file != undefined)) return [3 /*break*/, 5];
-                console.log('call');
                 if (!((file === null || file === void 0 ? void 0 : file.mimetype) == 'image/png' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpg' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpeg')) return [3 /*break*/, 2];
                 // // newTweet.image =fName;
                 return [4 /*yield*/, cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename), function (error, result) {
@@ -151,9 +149,8 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 _c.sent();
                 _c.label = 4;
             case 4:
-                console.log('call');
+                //console.log('call')
                 fs_1.default.unlinkSync(file === null || file === void 0 ? void 0 : file.path);
-                console.log('remove');
                 _c.label = 5;
             case 5:
                 newDoc = new Schema_1.TweetModel(newTweet_1);
@@ -161,7 +158,6 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
             case 6:
                 Tweet_1 = _c.sent();
                 res.status(200).send(Response_1.ResultLoader("Tweet Added", Tweet_1));
-                console.log('call after');
                 groups = newTweet_1.groups;
                 listGroup_1 = groups === null || groups === void 0 ? void 0 : groups.split("|");
                 return [4 /*yield*/, CRUD_1.GetGroupList()];
@@ -194,22 +190,46 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
 }); };
 exports.AddTweet = AddTweet;
 var DeleteTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, TweetDelete, e_4;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _id, TweetDelete_1, TweetDeleteData, listGroup_2, GroupList, e_4;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _b.trys.push([0, 4, , 5]);
                 _id = req.body._id;
-                return [4 /*yield*/, Schema_1.TweetModel.deleteOne({ _id: _id })];
+                return [4 /*yield*/, Schema_1.TweetModel.findOne({ _id: _id })];
             case 1:
-                TweetDelete = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Tweets Deleted", TweetDelete));
-                return [3 /*break*/, 3];
+                TweetDelete_1 = _b.sent();
+                return [4 /*yield*/, Schema_1.TweetModel.deleteOne({ _id: _id })];
             case 2:
-                e_4 = _a.sent();
+                TweetDeleteData = _b.sent();
+                res.status(200).send(Response_1.ResultLoader("Tweets Deleted", TweetDeleteData));
+                listGroup_2 = (_a = TweetDelete_1.groups) === null || _a === void 0 ? void 0 : _a.split("|");
+                return [4 /*yield*/, CRUD_1.GetGroupList()];
+            case 3:
+                GroupList = _b.sent();
+                GroupList === null || GroupList === void 0 ? void 0 : GroupList.forEach(function (data) { return __awaiter(void 0, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                if (data === '')
+                                    return [2 /*return*/];
+                                if (!(listGroup_2 === null || listGroup_2 === void 0 ? void 0 : listGroup_2.includes(data.title))) return [3 /*break*/, 2];
+                                data.tweets.splice(data.tweets.indexOf(TweetDelete_1._id), 1);
+                                return [4 /*yield*/, data.save()];
+                            case 1:
+                                _a.sent();
+                                _a.label = 2;
+                            case 2: return [2 /*return*/];
+                        }
+                    });
+                }); });
+                return [3 /*break*/, 5];
+            case 4:
+                e_4 = _b.sent();
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_4.message));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
@@ -268,7 +288,7 @@ var UpdateTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 14];
             case 13:
                 e_5 = _c.sent();
-                console.log(e_5);
+                //console.log(e);
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_5.message));
                 return [3 /*break*/, 14];
             case 14: return [2 /*return*/];

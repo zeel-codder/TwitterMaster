@@ -16,7 +16,6 @@ router.post('/singin', SingIn)
 router.put('/update', UpdateUser)
 router.get('/:name', GetUser)
 router.post('/follow',Auth,UserFollow);
-
 router.get('/verify/:id', function (req: Request, res: Response) {
   res.send('Birds home page')
 })

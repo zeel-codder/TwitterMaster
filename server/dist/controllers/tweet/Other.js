@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetTweetsOfUser = exports.GetTweetsByIds = void 0;
 var Schema_1 = require("../../database/Schema");
+// import { Tweet } from '../../interface/database/Schema';
 var Response_1 = require("../Response");
 var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var Ids_1, List, filter, TweetList, e_1;
@@ -46,7 +47,6 @@ var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 Ids_1 = req.body.ids;
-                console.log(Ids_1);
                 return [4 /*yield*/, Schema_1.TweetModel.find({})];
             case 1:
                 List = _a.sent();
@@ -60,7 +60,7 @@ var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
-                console.log(e_1);
+                // console.log(e);
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -86,7 +86,7 @@ var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, voi
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
-                console.log(e_2);
+                //console.log(e);
                 res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_2.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

@@ -1,5 +1,4 @@
 import React ,{useEffect,useState} from 'react';
-
 import { useAppSelector, useAppDispatch } from '../../store';
 import { GetUsers } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';
@@ -22,9 +21,7 @@ const Group:React.FC<{}> =() =>{
         GetUsers()
         .then((res)=>{
            setDataList(res.data.data);
-           console.log(res.data.data);
            dispatch({ type:"AddUsers",data:res.data.data});
-        //    setLoading(false);
         }).catch((e)=>{
             console.log(e);
         }).finally(()=>{

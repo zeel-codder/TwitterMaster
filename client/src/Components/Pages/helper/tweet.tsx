@@ -4,7 +4,6 @@ import React, { useRef,useState } from 'react';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import ImageIcon from '@material-ui/icons/Image';
-import { useHistory } from 'react-router';
 import { CreateNewPost } from '../../../Actions/Api';
 import FormData from 'form-data'
 import Loader from '../../Loaders/Loading';

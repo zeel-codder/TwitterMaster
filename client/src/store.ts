@@ -1,6 +1,6 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { configureStore,combineReducers } from '@reduxjs/toolkit'
-import {compose, createStore} from 'redux'
+import {combineReducers } from '@reduxjs/toolkit'
+import { createStore} from 'redux'
 
 import {Data} from './reducer/index';
 
@@ -19,7 +19,7 @@ const store = createStore(reducerAll,
 
 // store.subscribe(() => )
 
-console.log(store)
+// console.log(store)
 
 
 

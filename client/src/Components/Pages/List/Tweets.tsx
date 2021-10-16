@@ -1,16 +1,15 @@
 import React,{useState} from "react";
-
 import { TweetSchema } from "../../../DataType/Feed";
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar} from "@material-ui/core";
 // import { Share } from "@material-ui/icons";
-import {  UpdateTweet } from "../../../Actions/Api";
+import {  DeleteTweet, UpdateTweet } from "../../../Actions/Api";
 import { useAppSelector } from '../../../store';
 import Loader from '../../Loaders/Loading';
-import {Link as MyLink} from 'react-router-dom';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
 interface TweetsSchema{
@@ -20,17 +19,13 @@ interface TweetsSchema{
 
 
 const  Tweets :React.FC<TweetsSchema> =({DataList}) =>{
-    
-
-
-
-  
+      
     return (
           <>
             {
                 DataList.map((data:TweetSchema)=>{
                  
-                        return <Tweet {...data}></Tweet>
+                        return <Tweet {...data} key={data._id}></Tweet>
                     }
             )
             }
@@ -39,23 +34,37 @@ const  Tweets :React.FC<TweetsSchema> =({DataList}) =>{
     )
 }
 
-const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name,groups})=>{
+const Tweet: React.FC<TweetSchema>=(prpos:TweetSchema)=>{
+
+    const {_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name,groups}=prpos;
  
     const User=useAppSelector((state)=>state.UserReducer);
-    // const Link=process.env.REACT_APP_WebSite;
-
     const type={_id,user_id:User._id,type:""};
     const [TweetData,setTweetData]=useState({_id,image,video,creator,description,like,retweet,Creator_ID,Creator_Name});
     const [isLike,setIsLike]=useState(like?.includes(User._id as string));
     const [Like,setLike]=useState(like?.length);
     const [Retweet,setReteet]=useState(retweet);
     const [IsLoading,setLoading]=useState(false);
-
     const groupList:string[]=groups?.split("|") as string[];
 
 
 
 
+    function handleDelete(){
+
+        setLoading(true);
+
+        DeleteTweet(_id as string)
+        .then((res)=>{
+
+            window.location.reload();
+
+        }).catch((e)=>console.log(e))
+        .finally(()=>setLoading(false))
+        
+
+
+    }
 
     const handleLike=()=>{
 
@@ -83,13 +92,10 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
 
     const handleShare=(Wh:boolean)=>{
 
-    
         type.type="retweet";
         setLoading(true);
 
         if(!Wh){
-
-            
             window.open('https://twitter.com/intent/tweet?text=Link:'+window.location.href, '_blank')?.focus();
         }else{
             window.open('whatsapp://send?text=See This Link:'+window.location.href, '_blank')?.focus();
@@ -115,15 +121,24 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
     return (
 
         <div className="tweet-container pad">
+
+            <div className="flex full space">
+
             
 
             <div className="creator-section flex">
-            <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
+                <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
                 <a href={"/user/"+TweetData.Creator_Name} className="a">
                 {TweetData.Creator_Name}
-                </a>
-               
+                </a> 
+            </div>
 
+            {
+
+                User._id===Creator_ID
+                &&
+                <CancelIcon className="a"  onClick={handleDelete}> </CancelIcon>
+            }
             </div>
 
             <div className="text">
@@ -145,7 +160,7 @@ const Tweet: React.FC<TweetSchema>=({_id,image,video,creator,description,like,re
                                 ?
                                 <></>
                                 :
-                                <a className="a"  href={"/group/"+data}>
+                                <a className="a"  key={index} href={"/group/"+data}>
                                 #{data} 
                                 </a>
                             

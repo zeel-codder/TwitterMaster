@@ -32,7 +32,11 @@ const GetTweetOfUser=(name:string)=>axios.get(web+"/tweet/user/"+name);
 const CreateNewPost=(TweetData:object) => API.post("/tweet/create",TweetData);
 const UpdateTweet=(odd:object,newd:TweetSchema) => API.put("/tweet/update",{before:odd,after:newd})
 const CrateGroup=(data:object)=>API.post("/group/create",data);
-    
+const ToggleFollowUser=(name:string,isAdd:boolean)=>API.post("/user/follow",{
+    name,isAdd
+})
+const DeleteTweet=(_id:string)=>API.post("/tweet/delete",{_id});
+
 
 
 export {
@@ -46,5 +50,7 @@ export {
     CrateGroup,
     GetUsers,
     GetGroupsByIds,
-    GetTweetOfUser
+    GetTweetOfUser,
+    ToggleFollowUser,
+    DeleteTweet
 };

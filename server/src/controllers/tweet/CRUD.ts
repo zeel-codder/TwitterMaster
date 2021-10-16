@@ -73,7 +73,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
         const file = req.file;
 
-        console.log(file);
+        //console.log(file);
         // let file=req.files!==[] && req.files?.key;
 
 
@@ -100,7 +100,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
         // console.log(req.files);
 
         if (file != undefined) {
-            console.log('call')
+            //console.log('call')
 
             if (file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg' || file?.mimetype == 'image/jpeg') {
 
@@ -127,9 +127,9 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
                     }
                 )
             }
-            console.log('call')
+            //console.log('call')
             fs.unlinkSync(file?.path as string);
-            console.log('remove')
+            //console.log('remove')
         }
 
 
@@ -141,7 +141,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
         res.status(200).send(ResultLoader("Tweet Added", Tweet));
 
-        console.log('call after');
+        //console.log('call after');
 
 
         let {groups}=newTweet;
@@ -179,8 +179,30 @@ const DeleteTweet = async (req: Request, res: Response) => {
 
     try {
         let { _id } = req.body;
-        const TweetDelete = await TweetModel.deleteOne({ _id });
-        res.status(200).send(ResultLoader("Tweets Deleted", TweetDelete));
+        const TweetDelete = await TweetModel.findOne({ _id });
+        const TweetDeleteData = await TweetModel.deleteOne({ _id });
+
+        res.status(200).send(ResultLoader("Tweets Deleted", TweetDeleteData));
+
+        const listGroup:string[]=TweetDelete.groups?.split("|") as string[];
+
+        // console.log(groupList);
+
+        const GroupList:any[]=await GetGroupList();
+
+
+        GroupList?.forEach( async (data)=>{
+
+            if(data==='') return;
+
+            if(listGroup?.includes(data.title)){
+            
+                data.tweets.splice(data.tweets.indexOf(TweetDelete._id),1);
+                await data.save();
+            }
+        });
+        
+     
 
     } catch (e: any) {
 
@@ -236,7 +258,7 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
     } catch (e: any) {
 
-        console.log(e);
+        //console.log(e);
 
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
 

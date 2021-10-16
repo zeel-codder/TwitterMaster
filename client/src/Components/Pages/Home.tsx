@@ -5,7 +5,7 @@ import Search from './Same/Search';
 import NewTweet from './helper/tweet';
 import { useRef,useState,useEffect } from "react";
 import {HomeSchema} from '../../DataType/pages';
-import { GetAllGroups, GetUserTweetList } from "../../Actions/Api";
+import {  GetUserTweetList } from "../../Actions/Api";
 import { useAppSelector, useAppDispatch } from '../../store';
 import Loader from '../Loaders/Loading';
 import Tweets from './List//Tweets';

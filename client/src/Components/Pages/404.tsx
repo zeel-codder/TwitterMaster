@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 
-
-
 const  _404Page :React.FC<{}> =() =>{
 
     return (

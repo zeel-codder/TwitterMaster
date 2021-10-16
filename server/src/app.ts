@@ -5,7 +5,6 @@ require('./database/Connection')
 import UserRoute from './routes/user';
 import GroupRoute from './routes/group';
 var cors = require('cors');
-
 var fs = require('fs');
 var dir = `./${process.env.upload}/files`;
 
@@ -51,22 +50,3 @@ app.use('/tweet',TweetRoute);
 app.listen(port, function () {
     console.log(`App is listening on port ${port} !`)
 })
-
-
-
-
-
-// /api/tweet/create
-// /api/tweet/detect
-// /api/tweet/update
-
-
-// /api/group/create
-// /api/group/detect
-// /api/group/update
-
-
-// /api/explore/create
-// /api/explore/detect
-// /api/explore/update
-
