@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetTweetsOfUser = exports.GetTweetsByIds = void 0;
+exports.RemoveComment = exports.AddComment = exports.GetTweetsOfUser = exports.GetTweetsByIds = void 0;
 var Schema_1 = require("../../database/Schema");
 // import { Tweet } from '../../interface/database/Schema';
 var Response_1 = require("../Response");
@@ -94,3 +94,65 @@ var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, voi
     });
 }); };
 exports.GetTweetsOfUser = GetTweetsOfUser;
+var AddComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, _id, title, Tweet, TweetData, e_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, _id = _a._id, title = _a.title;
+                return [4 /*yield*/, Schema_1.TweetModel.findOne({ _id: _id })];
+            case 1:
+                Tweet = _b.sent();
+                if (!Tweet.comments) {
+                    Tweet.comments = [];
+                }
+                Tweet.comments.push({ title: title, Creator_Name: req.user_name });
+                return [4 /*yield*/, Tweet.save()];
+            case 2:
+                TweetData = _b.sent();
+                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetData._doc));
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _b.sent();
+                // console.log(e);
+                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_3.message));
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.AddComment = AddComment;
+var RemoveComment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, _id, comment_id_1, Tweet, index, TweetData, e_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 3, , 4]);
+                _a = req.body, _id = _a._id, comment_id_1 = _a.comment_id;
+                return [4 /*yield*/, Schema_1.TweetModel.findOne({ _id: _id })];
+            case 1:
+                Tweet = _b.sent();
+                if (!Tweet.comments) {
+                    Tweet.comments = [];
+                }
+                index = Tweet.comments.findIndex(function (data) { return data._id.toString() === comment_id_1; });
+                if (index === -1) {
+                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("Some Error", "null"))];
+                }
+                Tweet.comments.splice(index, 1);
+                return [4 /*yield*/, Tweet.save()];
+            case 2:
+                TweetData = _b.sent();
+                res.status(200).send(Response_1.ResultLoader("Tweet", TweetData._doc));
+                return [3 /*break*/, 4];
+            case 3:
+                e_4 = _b.sent();
+                // console.log(e);
+                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_4.message));
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+exports.RemoveComment = RemoveComment;

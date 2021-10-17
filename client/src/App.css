@@ -77,7 +77,18 @@ body{
 
 
 /*Predefine*/
+.comment > div{
+  padding-bottom: 1rem;
 
+}
+
+.newcommant{
+  font-size: var(--font-size);
+}
+
+.comment{
+  margin: 1rem 0;
+}
 .pad > *{
   /* padding: .4rem 0; */
   margin-bottom: 1.7rem; 
@@ -490,7 +501,7 @@ a:hover{
     position: absolute;
     display: flex;
     width: 105%;
-    z-index: 2;
+    z-index: 22;
     top:0;
     background:white;
     flex-direction: column;
@@ -505,6 +516,9 @@ a:hover{
     width: 100%;
   }
 
+  .padtweet{
+    margin: 2rem 0;
+  }
   .spin{
     transform: rotate(180deg);
   }

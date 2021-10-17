@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet } from "../controllers/tweet/CRUD";
 
-import { GetTweetsOfUser } from "../controllers/tweet/Other";
+import { AddComment, GetTweetsOfUser, RemoveComment } from "../controllers/tweet/Other";
 import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
@@ -34,7 +34,10 @@ router.get('/user/:name',GetTweetsOfUser);
 router.post('/create',Auth,upload.single('media'),AddTweet)
 router.post('/delete', Auth,DeleteTweet)
 router.put('/update',Auth,UpdateTweet)
+router.post("/add_comment",Auth,AddComment);
+router.post("/remove_comment",Auth,RemoveComment);
 router.get('/:_id',GetTweet)
+
 
 export default router;
 

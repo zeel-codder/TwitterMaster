@@ -22,7 +22,12 @@ interface Tweet extends Basic{
     Creator_Name?:string|any;
     Creator_ID?:string|any;
     groups?:string;
+    comments?:Comment[];
+}
 
+interface Comment{
+    title?:string;
+    Creator_Name?:string|any;
 }
 
 interface Explore extends Basic{

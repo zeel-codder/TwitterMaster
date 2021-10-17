@@ -25,6 +25,7 @@ var TweetSchema = new Schema({
     Creator_ID: String,
     Creator_Name: String,
     groups: String,
+    comments: [{ title: String, Creator_Name: String }]
 }, { versionKey: false });
 var GroupSchema = new Schema({
     title: String,

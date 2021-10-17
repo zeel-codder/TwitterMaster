@@ -8,7 +8,7 @@ import {HomeSchema} from '../../DataType/pages';
 import {  GetUserTweetList } from "../../Actions/Api";
 import { useAppSelector, useAppDispatch } from '../../store';
 import Loader from '../Loaders/Loading';
-import Tweets from './List//Tweets';
+import Tweets from './List/Tweets';
 
 
 

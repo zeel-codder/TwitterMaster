@@ -29,6 +29,7 @@ const TweetSchema = new Schema<Tweet>({
     Creator_ID:String,
     Creator_Name:String,
     groups:String,
+    comments:[{title:String,Creator_Name:String}]
 
 },{ versionKey: false });
 

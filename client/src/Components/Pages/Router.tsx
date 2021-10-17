@@ -9,6 +9,7 @@ import GroupPage from './MainFeed/Group';
 import Page404 from './404';
 import Profile_User from './MainFeed/Profile_Users';
 import Footer from './Same/footer';
+import OneTweet from './MainFeed/Tweet';
 
 
 import {
@@ -95,6 +96,13 @@ export default function Router() {
                                 <Template Com={GroupPage} />
 
                             </Route>
+
+
+                            <Route path="/tweet/:id" exact>
+                                <Template Com={OneTweet} />
+
+                            </Route>
+
 
                             <Route path="/user/:name/:type" exact>
                                 <Template Com={Profile_User} />

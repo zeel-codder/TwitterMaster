@@ -25,6 +25,7 @@ const GetAllGroups=()=>axios.get(web+"/group");
 const GetUserTweetList=() =>axios.get(web+"/tweet");
 const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
 const GetTweetOfUser=(name:string)=>axios.get(web+"/tweet/user/"+name);
+const GetTweetId=(_id:string)=>axios.get(web+"/tweet/"+_id);
 
 
 
@@ -36,7 +37,8 @@ const ToggleFollowUser=(name:string,isAdd:boolean)=>API.post("/user/follow",{
     name,isAdd
 })
 const DeleteTweet=(_id:string)=>API.post("/tweet/delete",{_id});
-
+const AddCommentApi=(_id:string,title:string)=>API.post("/tweet/add_comment",{_id,title});
+const RemoveCommentApi=(_id:string,comment_id:string)=>API.post("/tweet/remove_comment",{_id,comment_id});
 
 
 export {
@@ -52,5 +54,8 @@ export {
     GetGroupsByIds,
     GetTweetOfUser,
     ToggleFollowUser,
-    DeleteTweet
+    DeleteTweet,
+    GetTweetId,
+    AddCommentApi,
+    RemoveCommentApi
 };

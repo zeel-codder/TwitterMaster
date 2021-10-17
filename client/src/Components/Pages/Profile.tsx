@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { GetTweetOfUser, GetUserByName } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';
-import Tweets from './List//Tweets';
+import Tweets from './List/Tweets';
 
 
 const Profile: React.FC<UserData> = ({ type }) => {

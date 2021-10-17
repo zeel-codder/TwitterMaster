@@ -29,5 +29,7 @@ router.get('/user/:name', Other_1.GetTweetsOfUser);
 router.post('/create', Auth_1.Auth, upload.single('media'), CRUD_1.AddTweet);
 router.post('/delete', Auth_1.Auth, CRUD_1.DeleteTweet);
 router.put('/update', Auth_1.Auth, CRUD_1.UpdateTweet);
+router.post("/add_comment", Auth_1.Auth, Other_1.AddComment);
+router.post("/remove_comment", Auth_1.Auth, Other_1.RemoveComment);
 router.get('/:_id', CRUD_1.GetTweet);
 exports.default = router;
