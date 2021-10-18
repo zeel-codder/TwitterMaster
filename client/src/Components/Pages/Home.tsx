@@ -35,7 +35,7 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
                 setDataList(res.data.data);
             }
             dispatch({type:"AddTweets",data:res.data.data})
-            setLoading(false); 
+            // setLoading(false); 
         }).catch((e)=>{
             console.log(e);
         }).finally(()=>{
@@ -63,25 +63,25 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             <Search placeName="Tweet"  cb={handleSearch} data={DataList} />
             {
             IsLoading 
-            ?
+            &&
             <Loader></Loader>
-            :
+            }
             <>
             
             <div className="newTweetBox" ref={newTweet}>
             <Button  className="cross" variant="contained" color="primary" 
              onClick={()=>{
                  
-                 // console.log('click')
+                 // console.logx('click')
                  newTweet.current?.classList.toggle("shownewTweetBox");
                 }}
                 >
                 x
             </Button>
 
-            <div className="h"></div>
+            <div className="h relative"></div>
 
-            <NewTweet close={newTweet}  />
+            <NewTweet close={newTweet} load={setLoading}  />
 
             </div>
 
@@ -94,13 +94,13 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             }}
             
             
-            > <h1># Tweet</h1>
+            > <h1># <span className="none_m">Tweet</span></h1>
             
             </Button>
             <Tweets DataList={DataList}></Tweets>
             </>
 
-}
+
 </div>
         )
         }

@@ -106,6 +106,10 @@ body{
   width: 100%;
 }
 
+.relative{
+  position: relative;
+}
+
 .center{
   text-align: center;
 }
@@ -113,7 +117,7 @@ body{
   flex-direction: column;
 }
 .space{
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 .none{
   display: none;
@@ -462,15 +466,78 @@ a:hover{
 /* } */
 
 
+.commentsList{
+  width: 90%;
+  margin: 0 auto;
+}
+
+.commentsList > .newcommant{
+  margin-left: 1rem;
+  border-bottom: 2px solid rgb(102, 92, 92);
+  margin-bottom: 1rem;
+
+}
+
+.commentsList button{
+  margin-bottom: 1rem;
+}
+
+.commentsList .img{
+  transform: scale(.8);
+}
+
+.commentsList  .creator-section{
+  font-size: large;
+}
+.comment > .full{
+  padding-bottom: .3rem;
+
+}
+.comment  .text{
+  margin-left: .2rem;
+}
+
+.padtweet{
+  margin: 3rem 0;
+}
+
+
 @media only screen and (max-width: 1200px) {
   
   .container > .feed{
     width: 95%;
   }
+
+ 
   
 }
 
 @media only screen and (max-width: 750px) {
+  /* *::-webkit-scrollbar {
+    display: none;
+  }
+
+  *{
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+  } */
+
+  .footer{
+
+    margin-bottom: 70px;
+
+  }
+  .none_m{
+    display: none;
+  }
+
+
+.tweet{
+  bottom: 70px;
+  right: 2%;
+  left: auto;
+}
+  
   
   .container > .feed{
     width: 95%;
@@ -486,10 +553,10 @@ a:hover{
     transition:all 1s;
   }
 
-  .navbar-left::before{
+  /* .navbar-left::before{
     content: "Twitter Master";
     font-size:2rem;
-  }
+  } */
 
   .navbar-right{
     margin: 7px 0;
@@ -498,14 +565,17 @@ a:hover{
     position: relative;
   }
   .navbar-left{
-    position: absolute;
+    position: fixed;
     display: flex;
-    width: 105%;
+    width: 100%;
     z-index: 22;
-    top:0;
+
+    /* top:0; */
     background:white;
-    flex-direction: column;
-    transform:translateX(100%);
+    bottom: 0;
+    justify-content: space-between;
+    /* flex-direction: column; */
+    /* transform:translateX(100%); */
     transition:all 1s;
     /* height: 100%; */
   }
@@ -516,9 +586,7 @@ a:hover{
     width: 100%;
   }
 
-  .padtweet{
-    margin: 2rem 0;
-  }
+
   .spin{
     transform: rotate(180deg);
   }

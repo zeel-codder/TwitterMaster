@@ -14,7 +14,7 @@ import GroupSelect from './GroupSelect';
 
 
 
-const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
+const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>,load:any}> = ({close,load}) => {
 
 
     const state=useAppSelector((state)=>state.TweetReducer);
@@ -28,7 +28,7 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
     const InputVideo = useRef<HTMLInputElement>(null)
     const disImge = useRef<HTMLImageElement>(null);
     const disVideo = useRef<HTMLVideoElement>(null);
-    const [IsLoading,setLoading]=useState(false);
+ 
     
 
     // const history = useHistory();
@@ -56,17 +56,17 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
         // console.log(newTweet)
 
-        setLoading(true);
+        load(true);
 
         CreateNewPost(formData)
             .then((data) => {
                 dispatch({ type: "Reset", data:null });
-                setLoading(false)
+                load(false)
                 window.location.reload();
                 close.current?.classList.toggle("shownewTweetBox");
 
             }).catch(err => console.log(err))
-            .finally(()=>setLoading(false));
+            .finally(()=>load(false));
 
 
 
@@ -75,7 +75,7 @@ const Tweet: React.FC<{close:React.RefObject<HTMLDivElement>}> = ({close}) => {
 
     return (
         <>
-            {IsLoading && <Loader></Loader>}
+         
         <div className="flex column pad user-tweet">
 
 

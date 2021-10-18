@@ -4,6 +4,8 @@ require('dotenv').config()
 require('./database/Connection')
 import UserRoute from './routes/user';
 import GroupRoute from './routes/group';
+import EmailRouter from './routes/email';
+
 var cors = require('cors');
 var fs = require('fs');
 var dir = `./${process.env.upload}/files`;
@@ -46,6 +48,8 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/user',UserRoute);
 app.use('/group',GroupRoute);
 app.use('/tweet',TweetRoute);
+app.use('/email',EmailRouter)
+
 
 app.listen(port, function () {
     console.log(`App is listening on port ${port} !`)

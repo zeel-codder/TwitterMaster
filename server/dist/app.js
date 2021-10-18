@@ -9,6 +9,7 @@ require('dotenv').config();
 require('./database/Connection');
 var user_1 = __importDefault(require("./routes/user"));
 var group_1 = __importDefault(require("./routes/group"));
+var email_1 = __importDefault(require("./routes/email"));
 var cors = require('cors');
 var fs = require('fs');
 var dir = "./" + process.env.upload + "/files";
@@ -32,6 +33,7 @@ app.get('/', function (req, res) {
 app.use('/user', user_1.default);
 app.use('/group', group_1.default);
 app.use('/tweet', tweet_1.default);
+app.use('/email', email_1.default);
 app.listen(port, function () {
     console.log("App is listening on port " + port + " !");
 });

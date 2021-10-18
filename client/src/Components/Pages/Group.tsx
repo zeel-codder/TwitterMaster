@@ -102,7 +102,7 @@ onClick={()=>{
             }}
             
             
-            > <h1>+ Group</h1>
+            > <h1>+ <span className="none_m">Group</span></h1>
             
             </Button>
             

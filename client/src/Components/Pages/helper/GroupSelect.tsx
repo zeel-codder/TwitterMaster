@@ -212,7 +212,7 @@ export default function CustomizedHook() {
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>Add Group</Label>
+        <Label {...getInputLabelProps() } className="a">Add #</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {
           

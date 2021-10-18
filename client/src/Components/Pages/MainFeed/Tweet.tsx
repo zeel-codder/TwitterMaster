@@ -92,6 +92,9 @@ const TweetPage: React.FC<{}> = () => {
                 <h4 className="a">Comments</h4>
             </div>
 
+            <div className="commentsList">
+
+
             {
                 TweetData
                 &&
@@ -135,6 +138,9 @@ const TweetPage: React.FC<{}> = () => {
             </div>
 
 
+            </div>
+
+
 
 
 
@@ -154,7 +160,7 @@ const Comment: React.FC<{ Creator_Name: string, title: string, removeComment:Fun
             <div className="flex full space">
 
             <div className="creator-section flex">
-                <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
+                <Avatar className="img" alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
                 <a href={"/user/" + Creator_Name} className="a">
                     {Creator_Name}
                 </a>

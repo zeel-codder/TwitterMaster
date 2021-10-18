@@ -28,8 +28,8 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
         <>
             {
                 DataList.map((data: TweetSchema) => {
-                    
-                    const comments = data.comments?.slice(0,2)|| [];
+
+                    const comments = data.comments?.slice(0, 2) || [];
 
 
                     return (
@@ -45,17 +45,22 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
 
                             }
 
-                            {
-                                comments.map((data) => {
+                            <div className="commentsList">
 
-                                    return (<Comment isPick={true} {...data} key={data._id}></Comment>)
 
-                                })
-                            }
+
+                                {
+                                    comments.map((data) => {
+
+                                        return (<Comment isPick={true} {...data} key={data._id}></Comment>)
+
+                                    })
+                                }
+                            </div>
                             <div className="flex full">
 
 
-                                <Link className="a" to={`/tweet/${data._id}`}>
+                                {/* <Link className="a" to={`/tweet/${data._id}`}>
 
                                     <Button variant="contained" color="primary"
 
@@ -63,7 +68,7 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
                                     > Go To Tweet
 
                                     </Button>
-                                </Link>
+                                </Link> */}
                             </div>
 
 
@@ -95,7 +100,7 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
     const [IsLoading, setLoading] = useState(false);
     const groupList: string[] = groups?.split("|") as string[];
     const history = useHistory();
-    const LinkShare: string = process.env.REACT_APP_WebSite + `/tweet/${_id}`;
+    const LinkShare: string = process.env.REACT_APP_My_WebSite + `/tweet/${_id}`;
 
 
 

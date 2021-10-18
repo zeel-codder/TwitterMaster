@@ -51,22 +51,22 @@ export default function Navbar() {
 
 
 
-    function handleClick() {
-        bar.current?.classList.toggle("spin");
-        navbar.current?.classList.toggle("show");
-    }
+    // function handleClick() {
+    //     bar.current?.classList.toggle("spin");
+    //     navbar.current?.classList.toggle("show");
+    // }
 
 
     return (
         <div className="flex blue space navbar relative">
 
-            <div className="navbar-right">
+            <Link to="/" className="navbar-right a">
 
                 <h2>Twitter Master</h2>
 
-            </div>
+            </Link>
 
-            <div className="bar"
+            {/* <div className="bar"
 
                 ref={bar}
                 onClick={handleClick}
@@ -75,7 +75,7 @@ export default function Navbar() {
 
                 <ArrowBackIosIcon />
 
-            </div>
+            </div> */}
 
             {/* <TextField id="filled-basic" label="Filled" variant="filled" /> */}
 
@@ -85,19 +85,19 @@ export default function Navbar() {
                 ref={navbar}
             >
 
-                <Link to="/" title="Home" onClick={handleClick}>
+                <Link to="/" title="Home" >
 
 
                     <BottomNavigationAction label="Home" value="/" icon={<HomeIcon />} />
                 </Link>
 
-                <Link to="/group" title="Group" onClick={handleClick}>
+                <Link to="/group" title="Group" >
 
                     <BottomNavigationAction label="Group" value="/group" icon={<GroupWorkIcon />} />
                 </Link>
 
 
-                <Link to="/users" title="Users" onClick={handleClick}>
+                <Link to="/users" title="Users" >
 
                     <BottomNavigationAction label="Users" value="/users" icon={<GroupIcon />} />
                 </Link>
@@ -107,11 +107,11 @@ export default function Navbar() {
                         ?
                         <>
 
-                            <a href={`/user/${user.name}`} title="User" onClick={handleClick}>
+                            <a href={`/user/${user.name}`} title="User" >
                                 <BottomNavigationAction label="Profile" value="/profile" icon={<PersonOutlineIcon />} />
                             </a>
 
-                            <span className="a"
+                            <span className="a none_m"
 
                                 onClick={() => {
 
@@ -124,14 +124,14 @@ export default function Navbar() {
                         </>
                         :
                         <>
-                            <Link to="/signin" title="SignIn" className="navbar-link" onClick={handleClick}>
+                            <Link to="/signin" title="SignIn" className="navbar-link" >
 
 
                                 SingIn
 
                             </Link>
 
-                            <Link to="/signup" title="SignUp" className="navbar-link onClick={handleClick}">
+                            <Link to="/signup" title="SignUp" className="navbar-link ">
 
 
                                 SingUp
