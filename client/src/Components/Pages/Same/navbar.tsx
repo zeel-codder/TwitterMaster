@@ -124,7 +124,7 @@ export default function Navbar() {
                         </>
                         :
                         <>
-                            <Link to="/signin" title="SignIn" className="navbar-link" >
+                            {/* <Link to="/signin" title="SignIn" className="navbar-link" >
 
 
                                 SingIn
@@ -136,7 +136,7 @@ export default function Navbar() {
 
                                 SingUp
 
-                            </Link>
+                            </Link> */}
                         </>
                 }
 

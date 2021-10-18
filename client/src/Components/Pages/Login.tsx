@@ -102,7 +102,7 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
         }
 
         if (!validatePassword(state.password)) {
-            setMessage("PassWord Must be minimum eight characters")
+            setMessage("PassWord Must be minimum nine characters")
             return false;
         }
 
