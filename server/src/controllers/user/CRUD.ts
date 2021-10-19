@@ -197,7 +197,11 @@ const UpdateUser = async (req: Request, res: Response) => {
     try {
         let {before,after} = req.body;
         const name=before.name ;
+        if(after?.password){
+            after.password=await bcrypt.hash(after.password || "",10);
+        }
         const newUser:User=after;
+
         const UserDelete = await UserModel.findOneAndUpdate({name}, newUser);
         res.status(200).send(ResultLoader("Users Updated",UserDelete));
     } catch (e: any) {
@@ -206,6 +210,8 @@ const UpdateUser = async (req: Request, res: Response) => {
 
     }
 }
+
+
 
 
 

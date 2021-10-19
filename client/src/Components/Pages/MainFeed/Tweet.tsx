@@ -160,7 +160,17 @@ const Comment: React.FC<{ Creator_Name: string, title: string, removeComment:Fun
             <div className="flex full space">
 
             <div className="creator-section flex">
-                <Avatar className="img" alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
+            <Avatar alt="Remy Sharp" 
+                    src={
+                
+                        "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/"+Creator_Name+".png"
+                       
+                    
+                    }
+                    
+                    >
+                        {Creator_Name?.charAt(0)}
+                        </Avatar>
                 <a href={"/user/" + Creator_Name} className="a">
                     {Creator_Name}
                 </a>

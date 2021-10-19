@@ -43,8 +43,8 @@ const SendPassWordResetLink = async (req: Request, res: Response) => {
                 {
                     data:
                         `<h2>HI, Your Password Reset Info For TwitterMaster </h2>
-                     <h2> UserName=${findByEmail.name}</h2>
-                     <h5> Link: ${process.env.WebLink}/password/token=${token}</h5>
+                     <h2> UserName:${findByEmail.name}</h2>
+                     <h3>Link: <a href="${process.env.WebLink}/password_reset/${token}"> hear</a> </h3>
                      `,
                      alternative: true
 

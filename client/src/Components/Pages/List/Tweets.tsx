@@ -90,7 +90,7 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
 
     const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups } = prpos;
 
-    console.log({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups })
+    // console.log({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups })
     const User = useAppSelector((state) => state.UserReducer);
     const type = { _id, user_id: User._id, type: "" };
     const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name });
@@ -150,6 +150,8 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
 
     }
 
+   
+
     const handleShare = (Wh: boolean) => {
 
         type.type = "retweet";
@@ -159,7 +161,7 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
             window.open('https://twitter.com/intent/tweet?text=Link:' + LinkShare, '_blank')?.focus();
         } else {
             window.open('whatsapp://send?text=See This Link:' + LinkShare, '_blank')?.focus();
-
+ 
         }
 
         UpdateTweet(type, TweetData)
@@ -187,7 +189,17 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
 
 
                 <div className="creator-section flex">
-                    <Avatar alt="Remy Sharp" src="https://zeelcodder.tech/images/home/zeel.jpeg" />
+                    <Avatar alt="Remy Sharp" 
+                    src={
+                
+                        "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/"+Creator_Name+".png"
+                       
+                    
+                    }
+                    
+                    >
+                        {Creator_Name?.charAt(0)}
+                        </Avatar>
                     <a href={"/user/" + TweetData.Creator_Name} className="a">
                         {TweetData.Creator_Name}
                     </a>

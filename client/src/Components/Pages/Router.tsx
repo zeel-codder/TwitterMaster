@@ -10,6 +10,8 @@ import Page404 from './404';
 import Profile_User from './MainFeed/Profile_Users';
 import Footer from './Same/footer';
 import OneTweet from './MainFeed/Tweet';
+import PasswordReset from './helper/PasswordForget';
+import PasswordResetEmail from './helper/EmailSend';
 
 
 import {
@@ -107,6 +109,14 @@ export default function Router() {
                             <Route path="/user/:name/:type" exact>
                                 <Template Com={Profile_User} />
                             </Route>
+                            <Route path="/password_reset/:token" exact>
+                                <PasswordReset></PasswordReset>
+                            </Route>
+                            <Route path="/password_reset_email" exact>
+                                <PasswordResetEmail></PasswordResetEmail>
+                            </Route>
+
+
 
                             <Route path="/">
                                 <Page404></Page404>

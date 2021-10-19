@@ -219,24 +219,31 @@ var DeleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
 }); };
 exports.DeleteUser = DeleteUser;
 var UpdateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, before, after, name_4, newUser, UserDelete, e_6;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+    var _a, before, after, name_4, _b, newUser, UserDelete, e_6;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
+                _c.trys.push([0, 4, , 5]);
                 _a = req.body, before = _a.before, after = _a.after;
                 name_4 = before.name;
+                if (!(after === null || after === void 0 ? void 0 : after.password)) return [3 /*break*/, 2];
+                _b = after;
+                return [4 /*yield*/, bcryptjs_1.default.hash(after.password || "", 10)];
+            case 1:
+                _b.password = _c.sent();
+                _c.label = 2;
+            case 2:
                 newUser = after;
                 return [4 /*yield*/, Schema_1.UserModel.findOneAndUpdate({ name: name_4 }, newUser)];
-            case 1:
-                UserDelete = _b.sent();
+            case 3:
+                UserDelete = _c.sent();
                 res.status(200).send(Response_1.ResultLoader("Users Updated", UserDelete));
-                return [3 /*break*/, 3];
-            case 2:
-                e_6 = _b.sent();
+                return [3 /*break*/, 5];
+            case 4:
+                e_6 = _c.sent();
                 res.status(404).send(Response_1.ErrorLoader("UserList not found", e_6.message));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

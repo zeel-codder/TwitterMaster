@@ -54,14 +54,8 @@ exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet 
 var Schema_1 = require("../../database/Schema");
 var Response_1 = require("../Response");
 var CRUD_1 = require("../group/CRUD");
-var cloudinary = require('cloudinary').v2;
 var fs_1 = __importDefault(require("fs"));
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_Api_Name,
-    api_key: process.env.CLOUDINARY_Api_Key,
-    api_secret: process.env.CLOUDINARY_Api_Key_S,
-    secure: true
-});
+var Media_1 = require("../Media");
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var List, TweetList, e_1;
     return __generator(this, function (_a) {
@@ -129,7 +123,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 if (!(file != undefined)) return [3 /*break*/, 5];
                 if (!((file === null || file === void 0 ? void 0 : file.mimetype) == 'image/png' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpg' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpeg')) return [3 /*break*/, 2];
                 // // newTweet.image =fName;
-                return [4 /*yield*/, cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename), function (error, result) {
+                return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename), function (error, result) {
                         if (error)
                             return;
                         // console.log(result)
@@ -139,7 +133,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 // // newTweet.image =fName;
                 _c.sent();
                 return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename), { resource_type: "video"
+            case 2: return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename), { resource_type: "video"
                 }, function (error, result) {
                     if (error)
                         return;

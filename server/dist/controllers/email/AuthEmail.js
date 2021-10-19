@@ -77,7 +77,7 @@ var SendPassWordResetLink = function (req, res) { return __awaiter(void 0, void 
                     subject: 'password Reset',
                     attachment: [
                         {
-                            data: "<h2>HI, Your Password Reset Info For TwitterMaster </h2>\n                     <h2> UserName=" + findByEmail.name + "</h2>\n                     <h5> Link: " + process.env.WebLink + "/password/token=" + token + "</h5>\n                     ",
+                            data: "<h2>HI, Your Password Reset Info For TwitterMaster </h2>\n                     <h2> UserName:" + findByEmail.name + "</h2>\n                     <h3>Link: <a href=\"" + process.env.WebLink + "/password_reset/" + token + "\"> hear</a> </h3>\n                     ",
                             alternative: true
                         }
                     ]

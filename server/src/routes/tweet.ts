@@ -5,11 +5,11 @@ import { AddComment, GetTweetsOfUser, RemoveComment } from "../controllers/tweet
 import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
-
-import multer  from 'multer';
 import path from "path";
+
 import { GetTweetsByIds } from "../controllers/tweet/Other";
 
+import multer  from 'multer';
 const storage = multer.diskStorage({
     destination: function (req:Request, file:any, cb:Function) {
 

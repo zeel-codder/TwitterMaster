@@ -43,22 +43,22 @@ const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
 
 const User: React.FC<UserData> = ({ name }) => {
     const Data: any = useAppSelector((state) => state.UserReducer);
-    const [isLoading,setIsLoading]=useState<boolean>(false);
-    const dispatch=useAppDispatch();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dispatch = useAppDispatch();
 
     // console.log(Data,name)
 
-    function UserFollowChange(name:string,isAdd:boolean){
+    function UserFollowChange(name: string, isAdd: boolean) {
 
         setIsLoading(true);
-        ToggleFollowUser(name,isAdd)
-        .then((res)=>{
+        ToggleFollowUser(name, isAdd)
+            .then((res) => {
 
-            dispatch({type:"AddUser",data:res.data.data});
+                dispatch({ type: "AddUser", data: res.data.data });
 
-        })
-        .catch(e=>console.log(e))
-        .finally(()=>setIsLoading(false));
+            })
+            .catch(e => console.log(e))
+            .finally(() => setIsLoading(false));
 
     }
 
@@ -69,12 +69,17 @@ const User: React.FC<UserData> = ({ name }) => {
 
             {isLoading && <Loader></Loader>}
 
-            <Avatar
-                alt="Remy Sharp"
-                src={"https://zeelcodder.tech/images/home/zeel.jpeg"}
+            <Avatar alt="Remy Sharp"
+                src={
 
-                variant='square'
-            />
+                    "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + name + ".png"
+
+
+                }
+
+            >
+                {name?.charAt(0)}
+            </Avatar>
 
 
             <div className="flex column start explore">
@@ -87,32 +92,32 @@ const User: React.FC<UserData> = ({ name }) => {
 
                     <>
 
-                    {
-                    
+                        {
+
                             Data?.follow?.includes(name)
-                            ?
-                            <Button 
-                            className="FollowBtn" 
-                            variant="contained" 
-                            color="primary"
-                            onClick={()=>UserFollowChange(name as string,false)}
-                    
-                            >
-                                unfollow
-                            </Button>
-                            :
-                            <Button 
-                            className="FollowBtn" 
-                            
-                            variant="contained" 
-                            
-                            color="primary"
-                            
-                            onClick={()=>UserFollowChange(name as string,true)}
-                            >
-                                follow
-                            </Button>
-                    }
+                                ?
+                                <Button
+                                    className="FollowBtn"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => UserFollowChange(name as string, false)}
+
+                                >
+                                    unfollow
+                                </Button>
+                                :
+                                <Button
+                                    className="FollowBtn"
+
+                                    variant="contained"
+
+                                    color="primary"
+
+                                    onClick={() => UserFollowChange(name as string, true)}
+                                >
+                                    follow
+                                </Button>
+                        }
                     </>
 
 

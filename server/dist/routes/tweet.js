@@ -8,8 +8,8 @@ var CRUD_1 = require("../controllers/tweet/CRUD");
 var Other_1 = require("../controllers/tweet/Other");
 var Auth_1 = require("../middlewares/Auth");
 var router = express_1.default.Router();
-var multer_1 = __importDefault(require("multer"));
 var Other_2 = require("../controllers/tweet/Other");
+var multer_1 = __importDefault(require("multer"));
 var storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         // console.log(file);

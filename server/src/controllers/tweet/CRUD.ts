@@ -3,17 +3,9 @@ import { TweetModel } from '../../database/Schema';
 import { Tweet } from '../../interface/database/Schema';
 import { ErrorLoader, ResultLoader } from "../Response";
 import { GetGroupList } from '../group/CRUD';
-
-var cloudinary = require('cloudinary').v2;
 import fs, { PathLike } from 'fs';
 
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_Api_Name,
-    api_key: process.env.CLOUDINARY_Api_Key,
-    api_secret: process.env.CLOUDINARY_Api_Key_S,
-    secure: true
-});
-
+import { cloudinary } from '../Media';
 
 
 

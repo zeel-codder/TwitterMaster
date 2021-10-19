@@ -1,5 +1,5 @@
 import { Avatar } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // import { TextField as Input } from '@material-ui/core';
 import { UserData } from '../../DataType/Feed'
 import { Button } from '@material-ui/core';
@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { GetTweetOfUser, GetUserByName, ToggleFollowUser } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';
 import Tweets from './List/Tweets';
-import { UserReducer } from '../../reducer/UserReducer';
+import { UploadFile, UpDateUser } from '../../Actions/Api'
 
 
 const Profile: React.FC<UserData> = ({ type }) => {
@@ -19,15 +19,16 @@ const Profile: React.FC<UserData> = ({ type }) => {
     const Data: any = useAppSelector((state) => state.ProfileReducer);
     const dispatch = useAppDispatch();
     const User: any = useAppSelector((state) => state.UserReducer);
+    const InputImg = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         GetUserByName(name)
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
-                if(res.data.data.name===User.name){
+                if (res.data.data.name === User.name) {
 
                     dispatch({ type: "AddUser", data: res.data.data })
-                    
+
                 }
             })
             .then(() => {
@@ -72,26 +73,115 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
             {
                 isLoadding
-                    ?
-                    <Loader></Loader>
+                &&
+                <Loader></Loader>
 
-                    :
-                    <div className="tweet-container">
-                        <div className="creator-section full space flex">
-                            <div className="flex">
-                                <Avatar alt="Remy Sharp" src="https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" />
-                                <a href={`/user/${name}`} className="a">
-                                    {`@${name}`}
-                                </a>
-                            </div>
+            }
 
-                            <div className="pad">
+            {
 
-                                {
+                Data.user != null
+
+                &&
 
 
-                                    User?.name === name
-                                        ?
+
+                <div className="tweet-container">
+                    <div className="creator-section full space flex">
+                        <div className="flex">
+                            <Avatar alt="Remy Sharp"
+                                src={
+
+                                    "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Data.user.name + ".png"
+
+
+                                }
+
+                            >
+                                {Data.user.name?.charAt(0)}
+                            </Avatar>
+                            <a href={`/user/${name}`} className="a">
+                                {`@${name}`}
+                            </a>
+                        </div>
+
+                        <div className="pad">
+
+                            {
+
+
+                                User?.name === name
+                                    ?
+                                    <div className='flex pad'>
+                                        {
+
+                                            !User?.image
+
+                                            &&
+                                            <>
+
+
+                                                <input type="file" className="none"
+
+                                                    ref={InputImg}
+
+                                                    accept="image/png,image/jpeg,image/jpg"
+
+
+                                                    onChange={(event: any) => {
+
+                                                        const file = event.target.files[0];
+                                                        console.log(event.target.files)
+                                                        const data = new FormData()
+                                                        data.append("file", file)
+                                                        data.append("upload_preset", process.env.REACT_APP_Demo as string)
+                                                        data.append("public_id", User.name);
+                                                        // data.append("invalidate","true");
+
+
+                                                        setLoading(true)
+
+                                                        UploadFile(data)
+                                                            .then((res) => {
+                                                                console.log(res.data);
+
+                                                                UpDateUser(User.name, { image: res.data.secure_url })
+                                                                    .then((res) => {
+
+                                                                        window.location.reload()
+
+                                                                    }).catch((e) => {
+                                                                        console.log(e);
+                                                                    })
+
+                                                            }).catch((e) => {
+                                                                console.log(e);
+                                                            }).finally(() => {
+                                                                setLoading(false);
+                                                            })
+
+
+
+
+
+
+                                                    }}
+
+
+                                                />
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={() => {
+
+                                                        InputImg.current?.click();
+
+                                                    }}
+                                                >
+                                                    Change Dp
+                                                </Button>
+                                            </>
+                                        }
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -101,65 +191,66 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                                 window.location.href = "/"
                                                 dispatch({ type: "AddUser", data: {} });
                                                 // History.replace('/');
-            
+
                                             }}
                                         >
                                             LogOut
                                         </Button>
+                                    </div>
+                                    :
+                                    User?.follow?.includes(name)
+                                        ?
+                                        <Button
+                                            className="FollowBtn"
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => UserFollowChange(name as string, false)}
+
+                                        >
+                                            unfollow
+                                        </Button>
                                         :
-                                        User?.follow?.includes(name)
-                                            ?
-                                            <Button
-                                                className="FollowBtn"
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={() => UserFollowChange(name as string, false)}
+                                        <Button
+                                            className="FollowBtn"
 
-                                            >
-                                                unfollow
-                                            </Button>
-                                            :
-                                            <Button
-                                                className="FollowBtn"
+                                            variant="contained"
 
-                                                variant="contained"
+                                            color="primary"
 
-                                                color="primary"
+                                            onClick={() => UserFollowChange(name as string, true)}
+                                        >
+                                            follow
+                                        </Button>
 
-                                                onClick={() => UserFollowChange(name as string, true)}
-                                            >
-                                                follow
-                                            </Button>
-
-                                }
-                            </div>
-
+                            }
                         </div>
-                        <div className="UserInfo">
 
-
-
-                            <h3>Statistic</h3>
-                            <div className="flex space">
-                                <Link className="flex column a" to={`/user/${name}`}>
-
-                                    <div>Tweets</div>
-                                    <div>{Data.tweets.length}</div>
-
-                                </Link>
-                                <Link className="flex column a" to={`/user/${name}/followers`}>
-                                    <div>Follower</div>
-                                    <div>{Data.user.followers?.length}</div>
-                                </Link>
-                                <Link className="flex column a" to={`/user/${name}/follow`}>
-                                    <div>Follow</div>
-                                    <div>{Data.user.follow?.length}</div>
-                                </Link>
-                            </div>
-                        </div>
-                        <h1>Tweets By {name}</h1>
-                        <Tweets DataList={Data.tweets}></Tweets>
                     </div>
+                    <div className="UserInfo">
+
+
+
+                        <h3>Statistic</h3>
+                        <div className="flex space">
+                            <Link className="flex column a" to={`/user/${name}`}>
+
+                                <div>Tweets</div>
+                                <div>{Data.tweets.length}</div>
+
+                            </Link>
+                            <Link className="flex column a" to={`/user/${name}/followers`}>
+                                <div>Follower</div>
+                                <div>{Data.user.followers?.length}</div>
+                            </Link>
+                            <Link className="flex column a" to={`/user/${name}/follow`}>
+                                <div>Follow</div>
+                                <div>{Data.user.follow?.length}</div>
+                            </Link>
+                        </div>
+                    </div>
+                    <h1>Tweets By {name}</h1>
+                    <Tweets DataList={Data.tweets}></Tweets>
+                </div>
             }
         </>
     )

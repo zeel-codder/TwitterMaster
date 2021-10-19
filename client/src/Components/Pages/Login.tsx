@@ -274,10 +274,16 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                         </div>
 
                         :
+                        <>
+                        <div className="flex center">
+
+                        <Link to='/password_reset_email' className="a"> Forget Password or UserName</Link>
+                        </div>
                         <div className="flex center">
 
                             <Link to='/signup' className="a"> Create New Account Sign Up</Link>
                         </div>
+                        </>
 
                 }
 

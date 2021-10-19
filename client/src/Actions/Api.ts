@@ -26,6 +26,11 @@ const GetUserTweetList=() =>axios.get(web+"/tweet");
 const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
 const GetTweetOfUser=(name:string)=>axios.get(web+"/tweet/user/"+name);
 const GetTweetId=(_id:string)=>axios.get(web+"/tweet/"+_id);
+const UpDateUser=(name:string,after:object)=>axios.put(web+"/user/update",{before:{name},after});
+const SendPassWordResetMail=(email:string)=>axios.post(web+"/email/password_reset",{email});
+
+
+const UploadFile=(formData:FormData)=> axios.post("https://api.cloudinary.com/v1_1/dcgtilnwq/image/upload",formData);
 
 
 
@@ -57,5 +62,9 @@ export {
     DeleteTweet,
     GetTweetId,
     AddCommentApi,
-    RemoveCommentApi
+    RemoveCommentApi,
+    UpDateUser,
+    SendPassWordResetMail,
+    UploadFile
+
 };
