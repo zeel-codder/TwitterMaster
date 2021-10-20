@@ -69,7 +69,7 @@ body{
 }
 
 .css-1txnhvm  input{
-  padding: .2rem !important;
+  padding: 18px !important;
 
 }
 
@@ -307,6 +307,13 @@ a:hover{
     margin: 0 auto;
 }
 
+.list{
+  overflow: auto !important;
+  max-height: 25rem !important;
+  position: static !important;
+  width: 100% !important;
+}
+
 @keyframes round {
   100%{
     transform: rotate(360deg);
@@ -442,6 +449,18 @@ a:hover{
   opacity: 0;
   z-index: -2;
 
+}
+/* .css-1s6bmb5 input{
+  padding: 10px !important;
+} */
+
+.urldiv{
+  width: 90%;
+  margin: 0 auto;
+}
+
+.urldiv > *{
+  width: 100% !important;
 }
 
 .btn{

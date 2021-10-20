@@ -23,6 +23,7 @@ interface Tweet extends Basic{
     Creator_ID?:string|any;
     groups?:string;
     comments?:Comment[];
+    url?:string;
 }
 
 interface Comment{

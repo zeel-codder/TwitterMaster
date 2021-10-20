@@ -12,6 +12,7 @@ interface TweetSchema {
     groups?:string;
     isImage:boolean;
     isVideo:boolean;
+    url?:string
 }
 
 
@@ -23,6 +24,7 @@ const NullTweet: TweetSchema = {
     groups: '',
     isImage:false,
     isVideo:false,
+    url:""
 }
 
 
@@ -36,6 +38,7 @@ const ChangeImg: string = "ChangeTweetImage";
 const ChangeVideo: string = "ChangeTweetVideo";
 const ChangeCreator: string = "ChangeTweetCreator";
 const ChangeGroups: string = "ChangeTweetGroups";
+const ChangeUrl:string="ChangeTweetUrl";
 
 
 function TweetReducer(state = NullTweet, action: actionSchema) {
@@ -46,11 +49,13 @@ function TweetReducer(state = NullTweet, action: actionSchema) {
         case ChangeImg:
             return { ...state, image: action.image , isImage:action.isImage };
         case ChangeVideo:
-            return { ...state, video: action.video , isVideo:action.isImage };
+            return { ...state, video: action.video , isVideo:action.isVideo };
         case ChangeCreator:
             return { ...state, creator: action.creator };
         case ChangeGroups:
             return { ...state, groups: action.groups };
+        case ChangeUrl:
+            return {...state,url:action.url};
         default:
             return state
 

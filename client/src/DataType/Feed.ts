@@ -10,6 +10,7 @@ interface TweetSchema {
     Creator_Name?: string ;
     groups?: string;
     comments:any[];
+    url?:string;
 }
 
 

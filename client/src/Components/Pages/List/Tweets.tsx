@@ -88,12 +88,10 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
 
 
 
-    const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups } = prpos;
-
-    // console.log({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups })
+    const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups,url } = prpos;
     const User = useAppSelector((state) => state.UserReducer);
     const type = { _id, user_id: User._id, type: "" };
-    const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name });
+    const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name,url });
     const [isLike, setIsLike] = useState(like?.includes(User._id as string));
     const [Like, setLike] = useState(like?.length);
     const [Retweet, setReteet] = useState(retweet);
@@ -225,6 +223,27 @@ const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
                     TweetData.description
 
                 }
+
+               
+
+            </div>
+
+            <div className="text">
+                {
+
+                    TweetData.url
+
+                    &&
+
+                    <>
+                    
+                    Link:
+            
+                    <a href={TweetData.url} target='_blank'>{TweetData.url}</a>
+                    </>
+                    
+                }
+               
 
             </div>
             <div className="groups">

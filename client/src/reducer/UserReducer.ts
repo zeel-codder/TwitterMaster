@@ -13,7 +13,8 @@ const initialState: UserData = {
     name: "",
     _id:"",
     follow:[],
-    followers:[]
+    followers:[],
+   
 }
 
 

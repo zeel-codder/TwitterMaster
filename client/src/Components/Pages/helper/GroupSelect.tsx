@@ -237,7 +237,7 @@ export default function CustomizedHook() {
         </InputWrapper>
       </div>
       {groupedOptions.length > 0 ? (
-        <Listbox {...getListboxProps()}>
+        <Listbox className='list' {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
             <li {...getOptionProps({ option, index })}>
               <span>{option.title}</span>

@@ -29,7 +29,8 @@ const TweetSchema = new Schema<Tweet>({
     Creator_ID:String,
     Creator_Name:String,
     groups:String,
-    comments:[{title:String,Creator_Name:String}]
+    comments:[{title:String,Creator_Name:String}],
+    url:String
 
 },{ versionKey: false });
 
@@ -53,12 +54,6 @@ const GroupModel=model('Group',GroupSchema);
 
 
 
-// const small = new TweetModel({ name:'zeel',description:'none' });
-// small.save(function (err : Error) {
-//   if (err) return;
-//   console.log('done');
-//   // saved!
-// });
 
 
 
