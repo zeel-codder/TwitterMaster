@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useCallback, useRef } from "react";
 import { TweetSchema } from "../../../DataType/Feed";
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
 import { Avatar } from "@material-ui/core";
 // import { Share } from "@material-ui/icons";
 import { DeleteTweet, UpdateTweet } from "../../../Actions/Api";
-import { useAppSelector } from '../../../store';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import Loader from '../../Loaders/Loading';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -18,23 +18,65 @@ import { Comment } from '../MainFeed/Tweet';
 
 interface TweetsSchema {
     DataList: TweetSchema[];
+    isEnd?:boolean;
+
 }
 
 
 
-const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
+
+const Tweets: React.FC<TweetsSchema> = ({ DataList,isEnd }) => {
+
+    const dispatch=useAppDispatch();
+  
+   
+    const last=useCallback((node)=>{
+
+        if(!node  || isEnd) return;
+
+        
+        let observe = new IntersectionObserver((e)=>{
+            // console.log('call')
+            console.log(DataList)
+            if(e[0].isIntersecting){
+                dispatch({type:"Length_ChangeTweetLength",data:DataList.length+5});
+            }
+        });
+
+        observe.observe(node);
+
+    },[DataList, dispatch, isEnd]);
+
+  
 
     return (
         <>
             {
-                DataList.map((data: TweetSchema) => {
+                DataList?.map((data: TweetSchema,index:number) => {
 
                     const comments = data.comments?.slice(0, 2) || [];
+                   
 
 
                     return (
-                        <div className="padtweet">
-                            <Tweet {...data} key={data._id}></Tweet>
+                        <div className="padtweet"  >
+
+
+                            {
+
+                                index+1===DataList.length
+
+                                ?
+                                <span ref={last}>
+                                <Tweet {...data}  key={data._id} ></Tweet>
+                                </span>
+                                :
+
+                
+                        
+                                <Tweet {...data} key={data._id} ></Tweet>
+                            }
+                            
 
                             {
                                 comments.length !== 0
@@ -84,12 +126,14 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
     )
 }
 
-const Tweet: React.FC<TweetSchema> = (prpos: TweetSchema) => {
+const Tweet: React.FC<TweetSchema> = (prpos) => {
 
 
 
     const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups,url } = prpos;
+    
     const User = useAppSelector((state) => state.UserReducer);
+    const Length : any=useAppSelector((state)=>state.LengthReducer);
     const type = { _id, user_id: User._id, type: "" };
     const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name,url });
     const [isLike, setIsLike] = useState(like?.includes(User._id as string));

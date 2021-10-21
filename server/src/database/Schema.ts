@@ -14,7 +14,7 @@ const UserSchema = new Schema<User>({
     followers:[{type:String}],
     follow:[{type:String}]
 
-},{ versionKey: false });
+},{ versionKey: false,timestamps: true });
 
 
 const TweetSchema = new Schema<Tweet>({
@@ -32,7 +32,7 @@ const TweetSchema = new Schema<Tweet>({
     comments:[{title:String,Creator_Name:String}],
     url:String
 
-},{ versionKey: false });
+},{ versionKey: false ,timestamps: true});
 
 
 
@@ -44,7 +44,7 @@ const GroupSchema = new Schema<Group>({
     description: String,
     users:[{type:String}],
     tweets:[{type:String}],
-},{ versionKey: false })
+},{ versionKey: false,timestamps: true })
 
 
 

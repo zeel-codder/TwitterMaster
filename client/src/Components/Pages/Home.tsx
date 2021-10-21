@@ -3,7 +3,7 @@ import { TweetSchema } from "../../DataType/Feed";
 import {  Button } from "@material-ui/core";
 import Search from './Same/Search';
 import NewTweet from './helper/tweet';
-import { useRef,useState,useEffect } from "react";
+import { useRef,useState,useEffect,useLayoutEffect } from "react";
 import {HomeSchema} from '../../DataType/pages';
 import {  GetUserTweetList } from "../../Actions/Api";
 import { useAppSelector, useAppDispatch } from '../../store';
@@ -20,28 +20,57 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
     const newTweet=useRef<HTMLDivElement>(null);
     const List:any=useAppSelector((state)=>state.DataReducer);
     const User=useAppSelector((state)=>state.UserReducer);
+    const Length:any=useAppSelector((state)=>state.LengthReducer);
     const dispatch=useAppDispatch();
     const [IsLoading,setLoading]=useState(true);
     const [DataList,setDataList]=useState<TweetSchema[]>([]);
+    const [isEnd,setIsEnd]=useState(false);
+
+
+    function GetDataList(){
+        console.log('call data');
+        GetUserTweetList(Length.TweetLength)
+        .then(res=>{
+            if(isMe){
+                const newData:TweetSchema[]=res.data.data.List.filter((data:TweetSchema)=>data.Creator_ID===User._id);
+            setDataList(newData);
+        }else{
+            setDataList(res.data.data.List);
+            if(res.data.data.isEnd){
+                setIsEnd(true);
+            }
+        }
+        dispatch({type:"AddTweets",data:res.data.data.List})
+    }).catch((e)=>{
+        console.log(e);
+    }).finally(()=>{
+        setLoading(false);
+    })
+
+    }
+
+
+    useEffect(()=>{
+
+        dispatch({type:"Length_ChangeTweetLength",data:10});
+        GetDataList()
+        setIsEnd(false);
+        
+
+    },[])
+
+  
 
  
     useEffect(()=>{
-        // if(List.Tweets.length===0){
-        GetUserTweetList().then(res=>{
-            if(isMe){
-                const newData:TweetSchema[]=res.data.data.filter((data:TweetSchema)=>data.Creator_ID===User._id);
-                setDataList(newData);
-            }else{
-                setDataList(res.data.data);
-            }
-            dispatch({type:"AddTweets",data:res.data.data})
-            // setLoading(false); 
-        }).catch((e)=>{
-            console.log(e);
-        }).finally(()=>{
-            setLoading(false);
-        })
-    },[])
+
+        if(!isEnd){
+            GetDataList()
+        }
+        // return ()=>{
+        //     window.removeEventListener('scroll',handleScroll);
+        // }
+    },[Length])
 
  
 
@@ -53,11 +82,16 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
         setDataList(newData as any);
         // console.log(data);
     }
+
+
+
+      
+     
     
     
     
     return (
-        <div>
+        <div >
             <h1> { type || 'Home' }</h1>
 
             <Search placeName="Tweet"  cb={handleSearch} data={DataList} />
@@ -97,7 +131,7 @@ const  Home :React.FC<HomeSchema> =({type,isMe}) =>{
             > <h1># <span className="none_m">Tweet</span></h1>
             
             </Button>
-            <Tweets DataList={DataList}></Tweets>
+            <Tweets DataList={DataList} isEnd={isEnd}></Tweets>
             </>
 
 

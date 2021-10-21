@@ -46,6 +46,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
     }, [])
 
 
+
     function UserFollowChange(name: string, isAdd: boolean) {
 
         setLoading(true);

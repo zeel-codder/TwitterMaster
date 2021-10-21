@@ -1,9 +1,10 @@
-import { AuthReducer } from "./Auth";
+import { AuthReducer } from "./AuthReducer";
 import { UserReducer} from "./UserReducer";
-import {DataReducer} from './DataRuducer';
+import {DataReducer} from './DataReducer';
 import {GroupCreateReducer} from './GroupCreateReducer';
 import { TweetReducer } from "./TweetReducer";
-import { ProfileReducer } from "./ProfileRuducer";
+import { ProfileReducer } from "./ProfileReducer";
+import { LengthReducer } from "./LengthReducer";
 
 const Data={
     AuthReducer,
@@ -11,7 +12,9 @@ const Data={
     DataReducer,
     GroupCreateReducer,
     TweetReducer,
-    ProfileReducer
+    ProfileReducer,
+    LengthReducer
+
 
 };
 

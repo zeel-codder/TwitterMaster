@@ -12,11 +12,16 @@ import { cloudinary } from '../Media';
 const GetTweets = async (req: Request, res: Response) => {
 
     try {
-        const List = await TweetModel.find({});
-        const TweetList = Array.from(List).reverse();
-        // console.log(TweetList)
 
-        res.status(200).send(ResultLoader("All Tweet", TweetList));
+        const number:number=+req.params.length;
+        const List = await TweetModel.find({}).sort([['createdAt', -1]]).limit(number);
+        const TweetList=List;
+        
+        if(List.length<number){
+            res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));
+        }
+
+        res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:false}));
     } catch (e: any) {
         // console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));

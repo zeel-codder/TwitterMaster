@@ -28,7 +28,7 @@ const upload = multer({ storage: storage })
 
 
 
-router.get('/', GetTweets)
+router.get('/all/:length',Auth,GetTweets)
 router.post('/tweetsbyid',GetTweetsByIds);
 router.get('/user/:name',GetTweetsOfUser);
 router.post('/create',Auth,upload.single('media'),AddTweet)

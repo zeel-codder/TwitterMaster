@@ -22,9 +22,9 @@ const SingInRequest=(user:UserData) =>axios.post(web+"/user/singin",user);
 const GetUserByName=(name:string) =>axios.get(web+"/user/"+name);
 const GetUsers=()=>axios.get(web+"/user/")
 const GetAllGroups=()=>axios.get(web+"/group");
-const GetUserTweetList=() =>axios.get(web+"/tweet");
+const GetUserTweetList=(length:number|undefined) =>API.get("/tweet/all/"+length);
 const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
-const GetTweetOfUser=(name:string)=>axios.get(web+"/tweet/user/"+name);
+const GetTweetOfUser=(name:string|undefined)=>axios.get(web+"/tweet/user/"+name);
 const GetTweetId=(_id:string)=>axios.get(web+"/tweet/"+_id);
 const UpDateUser=(name:string,after:object)=>axios.put(web+"/user/update",{before:{name},after});
 const SendPassWordResetMail=(email:string)=>axios.post(web+"/email/password_reset",{email});
