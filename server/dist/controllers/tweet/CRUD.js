@@ -57,17 +57,20 @@ var CRUD_1 = require("../group/CRUD");
 var fs_1 = __importDefault(require("fs"));
 var Media_1 = require("../Media");
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var List, TweetList, e_1;
+    var number, List, TweetList, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Schema_1.TweetModel.find({})];
+                number = +req.params.length;
+                return [4 /*yield*/, Schema_1.TweetModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
-                TweetList = Array.from(List).reverse();
-                // console.log(TweetList)
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetList));
+                TweetList = List;
+                if (List.length < number) {
+                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                }
+                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();

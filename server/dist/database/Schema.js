@@ -13,7 +13,7 @@ var UserSchema = new Schema({
     password: String,
     followers: [{ type: String }],
     follow: [{ type: String }]
-}, { versionKey: false });
+}, { versionKey: false, timestamps: true });
 var TweetSchema = new Schema({
     title: String,
     description: String,
@@ -27,13 +27,13 @@ var TweetSchema = new Schema({
     groups: String,
     comments: [{ title: String, Creator_Name: String }],
     url: String
-}, { versionKey: false });
+}, { versionKey: false, timestamps: true });
 var GroupSchema = new Schema({
     title: String,
     description: String,
     users: [{ type: String }],
     tweets: [{ type: String }],
-}, { versionKey: false });
+}, { versionKey: false, timestamps: true });
 var UserModel = model('User', UserSchema);
 exports.UserModel = UserModel;
 var TweetModel = model('Tweet', TweetSchema);

@@ -23,7 +23,7 @@ var storage = multer_1.default.diskStorage({
     }
 });
 var upload = multer_1.default({ storage: storage });
-router.get('/', CRUD_1.GetTweets);
+router.get('/all/:length', Auth_1.Auth, CRUD_1.GetTweets);
 router.post('/tweetsbyid', Other_2.GetTweetsByIds);
 router.get('/user/:name', Other_1.GetTweetsOfUser);
 router.post('/create', Auth_1.Auth, upload.single('media'), CRUD_1.AddTweet);
