@@ -11,14 +11,34 @@ const GetGroupList= async()=>{
     return GroupList;
 }
 
+const GetGroupsAll = async (req: Request, res: Response) =>{
+
+    try {
+        const List=await GetGroupList();
+        res.status(200).send(ResultLoader("All Tweet", List));
+    }
+    catch(e:any){
+
+        res.status(404).send(ErrorLoader("GroupList not found",e.message));
+
+
+    }
+}
+
 
 const GetGroups = async (req: Request, res: Response) => {
 
     try {
 
-        const GroupList=await GetGroupList();
 
-        res.status(200).send(ResultLoader("All Group",GroupList));
+        const number:number=+req.params.length;
+        const List = await  GroupModel.find({}).sort([['createdAt', -1]]).limit(number);
+    
+        if(List.length<number){
+            res.status(200).send(ResultLoader("All Groups", {List,isEnd:true}));
+        }
+
+        res.status(200).send(ResultLoader("All Tweet", {List,isEnd:false}));
 
     } catch (e: any) {
 
@@ -166,6 +186,6 @@ const UpdateGroup = async (req: Request, res: Response) => {
 
 
 
-export { GetGroups, AddGroup ,DeleteGroup,UpdateGroup ,GetGroup , GetGroupList};
+export { GetGroups, AddGroup ,DeleteGroup,UpdateGroup ,GetGroup , GetGroupList,GetGroupsAll };
 
 

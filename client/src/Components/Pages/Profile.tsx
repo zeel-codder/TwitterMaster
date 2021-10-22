@@ -9,6 +9,7 @@ import { GetTweetOfUser, GetUserByName, ToggleFollowUser } from '../../Actions/A
 import Loader from '../Loaders/Loading';
 import Tweets from './List/Tweets';
 import { UploadFile, UpDateUser } from '../../Actions/Api'
+import Home from './Home';
 
 
 const Profile: React.FC<UserData> = ({ type }) => {
@@ -30,12 +31,6 @@ const Profile: React.FC<UserData> = ({ type }) => {
                     dispatch({ type: "AddUser", data: res.data.data })
 
                 }
-            })
-            .then(() => {
-                GetTweetOfUser(name)
-                    .then((res) => {
-                        dispatch({ type: "Profile_AddTweets", data: res.data.data });
-                    })
             })
             .catch((e) => {
                 console.log(e);
@@ -249,8 +244,8 @@ const Profile: React.FC<UserData> = ({ type }) => {
                             </Link>
                         </div>
                     </div>
-                    <h1>Tweets By {name}</h1>
-                    <Tweets DataList={Data.tweets}></Tweets>
+                
+                    <Home type={`Tweets By ${name}`} isMe={true} name={name}></Home>
                 </div>
             }
         </>

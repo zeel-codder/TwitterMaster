@@ -47,7 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetGroupList = exports.GetGroup = exports.UpdateGroup = exports.DeleteGroup = exports.AddGroup = exports.GetGroups = void 0;
+exports.GetGroupsAll = exports.GetGroupList = exports.GetGroup = exports.UpdateGroup = exports.DeleteGroup = exports.AddGroup = exports.GetGroups = void 0;
 var Schema_1 = require("../../database/Schema");
 var Response_1 = require("../Response");
 var GetGroupList = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -63,16 +63,16 @@ var GetGroupList = function () { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 exports.GetGroupList = GetGroupList;
-var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var GroupList, e_1;
+var GetGroupsAll = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var List, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, GetGroupList()];
             case 1:
-                GroupList = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("All Group", GroupList));
+                List = _a.sent();
+                res.status(200).send(Response_1.ResultLoader("All Tweet", List));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
@@ -82,9 +82,33 @@ var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); };
+exports.GetGroupsAll = GetGroupsAll;
+var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var number, List, e_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                number = +req.params.length;
+                return [4 /*yield*/, Schema_1.GroupModel.find({}).sort([['createdAt', -1]]).limit(number)];
+            case 1:
+                List = _a.sent();
+                if (List.length < number) {
+                    res.status(200).send(Response_1.ResultLoader("All Groups", { List: List, isEnd: true }));
+                }
+                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: List, isEnd: false }));
+                return [3 /*break*/, 3];
+            case 2:
+                e_2 = _a.sent();
+                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_2.message));
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.GetGroups = GetGroups;
 var GetGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, Group, e_2;
+    var _id, Group, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -99,8 +123,8 @@ var GetGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 res.status(200).send(Response_1.ResultLoader("Group", Group));
                 return [3 /*break*/, 3];
             case 2:
-                e_2 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("Group not found", e_2.message));
+                e_3 = _a.sent();
+                res.status(404).send(Response_1.ErrorLoader("Group not found", e_3.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -108,7 +132,7 @@ var GetGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.GetGroup = GetGroup;
 var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newGroup, newDoc, Group, e_3;
+    var newGroup, newDoc, Group, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -125,8 +149,8 @@ var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 res.status(200).send(Response_1.ResultLoader("Group Added", Group));
                 return [3 /*break*/, 3];
             case 2:
-                e_3 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader(e_3.message, "Error"));
+                e_4 = _a.sent();
+                res.status(404).send(Response_1.ErrorLoader(e_4.message, "Error"));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -134,7 +158,7 @@ var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.AddGroup = AddGroup;
 var DeleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, GroupDelete, e_4;
+    var _id, GroupDelete, e_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -146,8 +170,8 @@ var DeleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.status(200).send(Response_1.ResultLoader("Groups Deleted", GroupDelete));
                 return [3 /*break*/, 3];
             case 2:
-                e_4 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_4.message));
+                e_5 = _a.sent();
+                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_5.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -155,7 +179,7 @@ var DeleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
 }); };
 exports.DeleteGroup = DeleteGroup;
 var UpdateGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, before, after, _id, user_id, type, newGroup, Group, _b, e_5;
+    var _a, before, after, _id, user_id, type, newGroup, Group, _b, e_6;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
@@ -207,8 +231,8 @@ var UpdateGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.status(200).send(Response_1.ResultLoader("Groups Updated", Group));
                 return [3 /*break*/, 14];
             case 13:
-                e_5 = _c.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_5.message));
+                e_6 = _c.sent();
+                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_6.message));
                 return [3 /*break*/, 14];
             case 14: return [2 /*return*/];
         }

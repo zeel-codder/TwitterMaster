@@ -24,12 +24,7 @@ const Profile: React.FC<UserData> = () => {
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
             })
-            .then(() => {
-                GetTweetOfUser(name)
-                    .then((res) => {
-                        dispatch({ type: "Profile_AddTweets", data: res.data.data });
-                    })
-            })
+            
             .catch((e) => {
                 console.log(e);
             })
@@ -37,7 +32,7 @@ const Profile: React.FC<UserData> = () => {
                 setLoading(false);
             })
     }
-        , [])
+    , [])
 
 
 
@@ -58,7 +53,7 @@ const Profile: React.FC<UserData> = () => {
                     :
                     <div className="tweet-container">
 
-                        <Users List={Data.user[type].map((value: string) => {
+                        <Users DataList={Data.user[type].map((value: string) => {
                             return { name: value }
 
                         })}></Users>

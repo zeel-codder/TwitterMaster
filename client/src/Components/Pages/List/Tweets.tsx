@@ -25,19 +25,18 @@ interface TweetsSchema {
 
 
 
-const Tweets: React.FC<TweetsSchema> = ({ DataList,isEnd }) => {
+const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
 
     const dispatch=useAppDispatch();
+    const End:any=useAppSelector((state)=>state.MELReducer);
   
    
     const last=useCallback((node)=>{
 
-        if(!node  || isEnd) return;
-
+        if(!node  || End.end) return;
         
         let observe = new IntersectionObserver((e)=>{
-            // console.log('call')
-            console.log(DataList)
+            // console.log('call'
             if(e[0].isIntersecting){
                 dispatch({type:"Length_ChangeTweetLength",data:DataList.length+5});
             }
@@ -45,7 +44,7 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList,isEnd }) => {
 
         observe.observe(node);
 
-    },[DataList, dispatch, isEnd]);
+    },[DataList, dispatch, End]);
 
   
 
@@ -64,7 +63,7 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList,isEnd }) => {
 
                             {
 
-                                index+1===DataList.length
+                                index+3===DataList.length
 
                                 ?
                                 <span ref={last}>

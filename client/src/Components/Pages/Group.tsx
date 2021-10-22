@@ -1,4 +1,4 @@
-import React ,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { GroupSchema } from '../../DataType/Feed'
 import { Button, TextField } from '@material-ui/core';
 import Search from './Same/Search';
@@ -12,121 +12,144 @@ import Groups from './List/Groups';
 
 
 
-const Group:React.FC<GroupCSchema> =({type,isMe}) =>{
-    const newGroup=useRef<HTMLDivElement>(null);
+const Group: React.FC<GroupCSchema> = ({ type, isMe }) => {
+    const newGroup = useRef<HTMLDivElement>(null);
 
-    const List:any=useAppSelector((state)=>state.DataReducer);
-    const User=useAppSelector((state)=>state.UserReducer);
-    const dispatch=useAppDispatch();
-    const [IsLoading,setLoading]=useState(true);
-    const [DataList,setDataList]=useState<GroupSchema[]>([]);
+    const List: any = useAppSelector((state) => state.DataReducer);
 
-    useEffect(()=>{
-        GetAllGroups()
-        .then((res)=>{
-            // console.log(res.data.data);/
+    const MEL: any = useAppSelector((state) => state.MELReducer);
+    const Length: any = useAppSelector((state) => state.LengthReducer);
+    const dispatch = useAppDispatch();
+    const [DataList, setDataList] = useState<GroupSchema[]>([]);
 
-            if(isMe){
-
-                const newData:GroupSchema[]=res.data.data.filter((data:GroupSchema)=>data.users?.includes(User._id || ""));
-
-                setDataList(newData);
+    function GetDataList() {
+        GetAllGroups(Length.GroupLength)
+            .then((res) => {
 
 
-            }else{
+                setDataList(res.data.data.List);
+                if (res.data.data.isEnd) {
+                    dispatch({ type: "ChangeEnd", data: true })
+                }
 
-                setDataList(res.data.data);
-            }
-           dispatch({ type:"AddGroups",data:res.data.data});
-           setLoading(false);
-        });
-        // console.log('call1');
-    },[]);
+                dispatch({ type: "AddGroups", data: res.data.data.List });
+            }).catch((e) => console.log(e))
+            .finally(() => {
+
+
+
+                dispatch({ type: "ChangeLoad", data: false })
+            })
+
+
+    }
+
+
+    useEffect(() => {
+
+        dispatch({ type: "Length_ChangeUserLength", data: 10 });
+        dispatch({ type: "ChangeEnd", data: false })
+        GetDataList()
+
+
+    }, [])
+
+
+
+    useEffect(() => {
+
+        console.log('call')
+
+        if (!MEL.end) {
+            GetDataList()
+        }
+
+    }, [Length])
     // console.log('call2');
 
-    function handleSearch(data:any[]){
-        if(data==null){
+    function handleSearch(data: any[]) {
+        if (data == null) {
             return setDataList(List.Groups);
         }
-        const newData:any[]=data;
+        const newData: any[] = data;
         setDataList(newData as any);
         // console.log(data);
     }
 
 
-   
+
 
     return (
         <div className="pad">
             <h1 className="blue">
-                
-                {type ||"Groups"}</h1>
 
-                <Search placeName="Group"  data={DataList} cb={handleSearch}/>
+                {type || "Groups"}</h1>
+
+            <Search placeName="Group" data={DataList} cb={handleSearch} />
 
 
             {
-                IsLoading
+                MEL.load
 
-                ?
-                <Loader></Loader>
-                :
-            
-            <> 
-           
+                    ?
+                    <Loader></Loader>
+                    :
 
-            <div className="newGroup newTweetBox" ref={newGroup}>
-
-            <Button  className="cross" variant="contained" color="primary" 
-             onClick={()=>{
-                 
-                // console.log('click')
-                newGroup.current?.classList.toggle("shownewTweetBox");
-            }}
-            >
-                x
-            </Button>
-            <div className="h"></div>
-
-            <GroupDiv />
-
-            </div>
+                    <>
 
 
-            <Button className="tweet" variant="contained" color="primary"
+                        <div className="newGroup newTweetBox" ref={newGroup}>
 
-onClick={()=>{
+                            <Button className="cross" variant="contained" color="primary"
+                                onClick={() => {
 
-    // console.log('click')
-                newGroup.current?.classList.toggle("shownewTweetBox");
-            }}
-            
-            
-            > <h1>+ <span className="none_m">Group</span></h1>
-            
-            </Button>
-            
-            <Groups DataList={DataList}></Groups>
+                                    // console.log('click')
+                                    newGroup.current?.classList.toggle("shownewTweetBox");
+                                }}
+                            >
+                                x
+                            </Button>
+                            <div className="h"></div>
 
-                
-</>
-        }
-            
-                   
-          </div>
-        )
+                            <GroupDiv />
+
+                        </div>
+
+
+                        <Button className="tweet" variant="contained" color="primary"
+
+                            onClick={() => {
+
+                                // console.log('click')
+                                newGroup.current?.classList.toggle("shownewTweetBox");
+                            }}
+
+
+                        > <h1>+ <span className="none_m">Group</span></h1>
+
+                        </Button>
+
+                        <Groups DataList={DataList}></Groups>
+
+
+                    </>
+            }
+
+
+        </div>
+    )
 }
 
 
 
 
 
-const GroupDiv: React.FC<{}>=()=>{
+const GroupDiv: React.FC<{}> = () => {
 
-    const Data=useAppSelector((state)=>state.GroupCreateReducer);
-    const dispatch=useAppDispatch();
+    const Data = useAppSelector((state) => state.GroupCreateReducer);
+    const dispatch = useAppDispatch();
     const [message, setMessage] = useState("");
-    const [IsLoading,setLoading]=useState(false);
+    const [IsLoading, setLoading] = useState(false);
 
     useEffect(() => {
 
@@ -141,23 +164,23 @@ const GroupDiv: React.FC<{}>=()=>{
     }, [message])
 
 
-    async function handleGroup(){
+    async function handleGroup() {
 
-        if(Data.title==="" || Data.description===""){
+        if (Data.title === "" || Data.description === "") {
             setMessage("Title and Description Must be not have Empty");
             setLoading(false);
             return;
         }
 
         CrateGroup(Data)
-        .then((res)=>{
-            window.location.href="/group"
-        })
-        .catch((e)=>{
-            console.log(e)
-        }).finally(()=>{
-            setLoading(false);
-        })
+            .then((res) => {
+                window.location.href = "/group"
+            })
+            .catch((e) => {
+                console.log(e)
+            }).finally(() => {
+                setLoading(false);
+            })
 
     }
 
@@ -168,77 +191,77 @@ const GroupDiv: React.FC<{}>=()=>{
 
         <div>
 
-        {
-            IsLoading && <Loader></Loader>
-        }
-        <h1 className="center">
-            Group
-        </h1>
+            {
+                IsLoading && <Loader></Loader>
+            }
+            <h1 className="center">
+                Group
+            </h1>
 
 
-        <div className="flex column auth">
+            <div className="flex column auth">
 
-        <span className="textp">
+                <span className="textp">
 
-        {message}
-        </span>
+                    {message}
+                </span>
 
-            <TextField 
-                type="string"
-                placeholder="Enter Name"
-              
-                value={Data.title}
+                <TextField
+                    type="string"
+                    placeholder="Enter Name"
 
-                variant="outlined"
-             
-                required
-                onChange={
-                    (e)=>{
-                        console.log(e)
-                        dispatch({type:"ChangeTitle",data:e.target.value})
+                    value={Data.title}
+
+                    variant="outlined"
+
+                    required
+                    onChange={
+                        (e) => {
+                            console.log(e)
+                            dispatch({ type: "ChangeTitle", data: e.target.value })
+                        }
                     }
-                }
 
                 >
 
 
-            </TextField >
+                </TextField >
 
 
-            <TextField 
-                type="string"
-                placeholder="Enter About"
-              
-                value={Data.description}
+                <TextField
+                    type="string"
+                    placeholder="Enter About"
 
-                variant="outlined"
-             
-                required
-                onChange={
-                    (e)=>{
-                        console.log(e)
-                        dispatch({type:"ChangeDescription",data:e.target.value})
+                    value={Data.description}
+
+                    variant="outlined"
+
+                    required
+                    onChange={
+                        (e) => {
+                            console.log(e)
+                            dispatch({ type: "ChangeDescription", data: e.target.value })
+                        }
                     }
-                }
 
                 >
 
 
-            </TextField >
+                </TextField >
 
 
-            <Button 
-            variant="contained"
-             color="primary" 
-             onClick={handleGroup}
-             
-             >
-                            + Create
-            </Button>       
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleGroup}
+
+                >
+                    + Create
+                </Button>
+            </div>
+
+
         </div>
-
-
-    </div>
     )
 }
 export default Group;

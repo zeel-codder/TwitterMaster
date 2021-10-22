@@ -453,7 +453,9 @@ a:hover{
 /* .css-1s6bmb5 input{
   padding: 10px !important;
 } */
-
+.MuiButton-label h1{
+  color:  white !important;
+}
 .urldiv{
   width: 90%;
   margin: 0 auto;

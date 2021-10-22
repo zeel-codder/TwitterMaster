@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Avatar, Button } from '@material-ui/core';
 import Search from '../Same/Search';
 import { UserData } from '../../../DataType/Feed';
@@ -8,17 +8,31 @@ import Loader from '../../Loaders/Loading';
 
 
 
-const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
-    const [DataList, setDataList] = useState<UserData[]>(List);
+const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
-    function handleSearch(data: any[]) {
-        if (data == null) {
-            return setDataList(List);
-        }
-        const newData: any[] = data;
-        setDataList(newData as any);
-        // console.log(data);
-    }
+
+    const dispatch=useAppDispatch();
+    const End:any=useAppSelector((state)=>state.MELReducer);
+  
+   
+    const last=useCallback((node)=>{
+
+        if(!node  || End.end) return;
+        
+        let observe = new IntersectionObserver((e)=>{
+            // console.log('call'
+            if(e[0].isIntersecting){
+                dispatch({type:"Length_ChangeUserLength",data:DataList.length+5});
+            }
+        });
+
+        observe.observe(node);
+
+    },[DataList, dispatch, End]);
+
+    
+
+
 
     // console.log(Data);
 
@@ -26,14 +40,22 @@ const Group: React.FC<{ List: UserData[] }> = ({ List }) => {
 
     return (
         <div className="pad">
-            <h1 className="blue">
-
-                Users
-            </h1>
-            <Search placeName="Users" cb={handleSearch} data={DataList} />
+  
             {
                 DataList.map((data: UserData, index: number) => {
-                    return <User {...data} key={data._id}></User>
+                    return (
+
+                        index+3===DataList.length
+
+                        ?
+                        <span ref={last}>
+                                
+                    <User {...data} key={data._id}></User>
+                        </span>
+                        :
+                    
+                    <User {...data} key={data._id}></User>
+                    )
                 })
             }
         </div>

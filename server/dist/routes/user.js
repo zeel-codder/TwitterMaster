@@ -9,7 +9,7 @@ var CRUD_1 = require("../controllers/user/CRUD");
 var Auth_1 = require("../middlewares/Auth");
 var Other_1 = require("../controllers/user/Other");
 var router = express_1.default.Router();
-router.get('/', CRUD_1.GetUsers);
+router.get('/all/:length', Auth_1.Auth, CRUD_1.GetUsers);
 router.post('/create', CRUD_1.AddUser);
 router.delete('/delete', CRUD_1.DeleteUser);
 router.post('/singin', CRUD_1.SingIn);

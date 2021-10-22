@@ -15,9 +15,14 @@ const GetUsers = async (req: Request, res: Response) => {
 
     try {
 
-        const UserList = await UserModel.find({});
-
-        res.status(200).send(ResultLoader("All Users",UserList));
+        const number:number=+req.params.length;
+        const List = await UserModel.find({}).sort([['createdAt', -1]]).limit(number);
+        const UserList =List;
+        console.log(number)
+        if(List.length<number){
+            res.status(200).send(ResultLoader("All Tweet", {List:UserList,isEnd:true}));
+        }
+        res.status(200).send(ResultLoader("All Users", {List:UserList,isEnd:false}));
 
     } catch (e: any) {
 

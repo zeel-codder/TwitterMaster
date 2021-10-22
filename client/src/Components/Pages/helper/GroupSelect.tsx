@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import {  useAppDispatch } from '../../../store';
-import { GetAllGroups } from '../../../Actions/Api';
+import {  AllGroups } from '../../../Actions/Api';
 import { useEffect } from 'react';
 // import { useDispatch } from 'react-redux';
 
@@ -169,7 +169,7 @@ export default function CustomizedHook() {
   useEffect(()=>{
 
     
-        GetAllGroups()
+    AllGroups()
         .then((res)=>{
            setGroups(res.data.data);
         });

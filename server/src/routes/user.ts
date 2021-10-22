@@ -9,7 +9,7 @@ var router: Router = express.Router()
 
 
 
-router.get('/', GetUsers);
+router.get('/all/:length',Auth,GetUsers)
 router.post('/create', AddUser)
 router.delete('/delete', DeleteUser)
 router.post('/singin', SingIn)

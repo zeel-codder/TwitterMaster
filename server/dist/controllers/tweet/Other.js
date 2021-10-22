@@ -69,20 +69,22 @@ var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void
 }); };
 exports.GetTweetsByIds = GetTweetsByIds;
 var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, List, filter, TweetList, e_2;
+    var name_1, number, List, TweetList, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 name_1 = req.params.name;
-                return [4 /*yield*/, Schema_1.TweetModel.find({})];
+                number = +req.params.length;
+                return [4 /*yield*/, Schema_1.TweetModel.find({ Creator_Name: name_1 }).limit(number).sort([['createdAt', -1]])];
             case 1:
                 List = _a.sent();
-                filter = List.filter(function (data) {
-                    return data.Creator_Name === name_1;
-                });
-                TweetList = Array.from(filter).reverse();
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetList));
+                TweetList = List;
+                console.log(List.length);
+                if (List.length < number) {
+                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                }
+                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();

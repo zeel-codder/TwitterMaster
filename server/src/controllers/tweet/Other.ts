@@ -37,19 +37,17 @@ const GetTweetsOfUser = async (req: Request, res: Response) => {
 
     try {
         const name:string=req.params.name;
-
-        const List = await TweetModel.find({});
-        // console.log(List);
-        const filter = List.filter((data:any)=>
-        {            
-            return data.Creator_Name===name;
-        }
+        const number:number=+req.params.length;
         
-        );
+        const List = await TweetModel.find({Creator_Name:name}).limit(number).sort([['createdAt', -1]]);
+        const TweetList=List;
+        console.log(List.length)
+        
+        if(List.length<number){
+            res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));
+        }
 
-        const TweetList = Array.from(filter).reverse();
-
-        res.status(200).send(ResultLoader("All Tweet", TweetList));
+        res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:false}));
     } catch (e: any) {
         //console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));

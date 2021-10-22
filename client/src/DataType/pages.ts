@@ -2,6 +2,7 @@ interface HomeSchema{
 
     type?:string;
     isMe?:boolean;
+    name?:string;
 
 }
 interface GroupCSchema{

@@ -30,7 +30,7 @@ const upload = multer({ storage: storage })
 
 router.get('/all/:length',Auth,GetTweets)
 router.post('/tweetsbyid',GetTweetsByIds);
-router.get('/user/:name',GetTweetsOfUser);
+router.get('/user/:name/:length',GetTweetsOfUser);
 router.post('/create',Auth,upload.single('media'),AddTweet)
 router.post('/delete', Auth,DeleteTweet)
 router.put('/update',Auth,UpdateTweet)

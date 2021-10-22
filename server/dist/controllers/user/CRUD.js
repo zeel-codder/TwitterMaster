@@ -56,15 +56,21 @@ var Response_1 = require("../Response");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var GetUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var UserList, e_1;
+    var number, List, UserList, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, Schema_1.UserModel.find({})];
+                number = +req.params.length;
+                return [4 /*yield*/, Schema_1.UserModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
-                UserList = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("All Users", UserList));
+                List = _a.sent();
+                UserList = List;
+                console.log(number);
+                if (List.length < number) {
+                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: UserList, isEnd: true }));
+                }
+                res.status(200).send(Response_1.ResultLoader("All Users", { List: UserList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();

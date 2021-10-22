@@ -5,6 +5,7 @@ import {GroupCreateReducer} from './GroupCreateReducer';
 import { TweetReducer } from "./TweetReducer";
 import { ProfileReducer } from "./ProfileReducer";
 import { LengthReducer } from "./LengthReducer";
+import { MELReducer } from "./MELReducer";
 
 const Data={
     AuthReducer,
@@ -13,7 +14,8 @@ const Data={
     GroupCreateReducer,
     TweetReducer,
     ProfileReducer,
-    LengthReducer
+    LengthReducer,
+    MELReducer
 
 
 };

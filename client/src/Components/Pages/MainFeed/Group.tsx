@@ -1,7 +1,7 @@
 import React ,{useEffect, useState} from 'react'
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { GroupSchema, TweetSchema } from '../../../DataType/Feed';
-import { GetAllGroups, GetGroupsByIds } from '../../../Actions/Api';
+import { AllGroups, GetAllGroups, GetGroupsByIds } from '../../../Actions/Api';
 import Loader from '../../Loaders/Loading';
 import Tweets from '../List/Tweets';
 import Search from '../Same/Search';
@@ -49,7 +49,7 @@ const Group:React.FC<{}> =() =>{
     
     useEffect(()=>{
         if(List.Groups.length===0){
-            GetAllGroups()
+            AllGroups()
             .then((res)=>{
                 console.log(res.data.data);
                 dispatch({ type:"AddGroups",data:res.data.data});  
