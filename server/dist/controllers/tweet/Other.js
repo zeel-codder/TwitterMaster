@@ -51,7 +51,6 @@ var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void
             case 1:
                 List = _a.sent();
                 filter = List.filter(function (data) {
-                    // console.log("61698898ca3992f9d2420d4c","61698898ca3992f9d2420d4c"===JSON.stringify(data._id),JSON.stringify(data._id))
                     return Ids_1.includes(data._id.toString());
                 });
                 TweetList = Array.from(filter).reverse();

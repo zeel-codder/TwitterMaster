@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../../store';
 import { GetTweetOfUser, GetUserByName } from '../../../Actions/Api';
 import Loader from '../../Loaders/Loading';
 import Users from '../List/Users';
+import Page404 from '../404';
+import Search from '../Same/Search';
 
 
 
@@ -15,16 +17,30 @@ const Profile: React.FC<UserData> = () => {
     const [isLoadding, setLoading] = useState<boolean>(true);
     const Data: any = useAppSelector((state) => state.ProfileReducer);
     const dispatch = useAppDispatch();
+    const [DataList,setDataList]  =useState(Data.user[type].map((value: string) => {
+        return { name: value }
+    }));
+
+    function handleSearch(data: any[]) {
+        if (data == null) {
+            return setDataList(Data.user[type].map((value: string) => {
+                return { name: value }
+            }));
+        }
+        const newData: any[] = data;
+        setDataList(newData as any);
+    }
 
 
-    
+
+
 
     useEffect(() => {
         GetUserByName(name)
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
             })
-            
+
             .catch((e) => {
                 console.log(e);
             })
@@ -32,7 +48,7 @@ const Profile: React.FC<UserData> = () => {
                 setLoading(false);
             })
     }
-    , [])
+        , [])
 
 
 
@@ -51,14 +67,20 @@ const Profile: React.FC<UserData> = () => {
                     <Loader></Loader>
 
                     :
+                    <>
+
+                    <Search placeName="Users" cb={handleSearch} data={DataList} />
+
+                    {
+                        DataList.length===0 && <Page404/>
+                    }
+                    
                     <div className="tweet-container">
 
-                        <Users DataList={Data.user[type].map((value: string) => {
-                            return { name: value }
-
-                        })}></Users>
+                        <Users DataList={DataList}></Users>
 
                     </div>
+                    </>
             }
         </div>
     )

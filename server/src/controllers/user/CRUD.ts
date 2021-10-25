@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import { Response, Request } from 'express';
 import { UserModel } from '../../database/Schema';
 
-import { ValidResponse, ErrorSchema } from '../../interface/Response';
+import { ValidResponse, ErrorSchema} from '../../interface/Response';
 import { User } from '../../interface/database/Schema';
-import { ErrorLoader,ResultLoader } from "../Response";
+import { ErrorLoader,ResultLoader,CropData } from "../Response";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -17,11 +17,13 @@ const GetUsers = async (req: Request, res: Response) => {
 
         const number:number=+req.params.length;
         const List = await UserModel.find({}).sort([['createdAt', -1]]).limit(number);
-        const UserList =List;
-        console.log(number)
+        const UserList = CropData(List,number);
+        console.log(number,1122)
+        
         if(List.length<number){
-            res.status(200).send(ResultLoader("All Tweet", {List:UserList,isEnd:true}));
+            return res.status(200).send(ResultLoader("All Tweet", {List:UserList,isEnd:true}));
         }
+      
         res.status(200).send(ResultLoader("All Users", {List:UserList,isEnd:false}));
 
     } catch (e: any) {

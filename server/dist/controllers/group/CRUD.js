@@ -84,13 +84,14 @@ var GetGroupsAll = function (req, res) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.GetGroupsAll = GetGroupsAll;
 var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var number, List, e_2;
+    var number, Params, List, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 number = +req.params.length;
-                return [4 /*yield*/, Schema_1.GroupModel.find({}).sort([['createdAt', -1]]).limit(number)];
+                Params = '_id title description createdAt updatedAt';
+                return [4 /*yield*/, Schema_1.GroupModel.find({}, Params).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
                 if (List.length < number) {

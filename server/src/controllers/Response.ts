@@ -16,4 +16,12 @@ const ResultLoader = (message:string,data:any) :ValidResponse=>{
     return result;
 }
 
-export {ErrorLoader,ResultLoader};
+const DataLength=10;
+
+
+function CropData(List:any,number:number){
+    return Array.from(List).slice(number-DataLength,number);
+}
+
+
+export {ErrorLoader,ResultLoader,DataLength,CropData};

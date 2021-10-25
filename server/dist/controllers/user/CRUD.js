@@ -65,10 +65,10 @@ var GetUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, Schema_1.UserModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
-                UserList = List;
-                console.log(number);
+                UserList = Response_1.CropData(List, number);
+                console.log(number, 1122);
                 if (List.length < number) {
-                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: UserList, isEnd: true }));
+                    return [2 /*return*/, res.status(200).send(Response_1.ResultLoader("All Tweet", { List: UserList, isEnd: true }))];
                 }
                 res.status(200).send(Response_1.ResultLoader("All Users", { List: UserList, isEnd: false }));
                 return [3 /*break*/, 3];

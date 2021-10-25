@@ -13,7 +13,6 @@ const GetTweetsByIds = async (req: Request, res: Response) => {
         // console.log(List);
         const filter = List.filter((data:any)=>
         {            
-            // console.log("61698898ca3992f9d2420d4c","61698898ca3992f9d2420d4c"===JSON.stringify(data._id),JSON.stringify(data._id))
             return Ids.includes(data._id.toString())
         }
         

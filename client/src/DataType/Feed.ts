@@ -11,6 +11,7 @@ interface TweetSchema {
     groups?: string;
     comments:any[];
     url?:string;
+    isLike?:boolean;
 }
 
 

@@ -27,12 +27,12 @@ const Group: React.FC<GroupCSchema> = ({ type, isMe }) => {
             .then((res) => {
 
 
-                setDataList(res.data.data.List);
+                setDataList([...DataList,...res.data.data.List]);
                 if (res.data.data.isEnd) {
                     dispatch({ type: "ChangeEnd", data: true })
                 }
 
-                dispatch({ type: "AddGroups", data: res.data.data.List });
+                dispatch({ type: "AddGroups", data: [...DataList,...res.data.data.List] });
             }).catch((e) => console.log(e))
             .finally(() => {
 
@@ -47,9 +47,16 @@ const Group: React.FC<GroupCSchema> = ({ type, isMe }) => {
 
     useEffect(() => {
 
+        
+
+        
+        setDataList([])
         dispatch({ type: "Length_ChangeUserLength", data: 10 });
         dispatch({ type: "ChangeEnd", data: false })
-        GetDataList()
+        dispatch({ type: "AddGroups", data: [] });
+
+            GetDataList()
+      
 
 
     }, [])
@@ -258,6 +265,8 @@ const GroupDiv: React.FC<{}> = () => {
                 >
                     + Create
                 </Button>
+                <h1></h1>
+                <h1></h1>
             </div>
 
 

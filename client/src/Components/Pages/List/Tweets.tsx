@@ -129,14 +129,14 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
 
 
 
-    const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups,url } = prpos;
+    const { _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name, groups,url,isLike } = prpos;
     
     const User = useAppSelector((state) => state.UserReducer);
     const Length : any=useAppSelector((state)=>state.LengthReducer);
     const type = { _id, user_id: User._id, type: "" };
-    const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name,url });
-    const [isLike, setIsLike] = useState(like?.includes(User._id as string));
-    const [Like, setLike] = useState(like?.length);
+    const [TweetData, setTweetData] = useState<any>({ _id, image, video, creator, description, like, retweet, Creator_ID, Creator_Name,url,isLike });
+    const [isLikeTweet, setIsLike] = useState(isLike);
+    const [Like, setLike] = useState(like);
     const [Retweet, setReteet] = useState(retweet);
     const [IsLoading, setLoading] = useState(false);
     const groupList: string[] = groups?.split("|") as string[];
@@ -169,7 +169,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
 
     const handleLike = () => {
 
-        if (isLike) {
+        if (isLikeTweet) {
             type.type = "remove like";
         } else {
             type.type = "like"
@@ -178,10 +178,10 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
         UpdateTweet(type, TweetData)
             .then((res) => {
 
-                setIsLike(!isLike);
+                setIsLike(!isLikeTweet);
                 const newTweet = res.data.data;
                 setTweetData(newTweet);
-                setLike(newTweet.like.length);
+                setLike(newTweet.like);
                 setReteet(newTweet.retweet);
             }).catch((e) => {
                 console.log(e);
@@ -210,7 +210,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
                 setIsLike(!isLike);
                 const newTweet = res.data.data;
                 setTweetData(newTweet);
-                setLike(newTweet.like.length);
+                setLike(newTweet.like);
                 setReteet(newTweet.retweet);
             }).catch((e) => {
                 console.log(e);

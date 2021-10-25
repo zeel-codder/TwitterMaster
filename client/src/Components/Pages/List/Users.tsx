@@ -22,7 +22,7 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
         let observe = new IntersectionObserver((e)=>{
             // console.log('call'
             if(e[0].isIntersecting){
-                dispatch({type:"Length_ChangeUserLength",data:DataList.length+5});
+                dispatch({type:"Length_ChangeUserLength",data:DataList.length+10});
             }
         });
 

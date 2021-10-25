@@ -4,7 +4,7 @@ import { Tweet } from '../List/Tweets';
 import {
     useParams
 } from "react-router-dom";
-import { GetTweetId,AddCommentApi,RemoveCommentApi } from "../../../Actions/Api";
+import { GetTweetId, AddCommentApi, RemoveCommentApi } from "../../../Actions/Api";
 import Loader from '../../Loaders/Loading';
 import { Avatar, Button, TextareaAutosize } from "@material-ui/core";
 import { useAppSelector } from "../../../store";
@@ -39,37 +39,37 @@ const TweetPage: React.FC<{}> = () => {
     }, [])
 
 
-    function AddComment(){
+    function AddComment() {
 
-        if(!text) return;
+        if (!text) return;
 
         setIsLoading(true);
 
-        AddCommentApi(TweetData._id,text)
-        .then((res)=>{
+        AddCommentApi(TweetData._id, text)
+            .then((res) => {
 
-            setTweetData(res.data.data);
-            setText("");
+                setTweetData(res.data.data);
+                setText("");
 
-        }).catch((e)=>console.log(e))
-        .finally(()=>{
-            setIsLoading(false);
-        })
+            }).catch((e) => console.log(e))
+            .finally(() => {
+                setIsLoading(false);
+            })
 
 
     }
 
-    function RemoveComment(_id:string){
+    function RemoveComment(_id: string) {
 
         setIsLoading(true);
 
-        RemoveCommentApi(TweetData._id,_id)
-        .then((res)=>{
-            setTweetData(res.data.data);
-        }).catch((e)=>console.log(e))
-        .finally(()=>{
-            setIsLoading(false);
-        })
+        RemoveCommentApi(TweetData._id, _id)
+            .then((res) => {
+                setTweetData(res.data.data);
+            }).catch((e) => console.log(e))
+            .finally(() => {
+                setIsLoading(false);
+            })
 
     }
 
@@ -95,47 +95,47 @@ const TweetPage: React.FC<{}> = () => {
             <div className="commentsList">
 
 
-            {
-                TweetData
-                &&
-                TweetData.comments.map((data: any) => {
-                    return <Comment {...data} removeComment={RemoveComment} key={data._id}></Comment>
-                })
-            }
+                {
+                    TweetData
+                    &&
+                    TweetData.comments.map((data: any) => {
+                        return <Comment {...data} removeComment={RemoveComment} key={data._id}></Comment>
+                    })
+                }
 
-            <TextareaAutosize className="newtweet_text newcommant"
+                <TextareaAutosize className="newtweet_text newcommant"
 
-                placeholder="Enter Comment(350 char At most) ...."
+                    placeholder="Enter Comment(350 char At most) ...."
 
-                maxRows="10"
+                    maxRows="10"
 
-                value={text}
+                    value={text}
 
-                maxLength={500}
-
-
-
-                onChange={(node) => {
-
-
-                    setText(node.target.value);
-
-                }}
+                    maxLength={500}
 
 
 
-                required></TextareaAutosize>
-            <div className="flex full">
-
-                <Button variant="contained" color="primary"
-
-                    onClick={AddComment}
+                    onChange={(node) => {
 
 
-                > Add Comment
+                        setText(node.target.value);
 
-                </Button>
-            </div>
+                    }}
+
+
+
+                    required></TextareaAutosize>
+                <div className="flex full">
+
+                    <Button variant="contained" color="primary"
+
+                        onClick={AddComment}
+
+
+                    > Add Comment
+
+                    </Button>
+                </div>
 
 
             </div>
@@ -150,39 +150,39 @@ const TweetPage: React.FC<{}> = () => {
 }
 
 
-const Comment: React.FC<{ Creator_Name: string, title: string, removeComment:Function,_id?:string,isPick?:boolean }> = ({ title, Creator_Name,removeComment,_id,isPick=false }) => {
+const Comment: React.FC<{ Creator_Name: string, title: string, removeComment: Function, _id?: string, isPick?: boolean }> = ({ title, Creator_Name, removeComment, _id, isPick = false }) => {
 
-    const User:any=useAppSelector((state)=>state.UserReducer);
+    const User: any = useAppSelector((state) => state.UserReducer);
 
 
     return (
         <div className="comment">
             <div className="flex full space">
 
-            <div className="creator-section flex">
-            <Avatar alt="Remy Sharp" 
-                    src={
-                
-                        "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/"+Creator_Name+".png"
-                       
-                    
-                    }
-                    
+                <div className="creator-section flex">
+                    <Avatar alt="Remy Sharp"
+                        src={
+
+                            "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Creator_Name + ".png"
+
+
+                        }
+
                     >
                         {Creator_Name?.charAt(0)}
-                        </Avatar>
-                <a href={"/user/" + Creator_Name} className="a">
-                    {Creator_Name}
-                </a>
-            </div>
-            
+                    </Avatar>
+                    <a href={"/user/" + Creator_Name} className="a">
+                        {Creator_Name}
+                    </a>
+                </div>
+
                 {
-                
-                    User.name===Creator_Name && !isPick
+
+                    User.name === Creator_Name && !isPick
                     &&
-                    <CancelIcon className="a"  onClick={()=>removeComment(_id)}> </CancelIcon>
+                    <CancelIcon className="a" onClick={() => removeComment(_id)}> </CancelIcon>
                 }
-            
+
             </div>
             <div>
                 <div className="text">
@@ -201,6 +201,6 @@ const Comment: React.FC<{ Creator_Name: string, title: string, removeComment:Fun
 }
 
 
-export {Comment};
+export { Comment };
 
 export default TweetPage;

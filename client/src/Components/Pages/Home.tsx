@@ -19,7 +19,6 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
 
     const newTweet = useRef<HTMLDivElement>(null);
     const List: any = useAppSelector((state) => state.DataReducer);
-    const User = useAppSelector((state) => state.UserReducer);
     const End: any = useAppSelector((state) => state.MELReducer);
     const Length: any = useAppSelector((state) => state.LengthReducer);
     const dispatch = useAppDispatch();
@@ -53,12 +52,12 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
             .then(res => {
 
 
-                setDataList(res.data.data.List);
+                setDataList([...DataList,...res.data.data.List]);
                 if (res.data.data.isEnd) {
                     dispatch({ type: "ChangeEnd", data: true })
                 }
 
-                dispatch({ type: "AddTweets", data: res.data.data.List })
+                dispatch({ type: "AddTweets", data: [...DataList,...res.data.data.List] })
             }).catch((e) => {
                 console.log(e);
             }).finally(() => {
@@ -72,9 +71,14 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
 
     useEffect(() => {
 
-        dispatch({ type: "Length_ChangeTweetLength", data: 10 });
-        dispatch({ type: "ChangeEnd", data: false })
-        GetDataList()
+            setDataList([])
+            dispatch({ type: "Length_ChangeTweetLength", data: 10 });
+            dispatch({ type: "ChangeEnd", data: false })
+            console.log('call empty')
+            GetDataList()
+            
+        
+        
 
 
     }, [])
@@ -84,9 +88,9 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
 
     useEffect(() => {
 
-        console.log('call')
+    
 
-        if (!End.end) {
+        if (!End.end ) {
             GetDataList()
         }
 

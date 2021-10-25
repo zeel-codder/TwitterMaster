@@ -109,11 +109,9 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                 User?.name === name
                                     ?
                                     <div className='flex pad'>
-                                        {
+                                        
 
-                                            !User?.image
-
-                                            &&
+                                           
                                             <>
 
 
@@ -177,7 +175,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                                     Change Dp
                                                 </Button>
                                             </>
-                                        }
+                                        
                                         <Button
                                             variant="contained"
                                             color="primary"

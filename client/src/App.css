@@ -5,7 +5,8 @@ body{
   --font-small-head:1.5rem;
   --font-size:1rem;
 
-  font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI",;
+  font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+  ;
 }
 
 *{
@@ -257,15 +258,27 @@ a:hover{
   left: 50%;
   /* opacity: 0; */
   transform: translate(-50%,-50%) scale(0);
-  transition: all .3s;  
-  background: white;
+  transition: all .3s;
+  background: #f9f9f9;
   z-index: 2;
   width: 50%;
-  max-height: 25rem;
-  padding: 1.4rem;
+  max-height: 32rem;
+  padding: 0.3rem !important;
   box-shadow: 0px 0px 6px black;
   overflow-y: auto;
+  border-radius: 1rem;
+  /* border: 1px solid; */
 }
+.newTweetBox::-webkit-scrollbar {
+  display: none;
+}
+
+.newTweetBox{
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
+
+
 
 .user-tweet *{
   font-size: var(--font-size);
@@ -357,6 +370,7 @@ a:hover{
 
 .tweet-container > div{
   margin: .5rem;
+  white-space: initial;
 }.tweet-container{
   margin: 2rem 0;
 }
@@ -534,14 +548,14 @@ a:hover{
 }
 
 @media only screen and (max-width: 750px) {
-  /* *::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     display: none;
   }
 
   *{
     -ms-overflow-style: none; 
     scrollbar-width: none;  
-  } */
+  }
 
   .footer{
 

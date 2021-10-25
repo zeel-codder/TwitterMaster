@@ -19,14 +19,15 @@ const API = axios.create({
 
 const SingUpRequest=(user:UserData) =>axios.post(web+"/user/create",user)
 const SingInRequest=(user:UserData) =>axios.post(web+"/user/singin",user);
-const GetUserByName=(name:string) =>axios.get(web+"/user/"+name);
-const GetGroupsByIds=(list:string[])=>axios.post(web+"/tweet/tweetsbyid",{'ids':list})
-const GetTweetId=(_id:string)=>axios.get(web+"/tweet/"+_id);
 const UpDateUser=(name:string,after:object)=>axios.put(web+"/user/update",{before:{name},after});
 const SendPassWordResetMail=(email:string)=>axios.post(web+"/email/password_reset",{email});
-const AllGroups=()=>axios.get(web+'/group/allgroups');
-
 const UploadFile=(formData:FormData)=> axios.post("https://api.cloudinary.com/v1_1/dcgtilnwq/image/upload",formData);
+
+
+const GetUserByName=(name:string) =>API.get("/user/"+name);
+const GetGroupsByIds=(list:string[])=>API.post("/tweet/tweetsbyid",{'ids':list})
+const GetTweetId=(_id:string)=>API.get("/tweet/"+_id);
+const AllGroups=()=>API.get('/group/allgroups');
 
 
 

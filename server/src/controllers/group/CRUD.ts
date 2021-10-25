@@ -32,7 +32,8 @@ const GetGroups = async (req: Request, res: Response) => {
 
 
         const number:number=+req.params.length;
-        const List = await  GroupModel.find({}).sort([['createdAt', -1]]).limit(number);
+        const Params:string='_id title description createdAt updatedAt';
+        const List = await  GroupModel.find({},Params).sort([['createdAt', -1]]).limit(number);
     
         if(List.length<number){
             res.status(200).send(ResultLoader("All Groups", {List,isEnd:true}));

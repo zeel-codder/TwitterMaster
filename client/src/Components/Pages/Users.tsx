@@ -13,20 +13,21 @@ const Group: React.FC<{}> = () => {
 
     const List: any = useAppSelector((state) => state.DataReducer);
     const MEL: any = useAppSelector((state) => state.MELReducer);
-    const [DataList, setDataList] = useState([]);
+    const [DataList, setDataList] = useState<any[]>([]);
     const Length: any = useAppSelector((state) => state.LengthReducer);
     const dispatch = useAppDispatch();
 
     function GetDataList() {
-        console.log('call')
+
 
         GetUsers(Length.UserLength)
-            .then((res) => {
-                setDataList(res.data.data.List);
+            .then((res: any) => {
+
+                setDataList([...DataList, ...res.data.data.List]);
                 if (res.data.data.isEnd) {
                     dispatch({ type: "ChangeEnd", data: true })
                 }
-                dispatch({ type: "AddUsers", data: res.data.data.List });
+                dispatch({ type: "AddUsers", data: [...DataList, ...res.data.data.List] });
             }).catch((e) => {
                 console.log(e);
             }).finally(() => {
@@ -39,10 +40,15 @@ const Group: React.FC<{}> = () => {
     }
 
     useEffect(() => {
+
+        setDataList([])
         dispatch({ type: "Length_ChangeUserLength", data: 10 });
-        dispatch({ type: "ChangeEnd", data: false })
         dispatch({ type: "ChangeLoad", data: true })
+        dispatch({ type: "ChangeEnd", data: false })
         GetDataList()
+
+
+
     }, [])
 
     useEffect(() => {

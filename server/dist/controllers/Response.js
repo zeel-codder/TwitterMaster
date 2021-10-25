@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ResultLoader = exports.ErrorLoader = void 0;
+exports.CropData = exports.DataLength = exports.ResultLoader = exports.ErrorLoader = void 0;
 var ErrorLoader = function (message, type) {
     var result = { message: message, type: type };
     return result;
@@ -11,3 +11,9 @@ var ResultLoader = function (message, data) {
     return result;
 };
 exports.ResultLoader = ResultLoader;
+var DataLength = 10;
+exports.DataLength = DataLength;
+function CropData(List, number) {
+    return Array.from(List).slice(number - DataLength, number);
+}
+exports.CropData = CropData;

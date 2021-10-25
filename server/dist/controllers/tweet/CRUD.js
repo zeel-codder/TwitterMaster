@@ -50,23 +50,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
+exports.GetNewTweet = exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
 var Schema_1 = require("../../database/Schema");
 var Response_1 = require("../Response");
 var CRUD_1 = require("../group/CRUD");
 var fs_1 = __importDefault(require("fs"));
 var Media_1 = require("../Media");
+function GetNewTweet(Tweet, name) {
+    var _a, _b, _c;
+    var data = Tweet._doc;
+    return __assign(__assign({}, data), { isLike: (_a = data.like) === null || _a === void 0 ? void 0 : _a.includes(name), like: ((_b = data.like) === null || _b === void 0 ? void 0 : _b.length) || 0, comments: (_c = data.comments) === null || _c === void 0 ? void 0 : _c.slice(0, 2) });
+}
+exports.GetNewTweet = GetNewTweet;
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var number, List, TweetList, e_1;
+    var name_1, number, List, TweetList, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
+                name_1 = req.user_id;
                 number = +req.params.length;
                 return [4 /*yield*/, Schema_1.TweetModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
-                TweetList = List;
+                TweetList = List.map(function (dataItem) {
+                    return GetNewTweet(dataItem, name_1);
+                });
                 if (List.length < number) {
                     res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
                 }
@@ -136,7 +145,8 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 // // newTweet.image =fName;
                 _c.sent();
                 return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename), { resource_type: "video"
+            case 2: return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename), {
+                    resource_type: "video"
                 }, function (error, result) {
                     if (error)
                         return;
@@ -281,7 +291,8 @@ var UpdateTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 12];
             case 11: return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
             case 12:
-                res.status(200).send(Response_1.ResultLoader("Tweets Updated", Tweet));
+                console.log(Tweet);
+                res.status(200).send(Response_1.ResultLoader("Tweets Updated", GetNewTweet(Tweet, req.user_id)));
                 return [3 /*break*/, 14];
             case 13:
                 e_5 = _c.sent();

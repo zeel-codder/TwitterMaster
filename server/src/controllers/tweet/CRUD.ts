@@ -8,20 +8,44 @@ import fs, { PathLike } from 'fs';
 import { cloudinary } from '../Media';
 
 
+function GetNewTweet(Tweet:any,name:Record<string, any> | undefined){
+
+    const data=Tweet._doc;
+
+
+
+    return {
+
+        ...data,
+        isLike: data.like?.includes(name),
+        like: data.like?.length || 0,
+        comments: data.comments?.slice(0, 2),
+    }
+
+}
+
+
 
 const GetTweets = async (req: Request, res: Response) => {
 
     try {
+        const name = req.user_id;
 
-        const number:number=+req.params.length;
+        const number: number = +req.params.length;
         const List = await TweetModel.find({}).sort([['createdAt', -1]]).limit(number);
-        const TweetList=List;
-        
-        if(List.length<number){
-            res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));
+
+
+        const TweetList = List.map((dataItem: any) => {
+            return GetNewTweet(dataItem,name);
+        });
+
+
+
+        if (List.length < number) {
+            res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
         }
 
-        res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:false}));
+        res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
     } catch (e: any) {
         // console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
@@ -114,8 +138,9 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
             }
             else {
                 await cloudinary.uploader.upload(`./${process.env.upload}/files/${req.file?.filename}`,
-                { resource_type: "video"
-            },
+                    {
+                        resource_type: "video"
+                    },
 
                     function (error: Error, result: any) {
                         if (error) return;
@@ -141,20 +166,20 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
         //console.log('call after');
 
 
-        let {groups}=newTweet;
+        let { groups } = newTweet;
 
-       
 
-        const listGroup=groups?.split("|");
 
-        const GroupList:any[]=await GetGroupList();
+        const listGroup = groups?.split("|");
+
+        const GroupList: any[] = await GetGroupList();
 
         // console.log(GroupList,listGroup);
 
 
 
-        GroupList.forEach(async (data)=>{
-            if(listGroup?.includes(data.title)){
+        GroupList.forEach(async (data) => {
+            if (listGroup?.includes(data.title)) {
                 // console.log("add")
                 data.tweets.push(Tweet._id);
                 await data.save();
@@ -181,25 +206,25 @@ const DeleteTweet = async (req: Request, res: Response) => {
 
         res.status(200).send(ResultLoader("Tweets Deleted", TweetDeleteData));
 
-        const listGroup:string[]=TweetDelete.groups?.split("|") as string[];
+        const listGroup: string[] = TweetDelete.groups?.split("|") as string[];
 
         // console.log(groupList);
 
-        const GroupList:any[]=await GetGroupList();
+        const GroupList: any[] = await GetGroupList();
 
 
-        GroupList?.forEach( async (data)=>{
+        GroupList?.forEach(async (data) => {
 
-            if(data==='') return;
+            if (data === '') return;
 
-            if(listGroup?.includes(data.title)){
-            
-                data.tweets.splice(data.tweets.indexOf(TweetDelete._id),1);
+            if (listGroup?.includes(data.title)) {
+
+                data.tweets.splice(data.tweets.indexOf(TweetDelete._id), 1);
                 await data.save();
             }
         });
-        
-     
+
+
 
     } catch (e: any) {
 
@@ -250,8 +275,13 @@ const UpdateTweet = async (req: Request, res: Response) => {
         }
 
 
+        console.log(Tweet)
 
-        res.status(200).send(ResultLoader("Tweets Updated", Tweet));
+        
+
+
+
+        res.status(200).send(ResultLoader("Tweets Updated", GetNewTweet(Tweet,req.user_id)));
 
     } catch (e: any) {
 
@@ -265,6 +295,6 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
 
 
-export { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet };
+export { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet ,GetNewTweet};
 
 
