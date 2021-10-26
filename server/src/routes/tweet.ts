@@ -5,8 +5,6 @@ import { AddComment, GetTweetsOfUser, RemoveComment } from "../controllers/tweet
 import {Auth} from '../middlewares/Auth';
 var router: Router = express.Router()
 
-import path from "path";
-
 import { GetTweetsByIds } from "../controllers/tweet/Other";
 
 import multer  from 'multer';
@@ -29,14 +27,14 @@ const upload = multer({ storage: storage })
 
 
 router.get('/all/:length',Auth,GetTweets)
-router.post('/tweetsbyid',GetTweetsByIds);
-router.get('/user/:name/:length',GetTweetsOfUser);
+router.post('/tweetsbyid',Auth,GetTweetsByIds);
+router.get('/user/:name/:length',Auth,GetTweetsOfUser);
 router.post('/create',Auth,upload.single('media'),AddTweet)
 router.post('/delete', Auth,DeleteTweet)
 router.put('/update',Auth,UpdateTweet)
 router.post("/add_comment",Auth,AddComment);
 router.post("/remove_comment",Auth,RemoveComment);
-router.get('/:_id',GetTweet)
+router.get('/:_id',Auth,GetTweet)
 
 
 export default router;

@@ -11,10 +11,10 @@ var router: Router = express.Router()
 
 router.get('/all/:length',Auth,GetUsers)
 router.post('/create', AddUser)
-router.delete('/delete', DeleteUser)
+router.delete('/delete',Auth, DeleteUser)
 router.post('/singin', SingIn)
-router.put('/update', UpdateUser)
-router.get('/:name', GetUser)
+router.put('/update',Auth, UpdateUser)
+router.get('/:name', Auth,GetUser)
 router.post('/follow',Auth,UserFollow);
 router.get('/verify/:id', function (req: Request, res: Response) {
   res.send('Birds home page')

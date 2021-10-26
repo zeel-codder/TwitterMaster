@@ -7,6 +7,12 @@ import {store} from './store'
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import {blue,red} from '@material-ui/core/colors';
 
+
+if(process.env.NODE_ENV==='production'){
+  console.log = function() {}
+}
+
+
 const theme = createTheme({
   palette: {
     primary: {

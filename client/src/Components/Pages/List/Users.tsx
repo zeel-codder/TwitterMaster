@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { Avatar, Button } from '@material-ui/core';
+import {  Button } from '@material-ui/core';
 import Search from '../Same/Search';
 import { UserData } from '../../../DataType/Feed';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { ToggleFollowUser } from '../../../Actions/Api';
 import Loader from '../../Loaders/Loading';
 
-
+import Avatar from '@mui/material/Avatar';
+import {  deepPurple } from '@mui/material/colors';
 
 const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
@@ -63,12 +64,13 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 }
 
 
-const User: React.FC<UserData> = ({ name }) => {
-    const Data: any = useAppSelector((state) => state.UserReducer);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const dispatch = useAppDispatch();
+const User: React.FC<UserData> = (props) => {
 
-    // console.log(Data,name)
+    const {name}=props;
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [Data,setData]=useState<UserData>(props);
+
 
     function UserFollowChange(name: string, isAdd: boolean) {
 
@@ -76,7 +78,7 @@ const User: React.FC<UserData> = ({ name }) => {
         ToggleFollowUser(name, isAdd)
             .then((res) => {
 
-                dispatch({ type: "AddUser", data: res.data.data });
+                setData(res.data.data );
 
             })
             .catch(e => console.log(e))
@@ -98,6 +100,7 @@ const User: React.FC<UserData> = ({ name }) => {
 
 
                 }
+                sx={{ bgcolor: deepPurple[500] }}
 
             >
                 {name?.charAt(0)}
@@ -116,7 +119,7 @@ const User: React.FC<UserData> = ({ name }) => {
 
                         {
 
-                            Data?.follow?.includes(name)
+                            Data?.isFollow
                                 ?
                                 <Button
                                     className="FollowBtn"

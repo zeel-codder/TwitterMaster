@@ -39,56 +39,69 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RemoveComment = exports.AddComment = exports.GetTweetsOfUser = exports.GetTweetsByIds = void 0;
 var Schema_1 = require("../../database/Schema");
 // import { Tweet } from '../../interface/database/Schema';
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
+var Helper_2 = require("./Helper");
 var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var Ids_1, List, filter, TweetList, e_1;
+    var name_1, number, group, Ids_1, List, filter, TweetList, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                Ids_1 = req.body.ids;
-                return [4 /*yield*/, Schema_1.TweetModel.find({})];
+                _a.trys.push([0, 3, , 4]);
+                name_1 = req.body.name;
+                number = +req.body.number;
+                return [4 /*yield*/, Schema_1.GroupModel.findOne({ title: name_1 })];
             case 1:
+                group = _a.sent();
+                if (!group) {
+                    return [2 /*return*/, res.status(404).send(Helper_1.ErrorLoader("Group not found", "null"))];
+                }
+                Ids_1 = group.tweets;
+                return [4 /*yield*/, Schema_1.TweetModel.find({}).sort([['createdAt', -1]])];
+            case 2:
                 List = _a.sent();
                 filter = List.filter(function (data) {
                     return Ids_1.includes(data._id.toString());
                 });
-                TweetList = Array.from(filter).reverse();
-                // console.log(TweetList)
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetList));
-                return [3 /*break*/, 3];
-            case 2:
+                TweetList = Helper_1.CropData(filter, number);
+                TweetList = Helper_2.GetNewTweetList(TweetList, req.user_id);
+                if (filter.length < number) {
+                    res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                }
+                console.log(TweetList);
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", TweetList));
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
-                // console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                console.log(e_1);
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_1.message));
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.GetTweetsByIds = GetTweetsByIds;
 var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, number, List, TweetList, e_2;
+    var name_2, number, List, TweetList, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                name_1 = req.params.name;
+                name_2 = req.params.name;
                 number = +req.params.length;
-                return [4 /*yield*/, Schema_1.TweetModel.find({ Creator_Name: name_1 }).limit(number).sort([['createdAt', -1]])];
+                return [4 /*yield*/, Schema_1.TweetModel.find({ Creator_Name: name_2 }).limit(number).sort([['createdAt', -1]])];
             case 1:
                 List = _a.sent();
-                TweetList = List;
-                console.log(List.length);
+                TweetList = Helper_1.CropData(List, number);
+                TweetList = Helper_2.GetNewTweetList(TweetList, req.user_id);
                 if (List.length < number) {
-                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                    res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
                 }
-                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
                 //console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_2.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_2.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -112,12 +125,12 @@ var AddComment = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, Tweet.save()];
             case 2:
                 TweetData = _b.sent();
-                res.status(200).send(Response_1.ResultLoader("All Tweet", TweetData._doc));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", TweetData._doc));
                 return [3 /*break*/, 4];
             case 3:
                 e_3 = _b.sent();
                 // console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_3.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_3.message));
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
@@ -139,18 +152,18 @@ var RemoveComment = function (req, res) { return __awaiter(void 0, void 0, void 
                 }
                 index = Tweet.comments.findIndex(function (data) { return data._id.toString() === comment_id_1; });
                 if (index === -1) {
-                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("Some Error", "null"))];
+                    return [2 /*return*/, res.status(404).send(Helper_1.ErrorLoader("Some Error", "null"))];
                 }
                 Tweet.comments.splice(index, 1);
                 return [4 /*yield*/, Tweet.save()];
             case 2:
                 TweetData = _b.sent();
-                res.status(200).send(Response_1.ResultLoader("Tweet", TweetData._doc));
+                res.status(200).send(Helper_1.ResultLoader("Tweet", TweetData._doc));
                 return [3 /*break*/, 4];
             case 3:
                 e_4 = _b.sent();
                 // console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_4.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_4.message));
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

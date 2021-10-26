@@ -1,8 +1,9 @@
-import React, { useState,useCallback, useRef } from "react";
+import React, { useState,useCallback } from "react";
 import { TweetSchema } from "../../../DataType/Feed";
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import ShareRoundedIcon from '@material-ui/icons/ShareRounded';
-import { Avatar } from "@material-ui/core";
+import Avatar from '@mui/material/Avatar';
+import {  deepPurple } from '@mui/material/colors';
 // import { Share } from "@material-ui/icons";
 import { DeleteTweet, UpdateTweet } from "../../../Actions/Api";
 import { useAppDispatch, useAppSelector } from '../../../store';
@@ -11,8 +12,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CropFreeRoundedIcon from '@mui/icons-material/CropFreeRounded';
-import { Link, useHistory } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import { Comment } from '../MainFeed/Tweet';
 
 
@@ -237,6 +237,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
                        
                     
                     }
+                    sx={{ bgcolor: deepPurple[500] }}
                     
                     >
                         {Creator_Name?.charAt(0)}
@@ -263,7 +264,8 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
 
             <div className="text">
                 {
-                    TweetData.description
+                   
+                    TweetData.description.split("\n").map((data:string)=><div>{data}</div>)
 
                 }
 

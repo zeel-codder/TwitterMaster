@@ -1,8 +1,9 @@
 
 import { Response, Request } from 'express';
-import { ErrorLoader, ResultLoader } from "../Response";
+import { ErrorLoader, ResultLoader } from "../Helper";
 import { UserModel } from '../../database/Schema';
 import { GetUser } from './CRUD';
+import { GetNewUser } from './Helper';
 
 
 
@@ -13,9 +14,7 @@ const UserFollow = async (req: Request, res: Response) => {
         const isAdd: boolean = req.body.isAdd;
         const MyName: string = req.user_name as unknown as string;
 
-       // console.log(false, isAdd);
-
-        //console.log(Name, MyName);
+        console.log('call')
 
         const Mydata = await UserModel.findOne({ name: MyName });
         const data = await UserModel.findOne({ name: Name });
@@ -43,17 +42,12 @@ const UserFollow = async (req: Request, res: Response) => {
             data.followers.splice(data.follow.indexOf(MyName), 1);
         }
 
-        await data.save();
+        const UserData2 = await data.save();
 
 
-
-
-
-
-
-        res.status(200).send(ResultLoader("Done", UserData._doc));
+        res.status(200).send(ResultLoader("Done",GetNewUser(UserData2,req.user_name)));
     } catch (e: any) {
-        //console.log(e);
+        console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
 }

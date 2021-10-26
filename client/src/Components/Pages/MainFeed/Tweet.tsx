@@ -187,7 +187,7 @@ const Comment: React.FC<{ Creator_Name: string, title: string, removeComment: Fu
             <div>
                 <div className="text">
                     {
-                        title
+                        title.split("\n").map((data:string)=><div>{data}</div>)
 
                     }
                 </div>

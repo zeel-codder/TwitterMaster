@@ -4,9 +4,10 @@ import { UserModel } from '../../database/Schema';
 
 import { ValidResponse, ErrorSchema} from '../../interface/Response';
 import { User } from '../../interface/database/Schema';
-import { ErrorLoader,ResultLoader,CropData } from "../Response";
+import { ErrorLoader,ResultLoader,CropData } from "../Helper";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { GetNewUserList,GetUserData } from "./Helper";
 
 
 
@@ -16,9 +17,12 @@ const GetUsers = async (req: Request, res: Response) => {
     try {
 
         const number:number=+req.params.length;
+    
         const List = await UserModel.find({}).sort([['createdAt', -1]]).limit(number);
-        const UserList = CropData(List,number);
-        console.log(number,1122)
+        let UserList = CropData(List,number);
+
+        UserList=GetNewUserList(UserList,req.user_name);
+   
         
         if(List.length<number){
             return res.status(200).send(ResultLoader("All Tweet", {List:UserList,isEnd:true}));
@@ -46,9 +50,9 @@ const GetUser = async (req: Request, res: Response) => {
         const User = await UserModel.findOne({name:name});
         if(User===null){
             return  res.sendStatus(500);
-        }
+        } 
     
-        res.status(200).send(ResultLoader("User",User));
+        res.status(200).send(ResultLoader("User",GetUserData(User,req.user_id)));
     } catch (e: any) {
         res.status(404).send(ErrorLoader("User not found",e.message));
     }

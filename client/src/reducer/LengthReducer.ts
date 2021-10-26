@@ -23,7 +23,7 @@ const initialState: Data = {
 
 
 function LengthReducer(state = initialState, action: action) {
-    console.log(action)
+    // console.log(action)
     switch (action.type) {
         case "Length_ChangeTweetLength":
             return { ...state, TweetLength: action.data }

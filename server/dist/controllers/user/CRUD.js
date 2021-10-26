@@ -52,9 +52,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SingIn = exports.GetUser = exports.UpdateUser = exports.DeleteUser = exports.AddUser = exports.GetUsers = void 0;
 var Schema_1 = require("../../database/Schema");
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
+var Helper_2 = require("./Helper");
 var GetUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var number, List, UserList, e_1;
     return __generator(this, function (_a) {
@@ -65,16 +66,16 @@ var GetUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                 return [4 /*yield*/, Schema_1.UserModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
-                UserList = Response_1.CropData(List, number);
-                console.log(number, 1122);
+                UserList = Helper_1.CropData(List, number);
+                UserList = Helper_2.GetNewUserList(UserList, req.user_name);
                 if (List.length < number) {
-                    return [2 /*return*/, res.status(200).send(Response_1.ResultLoader("All Tweet", { List: UserList, isEnd: true }))];
+                    return [2 /*return*/, res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: UserList, isEnd: true }))];
                 }
-                res.status(200).send(Response_1.ResultLoader("All Users", { List: UserList, isEnd: false }));
+                res.status(200).send(Helper_1.ResultLoader("All Users", { List: UserList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("UserList not found", e_1.message));
+                res.status(404).send(Helper_1.ErrorLoader("UserList not found", e_1.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -94,11 +95,11 @@ var GetUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 if (User === null) {
                     return [2 /*return*/, res.sendStatus(500)];
                 }
-                res.status(200).send(Response_1.ResultLoader("User", User));
+                res.status(200).send(Helper_1.ResultLoader("User", Helper_2.GetUserData(User, req.user_id)));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("User not found", e_2.message));
+                res.status(404).send(Helper_1.ErrorLoader("User not found", e_2.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -118,7 +119,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                     //     message: "Invalid Input",
                     //     type: "Input",
                     // }
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: newUser.name })];
             case 1:
@@ -128,7 +129,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 findByEmail = _a.sent();
                 if (findByName || findByEmail) {
                     // throw new Error("User Name and Email Exits");
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("User Name and Email Exits", "UserFound"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("User Name and Email Exits", "UserFound"))];
                 }
                 return [4 /*yield*/, bcryptjs_1.default.hash(newUser.password || "", 10)];
             case 3:
@@ -151,7 +152,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 //     message: "User Found",
                 //     type: e.message
                 // }
-                res.status(404).send(Response_1.ErrorLoader(e_3.message, "Error"));
+                res.status(404).send(Helper_1.ErrorLoader(e_3.message, "Error"));
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
@@ -171,20 +172,20 @@ var SingIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                     //     message: "Invalid Input",
                     //     type: "Input",
                     // }
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: name_2 })];
             case 1:
                 findByName = _b.sent();
                 if (!findByName) {
                     // throw new Error("User Name and Email Exits");
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("User Not Exits", "UserNotFound"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("User Not Exits", "UserNotFound"))];
                 }
                 return [4 /*yield*/, bcryptjs_1.default.compare(password, findByName.password)];
             case 2:
                 isPasswordSame = _b.sent();
                 if (!isPasswordSame) {
-                    return [2 /*return*/, res.status(401).send(Response_1.ErrorLoader("PassWord Wrong", "UserNotFound"))];
+                    return [2 /*return*/, res.status(401).send(Helper_1.ErrorLoader("PassWord Wrong", "UserNotFound"))];
                 }
                 token = jsonwebtoken_1.default.sign(JSON.stringify(findByName), process.env.Secrete);
                 result = {
@@ -196,7 +197,7 @@ var SingIn = function (req, res) { return __awaiter(void 0, void 0, void 0, func
             case 3:
                 e_4 = _b.sent();
                 //        console.log(e);
-                res.status(404).send(Response_1.ErrorLoader(e_4.message, "Error"));
+                res.status(404).send(Helper_1.ErrorLoader(e_4.message, "Error"));
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
@@ -213,11 +214,11 @@ var DeleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, Schema_1.UserModel.deleteOne({ name: name_3 })];
             case 1:
                 UserDelete = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Users Deleted", UserDelete));
+                res.status(200).send(Helper_1.ResultLoader("Users Deleted", UserDelete));
                 return [3 /*break*/, 3];
             case 2:
                 e_5 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("UserList not found", e_5.message));
+                res.status(404).send(Helper_1.ErrorLoader("UserList not found", e_5.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -243,11 +244,11 @@ var UpdateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [4 /*yield*/, Schema_1.UserModel.findOneAndUpdate({ name: name_4 }, newUser)];
             case 3:
                 UserDelete = _c.sent();
-                res.status(200).send(Response_1.ResultLoader("Users Updated", UserDelete));
+                res.status(200).send(Helper_1.ResultLoader("Users Updated", UserDelete));
                 return [3 /*break*/, 5];
             case 4:
                 e_6 = _c.sent();
-                res.status(404).send(Response_1.ErrorLoader("UserList not found", e_6.message));
+                res.status(404).send(Helper_1.ErrorLoader("UserList not found", e_6.message));
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }

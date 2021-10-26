@@ -37,10 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserFollow = void 0;
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
 var Schema_1 = require("../../database/Schema");
+var Helper_2 = require("./Helper");
 var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var Name, isAdd, MyName, Mydata, data, flag, UserData, e_1;
+    var Name, isAdd, MyName, Mydata, data, flag, UserData, UserData2, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -48,6 +49,7 @@ var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 Name = req.body.name;
                 isAdd = req.body.isAdd;
                 MyName = req.user_name;
+                console.log('call');
                 return [4 /*yield*/, Schema_1.UserModel.findOne({ name: MyName })];
             case 1:
                 Mydata = _a.sent();
@@ -55,7 +57,7 @@ var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 2:
                 data = _a.sent();
                 if (!Mydata || !data || isAdd == undefined) {
-                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("User not found", "nothing"))];
+                    return [2 /*return*/, res.status(404).send(Helper_1.ErrorLoader("User not found", "nothing"))];
                 }
                 flag = Mydata.follow.includes(Name);
                 if (isAdd && !flag) {
@@ -76,13 +78,13 @@ var UserFollow = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 }
                 return [4 /*yield*/, data.save()];
             case 4:
-                _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Done", UserData._doc));
+                UserData2 = _a.sent();
+                res.status(200).send(Helper_1.ResultLoader("Done", Helper_2.GetNewUser(UserData2, req.user_name)));
                 return [3 /*break*/, 6];
             case 5:
                 e_1 = _a.sent();
-                //console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
+                console.log(e_1);
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_1.message));
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }

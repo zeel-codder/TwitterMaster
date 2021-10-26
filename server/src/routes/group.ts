@@ -7,11 +7,11 @@ var router: Router = express.Router()
 
 
 router.get('/all/:length',Auth,GetGroups)
-router.get('/allgroups',GetGroupsAll);
+router.get('/allgroups',Auth,GetGroupsAll);
 router.post('/create',Auth,AddGroup)
 router.delete('/delete',Auth, DeleteGroup)
 router.put('/update', Auth , UpdateGroup)
-router.get('/:_id',GetGroup)
+router.get('/:name',Auth,GetGroup)
 
 
 

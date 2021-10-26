@@ -50,18 +50,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GetNewTweet = exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
+exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
 var Schema_1 = require("../../database/Schema");
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
 var CRUD_1 = require("../group/CRUD");
 var fs_1 = __importDefault(require("fs"));
+var Helper_2 = require("./Helper");
 var Media_1 = require("../Media");
-function GetNewTweet(Tweet, name) {
-    var _a, _b, _c;
-    var data = Tweet._doc;
-    return __assign(__assign({}, data), { isLike: (_a = data.like) === null || _a === void 0 ? void 0 : _a.includes(name), like: ((_b = data.like) === null || _b === void 0 ? void 0 : _b.length) || 0, comments: (_c = data.comments) === null || _c === void 0 ? void 0 : _c.slice(0, 2) });
-}
-exports.GetNewTweet = GetNewTweet;
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, number, List, TweetList, e_1;
     return __generator(this, function (_a) {
@@ -73,18 +68,17 @@ var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 return [4 /*yield*/, Schema_1.TweetModel.find({}).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
-                TweetList = List.map(function (dataItem) {
-                    return GetNewTweet(dataItem, name_1);
-                });
+                TweetList = Helper_1.CropData(List, number);
+                TweetList = Helper_2.GetNewTweetList(TweetList, name_1);
                 if (List.length < number) {
-                    res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                    res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
                 }
-                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
                 // console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_1.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_1.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -102,13 +96,13 @@ var GetTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
             case 1:
                 Tweet = _a.sent();
                 if (Tweet === null) {
-                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("Tweet Not Found", "Not Found"))];
+                    return [2 /*return*/, res.status(404).send(Helper_1.ErrorLoader("Tweet Not Found", "Not Found"))];
                 }
-                res.status(200).send(Response_1.ResultLoader("Tweet", Tweet));
+                res.status(200).send(Helper_1.ResultLoader("Tweet", Helper_2.GetTweetData(Tweet, req.user_id)));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("Tweet not found", e_2.message));
+                res.status(404).send(Helper_1.ErrorLoader("Tweet not found", e_2.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -126,7 +120,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 newTweet_1 = req.body;
                 // console.log(newTweet)
                 if (!newTweet_1) {
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
                 // console.log(fileName);
                 newTweet_1 = __assign({ image: '', like: [], retweet: 0, explore: [] }, newTweet_1);
@@ -164,7 +158,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, newDoc.save()];
             case 6:
                 Tweet_1 = _c.sent();
-                res.status(200).send(Response_1.ResultLoader("Tweet Added", Tweet_1));
+                res.status(200).send(Helper_1.ResultLoader("Tweet Added", Tweet_1));
                 groups = newTweet_1.groups;
                 listGroup_1 = groups === null || groups === void 0 ? void 0 : groups.split("|");
                 return [4 /*yield*/, CRUD_1.GetGroupList()];
@@ -189,7 +183,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 return [3 /*break*/, 9];
             case 8:
                 e_3 = _c.sent();
-                res.status(404).send(Response_1.ErrorLoader(e_3.message, "Error"));
+                res.status(404).send(Helper_1.ErrorLoader(e_3.message, "Error"));
                 return [3 /*break*/, 9];
             case 9: return [2 /*return*/];
         }
@@ -210,7 +204,7 @@ var DeleteTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, Schema_1.TweetModel.deleteOne({ _id: _id })];
             case 2:
                 TweetDeleteData = _b.sent();
-                res.status(200).send(Response_1.ResultLoader("Tweets Deleted", TweetDeleteData));
+                res.status(200).send(Helper_1.ResultLoader("Tweets Deleted", TweetDeleteData));
                 listGroup_2 = (_a = TweetDelete_1.groups) === null || _a === void 0 ? void 0 : _a.split("|");
                 return [4 /*yield*/, CRUD_1.GetGroupList()];
             case 3:
@@ -234,7 +228,7 @@ var DeleteTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 5];
             case 4:
                 e_4 = _b.sent();
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_4.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_4.message));
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
@@ -254,7 +248,7 @@ var UpdateTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 1:
                 Tweet = _c.sent();
                 if (Tweet == null) {
-                    res.status(404).send(Response_1.ErrorLoader("Tweet Not Found", Tweet));
+                    res.status(404).send(Helper_1.ErrorLoader("Tweet Not Found", Tweet));
                 }
                 _b = type;
                 switch (_b) {
@@ -289,15 +283,15 @@ var UpdateTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 10:
                 Tweet = _c.sent();
                 return [3 /*break*/, 12];
-            case 11: return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+            case 11: return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
             case 12:
                 console.log(Tweet);
-                res.status(200).send(Response_1.ResultLoader("Tweets Updated", GetNewTweet(Tweet, req.user_id)));
+                res.status(200).send(Helper_1.ResultLoader("Tweets Updated", Helper_2.GetNewTweet(Tweet, req.user_id)));
                 return [3 /*break*/, 14];
             case 13:
                 e_5 = _c.sent();
                 //console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("TweetList not found", e_5.message));
+                res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_5.message));
                 return [3 /*break*/, 14];
             case 14: return [2 /*return*/];
         }

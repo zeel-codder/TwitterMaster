@@ -1,29 +1,48 @@
 import express, { Response, Request } from 'express';
-import { TweetModel } from '../../database/Schema';
+import { GroupModel, TweetModel } from '../../database/Schema';
 // import { Tweet } from '../../interface/database/Schema';
-import { ErrorLoader, ResultLoader } from "../Response";
+import { ErrorLoader, ResultLoader,CropData } from "../Helper";
+import { GetNewTweetList } from './Helper';
 
 
 const GetTweetsByIds = async (req: Request, res: Response) => {
 
     try {
-        const Ids:string[]=req.body.ids;
-        //console.log(Ids)
-        const List = await TweetModel.find({});
+        const name:string=req.body.name;
+        const number: number =+req.body.number;
+
+        const group=await GroupModel.findOne({title:name});
+
+        if(! group){
+
+            return  res.status(404).send(ErrorLoader("Group not found","null"));
+
+        }
+
+        const Ids:any[]=group.tweets;
+
+    
+        const List = await TweetModel.find({}).sort([['createdAt', -1]]);
         // console.log(List);
         const filter = List.filter((data:any)=>
         {            
             return Ids.includes(data._id.toString())
         }
-        
         );
 
-        const TweetList = Array.from(filter).reverse();
-        // console.log(TweetList)
+        let TweetList = CropData(filter,number);
+
+        TweetList = GetNewTweetList(TweetList,req.user_id);
+
+        if (filter.length < number) {
+            res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+        }
+
+        console.log(TweetList)
 
         res.status(200).send(ResultLoader("All Tweet", TweetList));
     } catch (e: any) {
-       // console.log(e);
+       console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
 }
@@ -39,8 +58,12 @@ const GetTweetsOfUser = async (req: Request, res: Response) => {
         const number:number=+req.params.length;
         
         const List = await TweetModel.find({Creator_Name:name}).limit(number).sort([['createdAt', -1]]);
-        const TweetList=List;
-        console.log(List.length)
+
+
+        let TweetList=CropData(List,number);
+        
+        TweetList = GetNewTweetList(TweetList,req.user_id);
+    
         
         if(List.length<number){
             res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));

@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { GroupModel } from '../../database/Schema';
 import { Group } from '../../interface/database/Schema';
-import { ErrorLoader,ResultLoader } from "../Response";
+import { ErrorLoader,ResultLoader } from "../Helper";
 
 
 
@@ -60,10 +60,9 @@ const GetGroup = async (req: Request, res: Response) => {
 
     try {
 
-        const {_id}=req.params;
-        // console.log(name);
+        const {name}=req.params;
 
-        const Group = await GroupModel.findOne({_id});
+        const Group = await GroupModel.findOne({title:name},'_id title description createdAt');
 
         if(Group===null){
             return res.status(404).send(ErrorLoader("Group Not Found","Not Found"))
@@ -91,6 +90,12 @@ const AddGroup = async (req: Request, res: Response) => {
         let newGroup: Group = req.body;
 
         if (!newGroup) {
+            return res.status(500).send(ErrorLoader("Invalid Input","Input"))
+        }
+
+        const GroupFind = await GroupModel.findOne({title:newGroup.title});
+
+        if(GroupFind){
             return res.status(500).send(ErrorLoader("Invalid Input","Input"))
         }
 

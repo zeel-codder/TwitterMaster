@@ -16,6 +16,9 @@ var dir = "./" + process.env.upload + "/files";
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
+if (process.env.NODE_ENV === 'production') {
+    console.log = function () { };
+}
 var tweet_1 = __importDefault(require("./routes/tweet"));
 var path_1 = __importDefault(require("path"));
 var app = express_1.default();

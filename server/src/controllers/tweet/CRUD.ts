@@ -1,28 +1,13 @@
 import express, { Response, Request } from 'express';
 import { TweetModel } from '../../database/Schema';
 import { Tweet } from '../../interface/database/Schema';
-import { ErrorLoader, ResultLoader } from "../Response";
+import { CropData, ErrorLoader, ResultLoader } from "../Helper";
 import { GetGroupList } from '../group/CRUD';
 import fs, { PathLike } from 'fs';
-
+import { GetNewTweet ,GetNewTweetList,GetTweetData} from './Helper';
 import { cloudinary } from '../Media';
 
 
-function GetNewTweet(Tweet:any,name:Record<string, any> | undefined){
-
-    const data=Tweet._doc;
-
-
-
-    return {
-
-        ...data,
-        isLike: data.like?.includes(name),
-        like: data.like?.length || 0,
-        comments: data.comments?.slice(0, 2),
-    }
-
-}
 
 
 
@@ -35,11 +20,10 @@ const GetTweets = async (req: Request, res: Response) => {
         const List = await TweetModel.find({}).sort([['createdAt', -1]]).limit(number);
 
 
-        const TweetList = List.map((dataItem: any) => {
-            return GetNewTweet(dataItem,name);
-        });
-
-
+        
+        let TweetList=CropData(List,number);
+        
+        TweetList = GetNewTweetList(TweetList,name);
 
         if (List.length < number) {
             res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
@@ -70,7 +54,7 @@ const GetTweet = async (req: Request, res: Response) => {
             return res.status(404).send(ErrorLoader("Tweet Not Found", "Not Found"))
         }
 
-        res.status(200).send(ResultLoader("Tweet", Tweet));
+        res.status(200).send(ResultLoader("Tweet", GetTweetData(Tweet,req.user_id)));
 
     } catch (e: any) {
 
@@ -295,6 +279,6 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
 
 
-export { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet ,GetNewTweet};
+export { GetTweets, AddTweet, DeleteTweet, UpdateTweet, GetTweet };
 
 

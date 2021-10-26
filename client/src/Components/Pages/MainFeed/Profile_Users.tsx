@@ -57,7 +57,7 @@ const Profile: React.FC<UserData> = () => {
 
 
 
-
+ 
     return (
         <div>
 

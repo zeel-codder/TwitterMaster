@@ -24,12 +24,12 @@ var storage = multer_1.default.diskStorage({
 });
 var upload = multer_1.default({ storage: storage });
 router.get('/all/:length', Auth_1.Auth, CRUD_1.GetTweets);
-router.post('/tweetsbyid', Other_2.GetTweetsByIds);
-router.get('/user/:name/:length', Other_1.GetTweetsOfUser);
+router.post('/tweetsbyid', Auth_1.Auth, Other_2.GetTweetsByIds);
+router.get('/user/:name/:length', Auth_1.Auth, Other_1.GetTweetsOfUser);
 router.post('/create', Auth_1.Auth, upload.single('media'), CRUD_1.AddTweet);
 router.post('/delete', Auth_1.Auth, CRUD_1.DeleteTweet);
 router.put('/update', Auth_1.Auth, CRUD_1.UpdateTweet);
 router.post("/add_comment", Auth_1.Auth, Other_1.AddComment);
 router.post("/remove_comment", Auth_1.Auth, Other_1.RemoveComment);
-router.get('/:_id', CRUD_1.GetTweet);
+router.get('/:_id', Auth_1.Auth, CRUD_1.GetTweet);
 exports.default = router;

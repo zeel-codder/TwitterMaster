@@ -11,10 +11,10 @@ var Other_1 = require("../controllers/user/Other");
 var router = express_1.default.Router();
 router.get('/all/:length', Auth_1.Auth, CRUD_1.GetUsers);
 router.post('/create', CRUD_1.AddUser);
-router.delete('/delete', CRUD_1.DeleteUser);
+router.delete('/delete', Auth_1.Auth, CRUD_1.DeleteUser);
 router.post('/singin', CRUD_1.SingIn);
-router.put('/update', CRUD_1.UpdateUser);
-router.get('/:name', CRUD_1.GetUser);
+router.put('/update', Auth_1.Auth, CRUD_1.UpdateUser);
+router.get('/:name', Auth_1.Auth, CRUD_1.GetUser);
 router.post('/follow', Auth_1.Auth, Other_1.UserFollow);
 router.get('/verify/:id', function (req, res) {
     res.send('Birds home page');

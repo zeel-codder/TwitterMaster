@@ -24,6 +24,7 @@ interface UserData {
     _id?: string ;
     followers?: string[];
     follow?: string[];
+    isFollow?:boolean;
 }
 
 

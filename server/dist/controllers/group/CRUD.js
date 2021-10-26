@@ -49,7 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetGroupsAll = exports.GetGroupList = exports.GetGroup = exports.UpdateGroup = exports.DeleteGroup = exports.AddGroup = exports.GetGroups = void 0;
 var Schema_1 = require("../../database/Schema");
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
 var GetGroupList = function () { return __awaiter(void 0, void 0, void 0, function () {
     var GroupList;
     return __generator(this, function (_a) {
@@ -72,11 +72,11 @@ var GetGroupsAll = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, GetGroupList()];
             case 1:
                 List = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("All Tweet", List));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", List));
                 return [3 /*break*/, 3];
             case 2:
                 e_1 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_1.message));
+                res.status(404).send(Helper_1.ErrorLoader("GroupList not found", e_1.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -95,13 +95,13 @@ var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 1:
                 List = _a.sent();
                 if (List.length < number) {
-                    res.status(200).send(Response_1.ResultLoader("All Groups", { List: List, isEnd: true }));
+                    res.status(200).send(Helper_1.ResultLoader("All Groups", { List: List, isEnd: true }));
                 }
-                res.status(200).send(Response_1.ResultLoader("All Tweet", { List: List, isEnd: false }));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: List, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_2.message));
+                res.status(404).send(Helper_1.ErrorLoader("GroupList not found", e_2.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -109,23 +109,23 @@ var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 }); };
 exports.GetGroups = GetGroups;
 var GetGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, Group, e_3;
+    var name_1, Group, e_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                _id = req.params._id;
-                return [4 /*yield*/, Schema_1.GroupModel.findOne({ _id: _id })];
+                name_1 = req.params.name;
+                return [4 /*yield*/, Schema_1.GroupModel.findOne({ title: name_1 }, '_id title description createdAt')];
             case 1:
                 Group = _a.sent();
                 if (Group === null) {
-                    return [2 /*return*/, res.status(404).send(Response_1.ErrorLoader("Group Not Found", "Not Found"))];
+                    return [2 /*return*/, res.status(404).send(Helper_1.ErrorLoader("Group Not Found", "Not Found"))];
                 }
-                res.status(200).send(Response_1.ResultLoader("Group", Group));
+                res.status(200).send(Helper_1.ResultLoader("Group", Group));
                 return [3 /*break*/, 3];
             case 2:
                 e_3 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("Group not found", e_3.message));
+                res.status(404).send(Helper_1.ErrorLoader("Group not found", e_3.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -133,27 +133,33 @@ var GetGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.GetGroup = GetGroup;
 var AddGroup = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newGroup, newDoc, Group, e_4;
+    var newGroup, GroupFind, newDoc, Group, e_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 3, , 4]);
                 newGroup = req.body;
                 if (!newGroup) {
-                    return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
+                }
+                return [4 /*yield*/, Schema_1.GroupModel.findOne({ title: newGroup.title })];
+            case 1:
+                GroupFind = _a.sent();
+                if (GroupFind) {
+                    return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
                 newGroup = __assign({ users: [], tweets: [] }, newGroup);
                 newDoc = new Schema_1.GroupModel(newGroup);
                 return [4 /*yield*/, newDoc.save()];
-            case 1:
-                Group = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Group Added", Group));
-                return [3 /*break*/, 3];
             case 2:
+                Group = _a.sent();
+                res.status(200).send(Helper_1.ResultLoader("Group Added", Group));
+                return [3 /*break*/, 4];
+            case 3:
                 e_4 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader(e_4.message, "Error"));
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                res.status(404).send(Helper_1.ErrorLoader(e_4.message, "Error"));
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -168,11 +174,11 @@ var DeleteGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, Schema_1.GroupModel.deleteOne({ _id: _id })];
             case 1:
                 GroupDelete = _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Groups Deleted", GroupDelete));
+                res.status(200).send(Helper_1.ResultLoader("Groups Deleted", GroupDelete));
                 return [3 /*break*/, 3];
             case 2:
                 e_5 = _a.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_5.message));
+                res.status(404).send(Helper_1.ErrorLoader("GroupList not found", e_5.message));
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -224,16 +230,16 @@ var UpdateGroup = function (req, res) { return __awaiter(void 0, void 0, void 0,
             case 10:
                 Group = _c.sent();
                 return [3 /*break*/, 12];
-            case 11: return [2 /*return*/, res.status(500).send(Response_1.ErrorLoader("Invalid Input", "Input"))];
+            case 11: return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
             case 12:
                 if (Group == null) {
-                    res.status(404).send(Response_1.ErrorLoader("Group Not Found", Group));
+                    res.status(404).send(Helper_1.ErrorLoader("Group Not Found", Group));
                 }
-                res.status(200).send(Response_1.ResultLoader("Groups Updated", Group));
+                res.status(200).send(Helper_1.ResultLoader("Groups Updated", Group));
                 return [3 /*break*/, 14];
             case 13:
                 e_6 = _c.sent();
-                res.status(404).send(Response_1.ErrorLoader("GroupList not found", e_6.message));
+                res.status(404).send(Helper_1.ErrorLoader("GroupList not found", e_6.message));
                 return [3 /*break*/, 14];
             case 14: return [2 /*return*/];
         }

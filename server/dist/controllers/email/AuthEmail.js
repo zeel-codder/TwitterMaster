@@ -44,7 +44,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SendPassWordResetLink = void 0;
 var Schema_1 = require("../../database/Schema");
-var Response_1 = require("../Response");
+var Helper_1 = require("../Helper");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var emailjs_1 = require("emailjs");
 var SendPassWordResetLink = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -85,12 +85,12 @@ var SendPassWordResetLink = function (req, res) { return __awaiter(void 0, void 
                 return [4 /*yield*/, client.sendAsync(message)];
             case 3:
                 _a.sent();
-                res.status(200).send(Response_1.ResultLoader("Done", "Send"));
+                res.status(200).send(Helper_1.ResultLoader("Done", "Send"));
                 return [3 /*break*/, 5];
             case 4:
                 e_1 = _a.sent();
                 // console.log(e);
-                res.status(404).send(Response_1.ErrorLoader("Email not found", e_1.message));
+                res.status(404).send(Helper_1.ErrorLoader("Email not found", e_1.message));
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }

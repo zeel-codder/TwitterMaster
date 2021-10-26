@@ -9,7 +9,7 @@ import { SendPassWordResetMail } from '../../../Actions/Api';
 const Loading: React.FC<{}> = () => {
 
     const { token } = useParams<{ token: string }>();
-    const [IsLoading, setLoading] = useState<boolean>(false);
+    const MEL:any=useAppSelector((state)=>state.MELReducer);
     const state:any = useAppSelector((state) => state.AuthReducer);
     const dispatch = useAppDispatch()
 
@@ -26,16 +26,18 @@ const Loading: React.FC<{}> = () => {
         console.log('call',state)
         if(! validateEmail(state.email)) return;
 
-        setLoading(true);
+        dispatch({type:"ChangeLoad",data:true});
 
         SendPassWordResetMail(state.email as string)
         .then((res)=>{
             console.log(res.data);
             window.location.href="/";
         }).catch((e)=>{
+            dispatch({type:"ChangeMessage",data:"Enter Valid Email"})
+            setTimeout(()=>{dispatch({type:"ChangeMessage",data:""})},5000);
             console.log(e);
         }).finally(()=>{
-            setLoading(false);
+            dispatch({type:"ChangeLoad",data:false});
         })
 
     }
@@ -48,7 +50,7 @@ const Loading: React.FC<{}> = () => {
         <div>
             {
 
-                IsLoading
+                MEL.load
 
                 &&
 
@@ -60,6 +62,10 @@ const Loading: React.FC<{}> = () => {
             
             <div className="flex column auth">
                 <span>The Reset Password Like will send when you enter email and click on send</span>
+
+                {
+                    MEL.message  && <span className="red a">{ MEL.message}</span>
+                }
             {
 
 
@@ -70,7 +76,7 @@ const Loading: React.FC<{}> = () => {
 
                         <Input
                             type="email"
-                            placeholder="email"
+                            placeholder="Email"
                             variant="outlined"
                             inputProps={{
                                 style: {

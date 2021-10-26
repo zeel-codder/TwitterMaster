@@ -19,16 +19,15 @@ const API = axios.create({
 
 const SingUpRequest=(user:UserData) =>axios.post(web+"/user/create",user)
 const SingInRequest=(user:UserData) =>axios.post(web+"/user/singin",user);
-const UpDateUser=(name:string,after:object)=>axios.put(web+"/user/update",{before:{name},after});
 const SendPassWordResetMail=(email:string)=>axios.post(web+"/email/password_reset",{email});
 const UploadFile=(formData:FormData)=> axios.post("https://api.cloudinary.com/v1_1/dcgtilnwq/image/upload",formData);
 
 
 const GetUserByName=(name:string) =>API.get("/user/"+name);
-const GetGroupsByIds=(list:string[])=>API.post("/tweet/tweetsbyid",{'ids':list})
+const GetGroupsByIds=(name:string,number:number)=>API.post("/tweet/tweetsbyid",{name,number})
 const GetTweetId=(_id:string)=>API.get("/tweet/"+_id);
 const AllGroups=()=>API.get('/group/allgroups');
-
+const UpDateUser=(name:string,after:object)=>API.put("/user/update",{before:{name},after});
 
 
 
@@ -38,6 +37,8 @@ const GetUserTweetList=(length:number|undefined) =>API.get("/tweet/all/"+length)
 const GetUsers=(length:number|undefined)=>API.get("/user/all/"+length)
 
 
+
+const GetGroupByName=(name:string|undefined)=>API.get("/group/"+name);
 const CreateNewPost=(TweetData:object) => API.post("/tweet/create",TweetData);
 const UpdateTweet=(odd:object,newd:TweetSchema) => API.put("/tweet/update",{before:odd,after:newd})
 const CrateGroup=(data:object)=>API.post("/group/create",data);
@@ -69,6 +70,7 @@ export {
     UpDateUser,
     SendPassWordResetMail,
     UploadFile,
-    AllGroups
+    AllGroups,
+    GetGroupByName
 
 };

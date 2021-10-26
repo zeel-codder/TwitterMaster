@@ -14,9 +14,16 @@ if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
 
+if(process.env.NODE_ENV==='production'){
+    console.log = function() {}
+}
+  
+
 
 import TweetRoute from './routes/tweet';
 import path from 'path';
+
+
 
 
 

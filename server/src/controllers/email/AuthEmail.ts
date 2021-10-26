@@ -4,7 +4,7 @@
 
 import { Response, Request } from 'express';
 import { UserModel } from '../../database/Schema';
-import { ErrorLoader, ResultLoader } from "../Response";
+import { ErrorLoader, ResultLoader } from "../Helper";
 import jwt from 'jsonwebtoken';
 import { SMTPClient, Message } from 'emailjs';
 
