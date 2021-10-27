@@ -1,11 +1,14 @@
-// import React from 'react';
+import React from 'react';
 
-const Loading = () => {
+/**
+ * Loader of App. this FC is Load when any data will fetch from api.
+ */
+
+const Loading:React.FC<{}> = () => {
     return (
         <div className="place-load">
             <div className="Load">
             </div>
-            
         </div>
     );
 }

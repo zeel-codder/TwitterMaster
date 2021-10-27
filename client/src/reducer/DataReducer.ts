@@ -1,5 +1,7 @@
-import {TweetSchema,GroupSchema,UserData} from '../DataType/Feed'
+/**This Reducer is User to store the data of groups/tweets and users for just temporary purpose. */
 
+
+import {TweetSchema,GroupSchema,UserData} from '../DataType/Feed'
 
 interface action  {
     type:  string |undefined;
@@ -12,11 +14,12 @@ interface data{
     Users:UserData[],
 }
 
+
+//init
 const initialState: data= {
     Tweets:[],
     Groups:[],
     Users:[]
-    
 }
 
 

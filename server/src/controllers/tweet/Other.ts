@@ -35,14 +35,14 @@ const GetTweetsByIds = async (req: Request, res: Response) => {
         TweetList = GetNewTweetList(TweetList,req.user_id);
 
         if (filter.length < number) {
-            res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+            return res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
         }
 
         console.log(TweetList)
 
         res.status(200).send(ResultLoader("All Tweet", TweetList));
     } catch (e: any) {
-       console.log(e);
+        // console.log(e);
         res.status(404).send(ErrorLoader("TweetList not found", e.message));
     }
 }

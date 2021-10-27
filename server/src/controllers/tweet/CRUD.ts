@@ -4,7 +4,7 @@ import { Tweet } from '../../interface/database/Schema';
 import { CropData, ErrorLoader, ResultLoader } from "../Helper";
 import { GetGroupList } from '../group/CRUD';
 import fs, { PathLike } from 'fs';
-import { GetNewTweet ,GetNewTweetList,GetTweetData} from './Helper';
+import { GetNewTweet, GetNewTweetList, GetTweetData } from './Helper';
 import { cloudinary } from '../Media';
 
 
@@ -20,10 +20,10 @@ const GetTweets = async (req: Request, res: Response) => {
         const List = await TweetModel.find({}).sort([['createdAt', -1]]).limit(number);
 
 
-        
-        let TweetList=CropData(List,number);
-        
-        TweetList = GetNewTweetList(TweetList,name);
+
+        let TweetList = CropData(List, number);
+
+        TweetList = GetNewTweetList(TweetList, name);
 
         if (List.length < number) {
             res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
@@ -54,7 +54,7 @@ const GetTweet = async (req: Request, res: Response) => {
             return res.status(404).send(ErrorLoader("Tweet Not Found", "Not Found"))
         }
 
-        res.status(200).send(ResultLoader("Tweet", GetTweetData(Tweet,req.user_id)));
+        res.status(200).send(ResultLoader("Tweet", GetTweetData(Tweet, req.user_id)));
 
     } catch (e: any) {
 
@@ -73,81 +73,43 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
     try {
 
+        let Tweet: any = req.body;
 
 
-
-        const file = req.file;
-
-        //console.log(file);
-        // let file=req.files!==[] && req.files?.key;
-
-
-        let newTweet: Tweet = req.body;
-
-        // console.log(newTweet)
-        if (!newTweet) {
+        if (!Tweet) {
             return res.status(500).send(ErrorLoader("Invalid Input", "Input"))
         }
 
-        // console.log(fileName);
 
 
-        newTweet = {
-            image: '',
-            like: [],
-            retweet: 0,
-            explore: [],
-            ...newTweet
+        const newTweet: any = {
+            description: Tweet.description,
+            groups: Tweet.groups,        
+            url: Tweet.url,
         }
 
         newTweet.Creator_ID = req.user_id;
         newTweet.Creator_Name = req.user_name;
-        // console.log(req.files);
 
-        if (file != undefined) {
-            //console.log('call')
 
-            if (file?.mimetype == 'image/png' || file?.mimetype == 'image/jpg' || file?.mimetype == 'image/jpeg') {
-
-                // // newTweet.image =fName;
-                await cloudinary.uploader.upload(`./${process.env.upload}/files/${req.file?.filename}`,
-
-                    function (error: Error, result: any) {
-                        if (error) return;
-                        // console.log(result)
-
-                        newTweet.image = result.secure_url;
-                    }
-                );
+        if (Tweet.media) {
+            if (Tweet.isImage) {
+                newTweet.image = Tweet.media;
             }
             else {
-                await cloudinary.uploader.upload(`./${process.env.upload}/files/${req.file?.filename}`,
-                    {
-                        resource_type: "video"
-                    },
-
-                    function (error: Error, result: any) {
-                        if (error) return;
-
-                        newTweet.video = result.secure_url;
-                    }
-                )
+                newTweet.video = Tweet.media;
             }
-            //console.log('call')
-            fs.unlinkSync(file?.path as string);
-            //console.log('remove')
         }
 
 
 
         const newDoc = new TweetModel(newTweet);
 
-        const Tweet = await newDoc.save();
+        let newTweetData=await newDoc.save();
 
 
-        res.status(200).send(ResultLoader("Tweet Added", Tweet));
+        res.status(200).send(ResultLoader("Tweet Added", null));
 
-        //console.log('call after');
 
 
         let { groups } = newTweet;
@@ -165,13 +127,16 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
         GroupList.forEach(async (data) => {
             if (listGroup?.includes(data.title)) {
                 // console.log("add")
-                data.tweets.push(Tweet._id);
+                data.tweets.push(newTweetData._id);
                 await data.save();
             }
         });
+        console.log(listGroup)
 
 
     } catch (e: any) {
+
+        console.log(e)
 
         res.status(404).send(ErrorLoader(e.message, "Error"));
 
@@ -261,11 +226,11 @@ const UpdateTweet = async (req: Request, res: Response) => {
 
         console.log(Tweet)
 
-        
 
 
 
-        res.status(200).send(ResultLoader("Tweets Updated", GetNewTweet(Tweet,req.user_id)));
+
+        res.status(200).send(ResultLoader("Tweets Updated", GetNewTweet(Tweet, req.user_id)));
 
     } catch (e: any) {
 

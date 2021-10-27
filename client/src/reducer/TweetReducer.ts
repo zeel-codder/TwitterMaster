@@ -1,4 +1,7 @@
-
+/**
+ * TweetReducer is User for Tweet Creating form. It store the all basic 
+ * state for crate the new Tweet.👱
+ */
 interface TweetSchema {
     creator:  string|undefined;
     image?:  {bit?:string,file?:File};
@@ -13,6 +16,9 @@ interface TweetSchema {
     isImage:boolean;
     isVideo:boolean;
     url?:string
+    Gif?:string
+    isGif?:boolean
+    GifShow?:boolean
 }
 
 
@@ -24,7 +30,10 @@ const NullTweet: TweetSchema = {
     groups: '',
     isImage:false,
     isVideo:false,
-    url:""
+    url:"",
+    Gif:"",
+    isGif:false,
+    GifShow:false
 }
 
 
@@ -54,6 +63,10 @@ function TweetReducer(state = NullTweet, action: actionSchema) {
             return { ...state, creator: action.creator };
         case ChangeGroups:
             return { ...state, groups: action.groups };
+        case "ChangeTweetGif":
+            return { ...state, Gif: action.Gif, isGif:action.isGif };
+        case "ChangeTweetGifShow":
+            return { ...state, GifShow: action.GifShow};
         case ChangeUrl:
             return {...state,url:action.url};
         default:

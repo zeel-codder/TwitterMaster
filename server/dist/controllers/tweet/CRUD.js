@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -46,17 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetTweet = exports.UpdateTweet = exports.DeleteTweet = exports.AddTweet = exports.GetTweets = void 0;
 var Schema_1 = require("../../database/Schema");
 var Helper_1 = require("../Helper");
 var CRUD_1 = require("../group/CRUD");
-var fs_1 = __importDefault(require("fs"));
 var Helper_2 = require("./Helper");
-var Media_1 = require("../Media");
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, number, List, TweetList, e_1;
     return __generator(this, function (_a) {
@@ -110,60 +94,40 @@ var GetTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.GetTweet = GetTweet;
 var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var file, newTweet_1, newDoc, Tweet_1, groups, listGroup_1, GroupList, e_3;
-    var _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
+    var Tweet, newTweet, newDoc, newTweetData_1, groups, listGroup_1, GroupList, e_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
             case 0:
-                _c.trys.push([0, 8, , 9]);
-                file = req.file;
-                newTweet_1 = req.body;
-                // console.log(newTweet)
-                if (!newTweet_1) {
+                _a.trys.push([0, 3, , 4]);
+                Tweet = req.body;
+                if (!Tweet) {
                     return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
-                // console.log(fileName);
-                newTweet_1 = __assign({ image: '', like: [], retweet: 0, explore: [] }, newTweet_1);
-                newTweet_1.Creator_ID = req.user_id;
-                newTweet_1.Creator_Name = req.user_name;
-                if (!(file != undefined)) return [3 /*break*/, 5];
-                if (!((file === null || file === void 0 ? void 0 : file.mimetype) == 'image/png' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpg' || (file === null || file === void 0 ? void 0 : file.mimetype) == 'image/jpeg')) return [3 /*break*/, 2];
-                // // newTweet.image =fName;
-                return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_a = req.file) === null || _a === void 0 ? void 0 : _a.filename), function (error, result) {
-                        if (error)
-                            return;
-                        // console.log(result)
-                        newTweet_1.image = result.secure_url;
-                    })];
-            case 1:
-                // // newTweet.image =fName;
-                _c.sent();
-                return [3 /*break*/, 4];
-            case 2: return [4 /*yield*/, Media_1.cloudinary.uploader.upload("./" + process.env.upload + "/files/" + ((_b = req.file) === null || _b === void 0 ? void 0 : _b.filename), {
-                    resource_type: "video"
-                }, function (error, result) {
-                    if (error)
-                        return;
-                    newTweet_1.video = result.secure_url;
-                })];
-            case 3:
-                _c.sent();
-                _c.label = 4;
-            case 4:
-                //console.log('call')
-                fs_1.default.unlinkSync(file === null || file === void 0 ? void 0 : file.path);
-                _c.label = 5;
-            case 5:
-                newDoc = new Schema_1.TweetModel(newTweet_1);
+                newTweet = {
+                    description: Tweet.description,
+                    groups: Tweet.groups,
+                    url: Tweet.url,
+                };
+                newTweet.Creator_ID = req.user_id;
+                newTweet.Creator_Name = req.user_name;
+                if (Tweet.media) {
+                    if (Tweet.isImage) {
+                        newTweet.image = Tweet.media;
+                    }
+                    else {
+                        newTweet.video = Tweet.media;
+                    }
+                }
+                newDoc = new Schema_1.TweetModel(newTweet);
                 return [4 /*yield*/, newDoc.save()];
-            case 6:
-                Tweet_1 = _c.sent();
-                res.status(200).send(Helper_1.ResultLoader("Tweet Added", Tweet_1));
-                groups = newTweet_1.groups;
+            case 1:
+                newTweetData_1 = _a.sent();
+                res.status(200).send(Helper_1.ResultLoader("Tweet Added", null));
+                groups = newTweet.groups;
                 listGroup_1 = groups === null || groups === void 0 ? void 0 : groups.split("|");
                 return [4 /*yield*/, CRUD_1.GetGroupList()];
-            case 7:
-                GroupList = _c.sent();
+            case 2:
+                GroupList = _a.sent();
                 // console.log(GroupList,listGroup);
                 GroupList.forEach(function (data) { return __awaiter(void 0, void 0, void 0, function () {
                     return __generator(this, function (_a) {
@@ -171,7 +135,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                             case 0:
                                 if (!(listGroup_1 === null || listGroup_1 === void 0 ? void 0 : listGroup_1.includes(data.title))) return [3 /*break*/, 2];
                                 // console.log("add")
-                                data.tweets.push(Tweet_1._id);
+                                data.tweets.push(newTweetData_1._id);
                                 return [4 /*yield*/, data.save()];
                             case 1:
                                 _a.sent();
@@ -180,12 +144,14 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                         }
                     });
                 }); });
-                return [3 /*break*/, 9];
-            case 8:
-                e_3 = _c.sent();
+                console.log(listGroup_1);
+                return [3 /*break*/, 4];
+            case 3:
+                e_3 = _a.sent();
+                console.log(e_3);
                 res.status(404).send(Helper_1.ErrorLoader(e_3.message, "Error"));
-                return [3 /*break*/, 9];
-            case 9: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

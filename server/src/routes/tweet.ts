@@ -7,29 +7,29 @@ var router: Router = express.Router()
 
 import { GetTweetsByIds } from "../controllers/tweet/Other";
 
-import multer  from 'multer';
-const storage = multer.diskStorage({
-    destination: function (req:Request, file:any, cb:Function) {
+// import multer  from 'multer';
+// const storage = multer.diskStorage({
+//     destination: function (req:Request, file:any, cb:Function) {
 
-      // console.log(file);
-      cb(null, `./${process.env.upload}/files`)
-      // cb(null, path.join('../files'))
-    },
-    filename: function (req:Request, file:any, cb:Function) {
-      const uniqueSuffix:string = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null,  new Date().toISOString() + file.originalname);
-      // cb(null, file.fieldname + '-' + uniqueSuffix)
-    }
-})
+//       // console.log(file);
+//       cb(null, `./${process.env.upload}/files`)
+//       // cb(null, path.join('../files'))
+//     },
+//     filename: function (req:Request, file:any, cb:Function) {
+//       const uniqueSuffix:string = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//       cb(null,  new Date().toISOString() + file.originalname);
+//       // cb(null, file.fieldname + '-' + uniqueSuffix)
+//     }
+// })
   
-const upload = multer({ storage: storage })
+// const upload = multer({ storage: storage })
 
 
 
 router.get('/all/:length',Auth,GetTweets)
 router.post('/tweetsbyid',Auth,GetTweetsByIds);
 router.get('/user/:name/:length',Auth,GetTweetsOfUser);
-router.post('/create',Auth,upload.single('media'),AddTweet)
+router.post('/create',Auth,AddTweet)
 router.post('/delete', Auth,DeleteTweet)
 router.put('/update',Auth,UpdateTweet)
 router.post("/add_comment",Auth,AddComment);

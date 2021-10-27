@@ -1,3 +1,4 @@
+// File Include All Mani interfaces which are User in App
 interface TweetSchema {
     creator: string ;
     image?: string ;

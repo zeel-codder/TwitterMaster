@@ -65,14 +65,14 @@ var GetTweetsByIds = function (req, res) { return __awaiter(void 0, void 0, void
                 TweetList = Helper_1.CropData(filter, number);
                 TweetList = Helper_2.GetNewTweetList(TweetList, req.user_id);
                 if (filter.length < number) {
-                    res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                    return [2 /*return*/, res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }))];
                 }
                 console.log(TweetList);
                 res.status(200).send(Helper_1.ResultLoader("All Tweet", TweetList));
                 return [3 /*break*/, 4];
             case 3:
                 e_1 = _a.sent();
-                console.log(e_1);
+                // console.log(e);
                 res.status(404).send(Helper_1.ErrorLoader("TweetList not found", e_1.message));
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];

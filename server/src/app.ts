@@ -7,12 +7,12 @@ import GroupRoute from './routes/group';
 import EmailRouter from './routes/email';
 
 var cors = require('cors');
-var fs = require('fs');
-var dir = `./${process.env.upload}/files`;
+// var fs = require('fs');
+// var dir = `./${process.env.upload}/files`;
 
-if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir);
-}
+// if (!fs.existsSync(dir)){
+//     fs.mkdirSync(dir);
+// }
 
 if(process.env.NODE_ENV==='production'){
     console.log = function() {}

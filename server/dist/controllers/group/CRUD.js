@@ -84,7 +84,7 @@ var GetGroupsAll = function (req, res) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.GetGroupsAll = GetGroupsAll;
 var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var number, Params, List, e_2;
+    var number, Params, List, TweetList, e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -94,10 +94,11 @@ var GetGroups = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 return [4 /*yield*/, Schema_1.GroupModel.find({}, Params).sort([['createdAt', -1]]).limit(number)];
             case 1:
                 List = _a.sent();
+                TweetList = Helper_1.CropData(List, number);
                 if (List.length < number) {
-                    res.status(200).send(Helper_1.ResultLoader("All Groups", { List: List, isEnd: true }));
+                    res.status(200).send(Helper_1.ResultLoader("All Groups", { List: TweetList, isEnd: true }));
                 }
-                res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: List, isEnd: false }));
+                res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];
             case 2:
                 e_2 = _a.sent();

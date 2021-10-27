@@ -175,9 +175,11 @@ const GroupDiv: React.FC<{}> = () => {
 
         if (Data.title === "" || Data.description === "") {
             setMessage("Title and Description Must be not have Empty");
-            setLoading(false);
+            
             return;
         }
+
+        setLoading(true);
 
         CrateGroup(Data)
             .then((res) => {

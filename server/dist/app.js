@@ -11,11 +11,11 @@ var user_1 = __importDefault(require("./routes/user"));
 var group_1 = __importDefault(require("./routes/group"));
 var email_1 = __importDefault(require("./routes/email"));
 var cors = require('cors');
-var fs = require('fs');
-var dir = "./" + process.env.upload + "/files";
-if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
-}
+// var fs = require('fs');
+// var dir = `./${process.env.upload}/files`;
+// if (!fs.existsSync(dir)){
+//     fs.mkdirSync(dir);
+// }
 if (process.env.NODE_ENV === 'production') {
     console.log = function () { };
 }

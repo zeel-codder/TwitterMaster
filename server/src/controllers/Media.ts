@@ -1,7 +1,7 @@
-var cloudinary = require('cloudinary').v2;
 import multer  from 'multer';
 import express, { Router, Request, Response } from "express";
 
+var cloudinary = require('cloudinary').v2;
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_Api_Name,
     api_key: process.env.CLOUDINARY_Api_Key,

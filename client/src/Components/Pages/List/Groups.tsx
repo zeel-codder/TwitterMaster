@@ -21,7 +21,7 @@ const Groups: React.FC<{ DataList: GroupSchema[] }> = ({ DataList }) => {
         let observe = new IntersectionObserver((e) => {
             // console.log('call'
             if (e[0].isIntersecting) {
-                dispatch({ type: "Length_ChangeUserLength", data: DataList.length + 5 });
+                dispatch({ type: "Length_ChangeGroupLength", data: DataList.length + 10 });
             }
         });
 

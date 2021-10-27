@@ -1,3 +1,8 @@
+/**
+ * This Reducer is Used For show the any user profile page. used to store user data
+ * and number tweets made by the user.
+ */
+
 import {UserData,TweetSchema} from '../DataType/Feed';
 
 
@@ -5,7 +10,6 @@ interface DataSchema{
     user:UserData|null,
     tweets:TweetSchema[],
 }
-
 
 interface actionSchema extends TweetSchema{
     type:string;

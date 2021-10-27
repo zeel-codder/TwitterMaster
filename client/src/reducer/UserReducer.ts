@@ -1,3 +1,8 @@
+/**
+ * 
+ * User To Store the User(Login Info 👱) Data In App.
+ */
+
 import {UserData} from '../DataType/Feed'
 
 
@@ -13,8 +18,7 @@ const initialState: UserData = {
     name: "",
     _id:"",
     follow:[],
-    followers:[],
-   
+    followers:[],  
 }
 
 

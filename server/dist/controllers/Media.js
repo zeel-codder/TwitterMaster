@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.upload = exports.cloudinary = void 0;
+var multer_1 = __importDefault(require("multer"));
 var cloudinary = require('cloudinary').v2;
 exports.cloudinary = cloudinary;
-var multer_1 = __importDefault(require("multer"));
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_Api_Name,
     api_key: process.env.CLOUDINARY_Api_Key,

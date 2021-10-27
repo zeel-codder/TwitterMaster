@@ -1,4 +1,7 @@
-
+/**
+ * MELReducer is User for show message on screen some time, also it used in showing
+ * loader in App. The End State is User in Infinite Scrolling part.
+ */
 interface action  {
     type: string;
     data: string;

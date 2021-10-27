@@ -1,3 +1,8 @@
+/* 
+Reducer is User in Login/Sing Up page also use to store the user data
+*/
+
+
 interface UserData {
     type?: string|undefined;
     email: string|undefined;
@@ -5,7 +10,6 @@ interface UserData {
     confirm_password?: string|undefined;
     name: string|undefined;
 }
-
 
 interface action {
     type:  string |undefined;
@@ -22,6 +26,7 @@ const ChangeCPassword: string = "ChangeCPassword";
 const ChangeName: string = "ChangeName";
 
 
+//init
 const initialState: UserData = {
     email: "",
     password: "",

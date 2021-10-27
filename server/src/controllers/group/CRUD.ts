@@ -1,7 +1,7 @@
 import { Response, Request } from 'express';
 import { GroupModel } from '../../database/Schema';
 import { Group } from '../../interface/database/Schema';
-import { ErrorLoader,ResultLoader } from "../Helper";
+import { ErrorLoader,ResultLoader,CropData } from "../Helper";
 
 
 
@@ -34,12 +34,14 @@ const GetGroups = async (req: Request, res: Response) => {
         const number:number=+req.params.length;
         const Params:string='_id title description createdAt updatedAt';
         const List = await  GroupModel.find({},Params).sort([['createdAt', -1]]).limit(number);
+
+        const TweetList= CropData(List,number);
     
         if(List.length<number){
-            res.status(200).send(ResultLoader("All Groups", {List,isEnd:true}));
+            res.status(200).send(ResultLoader("All Groups", {List:TweetList,isEnd:true}));
         }
 
-        res.status(200).send(ResultLoader("All Tweet", {List,isEnd:false}));
+        res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:false}));
 
     } catch (e: any) {
 

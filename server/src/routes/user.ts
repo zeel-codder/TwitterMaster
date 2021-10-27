@@ -13,7 +13,7 @@ router.get('/all/:length',Auth,GetUsers)
 router.post('/create', AddUser)
 router.delete('/delete',Auth, DeleteUser)
 router.post('/singin', SingIn)
-router.put('/update',Auth, UpdateUser)
+router.put('/update', UpdateUser)
 router.get('/:name', Auth,GetUser)
 router.post('/follow',Auth,UserFollow);
 router.get('/verify/:id', function (req: Request, res: Response) {

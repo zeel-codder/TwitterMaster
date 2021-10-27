@@ -8,7 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../store';
 import { GetTweetOfUser, GetUserByName, ToggleFollowUser } from '../../Actions/Api';
 import Loader from '../Loaders/Loading';
 import Tweets from './List/Tweets';
-import { UploadFile, UpDateUser } from '../../Actions/Api'
+import { UpDateUser } from '../../Actions/Api'
+import { UploadImageFile } from '../../Actions/Media'
 import Home from './Home';
 
 
@@ -135,8 +136,8 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
                                                         setLoading(true)
 
-                                                        UploadFile(data)
-                                                            .then((res) => {
+                                                        UploadImageFile(data)
+                                                            .then((res:any) => {
                                                                 console.log(res.data);
 
                                                                 UpDateUser(User.name, { image: res.data.secure_url })
@@ -148,7 +149,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                                                         console.log(e);
                                                                     })
 
-                                                            }).catch((e) => {
+                                                            }).catch((e:any) => {
                                                                 console.log(e);
                                                             }).finally(() => {
                                                                 setLoading(false);

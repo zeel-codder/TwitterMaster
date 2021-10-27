@@ -1,30 +1,27 @@
+/**GroupCreateReducer is User in Group Create form in App */
 
-
-
-
-interface action  {
+interface action {
     type: string;
     data: string;
 }
 
 interface data {
-
     title: string;
     description?: string;
-   
 }
 
-const initialState: data= {
-    title:"",
-    description:""
+//init
+const initialState: data = {
+    title: "",
+    description: ""
 }
 
 
 
-function GroupCreateReducer(state = initialState, action:action) {
+function GroupCreateReducer(state = initialState, action: action) {
     switch (action.type) {
         case "ChangeTitle":
-            return { ...state, title:action.data };
+            return { ...state, title: action.data };
         case "ChangeDescription":
             return { ...state, description: action.data };
         default:
@@ -32,4 +29,4 @@ function GroupCreateReducer(state = initialState, action:action) {
     }
 }
 
-export {GroupCreateReducer};
+export { GroupCreateReducer };

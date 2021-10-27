@@ -12,7 +12,7 @@ interface action {
 
 }
 
-
+/**This Reducer is Used to In infinite scrolling of tweet , group and User data. */
 
 const initialState: Data = {
     TweetLength: 10,
