@@ -20,6 +20,7 @@ const DataLength=10;
 
 
 function CropData(List:any,number:number){
+    console.log(number-DataLength,number)
     return Array.from(List).slice(number-DataLength,number);
 }
 

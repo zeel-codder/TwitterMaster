@@ -26,6 +26,7 @@ function LengthReducer(state = initialState, action: action) {
     // console.log(action)
     switch (action.type) {
         case "Length_ChangeTweetLength":
+            console.log(new Error().stack);
             return { ...state, TweetLength: action.data }
         case "Length_ChangeGroupLength":
             return { ...state, GroupLength: action.data }

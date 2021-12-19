@@ -78,6 +78,10 @@ const GroupPeek: React.FC<GroupSchema> = ({ title, description }) => {
                         #{title}
 
                     </Link>
+{/*                     
+                    <div className='text'>
+                        {description}
+                    </div> */}
                 </h3>
 
             </div>

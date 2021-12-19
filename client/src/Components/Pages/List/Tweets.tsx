@@ -38,7 +38,7 @@ const Tweets: React.FC<TweetsSchema> = ({ DataList }) => {
         let observe = new IntersectionObserver((e)=>{
             // console.log('call'
             if(e[0].isIntersecting){
-                dispatch({type:"Length_ChangeTweetLength",data:DataList.length+5});
+                dispatch({type:"Length_ChangeTweetLength",data:DataList.length+10});
             }
         });
 
@@ -284,7 +284,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
                     
                     Link:
             
-                    <a href={TweetData.url} target='_blank'>{TweetData.url}</a>
+                    <a className="a" href={TweetData.url} target='_blank'>{TweetData.url}</a>
                     </>
                     
                 }

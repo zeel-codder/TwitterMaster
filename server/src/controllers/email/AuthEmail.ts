@@ -57,7 +57,7 @@ const SendPassWordResetLink = async (req: Request, res: Response) => {
 
         res.status(200).send(ResultLoader("Done", "Send"));
     } catch (e: any) {
-        // console.log(e);
+        console.log(e);
         res.status(404).send(ErrorLoader("Email not found", e.message));
     }
 

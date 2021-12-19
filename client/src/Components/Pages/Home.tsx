@@ -30,39 +30,39 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
     function GetDataList() {
         if (isMe) {
 
-            GetTweetOfUser(name,Length.TweetLength)
-            .then(res => {
-                setDataList(res.data.data.List);
-                if (res.data.data.isEnd) {
-                    dispatch({ type: "ChangeEnd", data: true })
-                }
+            GetTweetOfUser(name, Length.TweetLength)
+                .then(res => {
+                    setDataList([...DataList, ...res.data.data.List]);
+                    if (res.data.data.isEnd) {
+                        dispatch({ type: "ChangeEnd", data: true })
+                    }
 
-                dispatch({ type: "Profile_AddTweets", data: res.data.data.List });
-            }).catch((e) => {
-                console.log(e);
-            }).finally(() => {
-                setLoading(false);
-            })
+                    dispatch({ type: "Profile_AddTweets", data: res.data.data.List });
+                }).catch((e) => {
+                    console.log(e);
+                }).finally(() => {
+                    setLoading(false);
+                })
 
 
         } else {
 
             console.log('call data');
             GetUserTweetList(Length.TweetLength)
-            .then(res => {
+                .then(res => {
 
 
-                setDataList([...DataList,...res.data.data.List]);
-                if (res.data.data.isEnd) {
-                    dispatch({ type: "ChangeEnd", data: true })
-                }
+                    setDataList([...DataList, ...res.data.data.List]);
+                    if (res.data.data.isEnd) {
+                        dispatch({ type: "ChangeEnd", data: true })
+                    }
 
-                dispatch({ type: "AddTweets", data: [...DataList,...res.data.data.List] })
-            }).catch((e) => {
-                console.log(e);
-            }).finally(() => {
-                setLoading(false);
-            })
+                    dispatch({ type: "AddTweets", data: [...DataList, ...res.data.data.List] })
+                }).catch((e) => {
+                    console.log(e);
+                }).finally(() => {
+                    setLoading(false);
+                })
         }
 
 
@@ -71,16 +71,11 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
 
     useEffect(() => {
 
-            setDataList([])
-            dispatch({ type: "Length_ChangeTweetLength", data: 10 });
-            dispatch({ type: "ChangeEnd", data: false })
-            console.log('call empty')
-            GetDataList()
-            
-        
-        
-
-
+        setDataList([])
+        dispatch({ type: "Length_ChangeTweetLength", data: 10 });
+        dispatch({ type: "ChangeEnd", data: false })
+        console.log('call empty')
+        GetDataList()
     }, [])
 
 
@@ -88,9 +83,9 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
 
     useEffect(() => {
 
-    
 
-        if (!End.end ) {
+
+        if (!End.end) {
             GetDataList()
         }
 
@@ -118,7 +113,7 @@ const Home: React.FC<HomeSchema> = ({ type, isMe, name }) => {
         <div >
             <h1> {type || 'Home'}</h1>
 
-            <Search placeName="Tweet" cb={handleSearch} data={DataList} />
+            {/* <Search placeName="Tweet" cb={handleSearch} data={DataList} /> */}
             {
                 IsLoading
                 &&
