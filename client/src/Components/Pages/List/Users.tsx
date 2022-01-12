@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import {  Button } from '@material-ui/core';
-import Search from '../Same/Search';
+// import {  Button } from '@material-ui/core';
+// import Search from '../Same/Search';
 import { UserData } from '../../../DataType/Feed';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { ToggleFollowUser } from '../../../Actions/Api';
+// import { ToggleFollowUser } from '../../../Actions/Api';
 import Loader from '../../Loaders/Loading';
 
 import Avatar from '@mui/material/Avatar';
@@ -71,19 +71,25 @@ const User: React.FC<UserData> = (props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [Data,setData]=useState<UserData>(props);
 
+    const userName=useAppSelector(state=>state.UserReducer).name;
 
-    function UserFollowChange(name: string, isAdd: boolean) {
 
-        setIsLoading(true);
-        ToggleFollowUser(name, isAdd)
-            .then((res) => {
+    // function UserFollowChange(name: string, isAdd: boolean) {
 
-                setData(res.data.data );
+    //     setIsLoading(true);
+    //     ToggleFollowUser(name, isAdd)
+    //         .then((res) => {
 
-            })
-            .catch(e => console.log(e))
-            .finally(() => setIsLoading(false));
+    //             setData(res.data.data );
 
+    //         })
+    //         .catch(e => console.log(e))
+    //         .finally(() => setIsLoading(false));
+
+    // }
+
+    if(userName===name){
+        return <></>
     }
 
 
@@ -115,7 +121,7 @@ const User: React.FC<UserData> = (props) => {
                         @{name}
                     </a>
 
-                    <>
+                    {/* <>
 
                         {
 
@@ -143,7 +149,7 @@ const User: React.FC<UserData> = (props) => {
                                     follow
                                 </Button>
                         }
-                    </>
+                    </> */}
 
 
 

@@ -14,6 +14,7 @@ exports.ResultLoader = ResultLoader;
 var DataLength = 10;
 exports.DataLength = DataLength;
 function CropData(List, number) {
+    console.log(number - DataLength, number);
     return Array.from(List).slice(number - DataLength, number);
 }
 exports.CropData = CropData;

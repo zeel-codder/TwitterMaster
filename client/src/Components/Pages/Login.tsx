@@ -43,7 +43,7 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                 localStorage.setItem('User', JSON.stringify(ans.data.data));
                 dispatch({ type: "AddUser", data: ans.data.data })
                 setLoading(false);
-                history.push('/');
+                  window.location.href='/'
 
             } catch (e) {
                 setMessage("User Name our Email is Exits")
@@ -66,7 +66,7 @@ const Login: React.FC<LoginData> = ({ IsSignUp }) => {
                 localStorage.setItem('User', JSON.stringify(ans.data.data));
                 dispatch({ type: "AddUser", data: ans.data.data })
                 setLoading(false);
-                history.push('/');
+                window.location.href='/'
             } catch (e) {
                 console.log(e)
                 setMessage("User Name our Password Wrong")

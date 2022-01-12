@@ -21,7 +21,7 @@ const giphyFetch = new GiphyFetch(process.env.REACT_APP_Gif as string);
 /** 
  * Tweet FC is User to Take Input for new Tweet From User. 
  */
-const Tweet: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any }> = ({ close, load }) => {
+const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any }> = ({ close, load }) => {
 
 
     const state = useAppSelector((state) => state.TweetReducer);
@@ -360,4 +360,4 @@ function GridDemo() {
     );
 }
 
-export default Tweet;
+export default TweetPostBox;

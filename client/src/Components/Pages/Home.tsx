@@ -2,7 +2,7 @@ import React from "react";
 import { TweetSchema } from "../../DataType/Feed";
 import { Button } from "@material-ui/core";
 import Search from './Same/Search';
-import NewTweet from './helper/tweet';
+import NewTweet from './helper/TweetPostBox';
 import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { HomeSchema } from '../../DataType/pages';
 import { GetTweetOfUser, GetUserTweetList } from "../../Actions/Api";

@@ -224,7 +224,9 @@ export default function CustomizedHook() {
                 ?
                 <></>
                 :
-                <StyledTag label={option?.title} {...getTagProps({ index })} />
+                <div key={option?.title}>
+                <StyledTag  label={option?.title} {...getTagProps({ index })} />
+                </div>
               
               
             )

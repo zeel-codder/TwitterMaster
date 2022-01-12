@@ -164,17 +164,20 @@ const Profile: React.FC<UserData> = ({ type }) => {
 
 
                                                 />
-                                                <Button
+                                                {
+
+                                                    <Button
                                                     variant="contained"
                                                     color="primary"
                                                     onClick={() => {
-
+                                                        
                                                         InputImg.current?.click();
-
+                                                        
                                                     }}
-                                                >
+                                                    >
                                                     Change Dp
                                                 </Button>
+                                                }
                                             </>
                                         
                                         <Button
@@ -193,7 +196,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                         </Button>
                                     </div>
                                     :
-                                    User?.follow?.includes(name)
+                                    User?.isFollow
                                         ?
                                         <Button
                                             className="FollowBtn"

@@ -62,7 +62,7 @@ export default function Navbar() {
 
             <Link to="/" className="navbar-right a">
 
-                <h2>Twitter Master</h2>
+                <h1>Twitter Master</h1>
 
             </Link>
 

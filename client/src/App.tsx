@@ -1,10 +1,17 @@
 import Home from './Components/Pages/Router';
 import './App.css';
-import React from 'react';
-
+import React ,{useEffect}from 'react';
+import { useHistory } from 'react-router-dom';
 
 
 const App: React.FC<{}> = () => {
+ 
+  // useEffect(()=>{
+
+  //   window.location.href='/'
+
+  // },[])
+  
 
   return (
     <div className="App" >

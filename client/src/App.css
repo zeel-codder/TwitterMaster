@@ -5,12 +5,16 @@ body{
   --font-small-head:1.5rem;
   --font-size:1rem;
 
-  font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
-  ;
+  overflow-y: scroll;
+
+  /* font-family: TwitterChirp, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+  ; */
 }
+
 
 *{
 -webkit-tap-highlight-color: transparent;
+font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
 }
 
 .Group_Div{
@@ -123,10 +127,10 @@ body{
 .none{
   display: none;
 }
-
+/* 
 a:hover{
   text-decoration: underline;
-}
+} */
 
 .profile_img{
   object-fit: contain;
@@ -211,7 +215,7 @@ a:hover{
 
 .navbar-link:hover{
 
-  text-decoration: underline;
+  /* text-decoration: underline; */
 
 } 
 
@@ -539,6 +543,15 @@ a:hover{
   margin: 3rem 0;
 }
 
+.navbar-right{
+  padding: 0;
+}
+
+._404{
+  width: 100%;
+  height: 15rem;
+}
+
 
 @media only screen and (max-width: 1200px) {
   
@@ -597,6 +610,8 @@ a:hover{
   } */
 
   .navbar-right{
+    width: 100%;
+    text-align: center;
     margin: 7px 0;
   }
   .relative{
