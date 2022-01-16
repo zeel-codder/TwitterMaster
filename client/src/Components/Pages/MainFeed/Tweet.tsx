@@ -163,7 +163,7 @@ const Comment: React.FC<{ Creator_Name: string, title: string, removeComment: Fu
                     <Avatar alt="Remy Sharp"
                         src={
 
-                            "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Creator_Name + ".png"
+                            "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Creator_Name + ".jpg"
 
 
                         }

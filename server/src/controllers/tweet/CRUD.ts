@@ -25,8 +25,8 @@ const GetTweets = async (req: Request, res: Response) => {
 
         TweetList = GetNewTweetList(TweetList, name);
 
-        console.log(number,TweetList.length,List.length);
-        
+        console.log(number, TweetList.length, List.length);
+
         if (List.length < number) {
             return res.status(200).send(ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
         }
@@ -86,7 +86,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
         const newTweet: any = {
             description: Tweet.description,
-            groups: Tweet.groups,        
+            groups: Tweet.groups,
             url: Tweet.url,
         }
 
@@ -97,9 +97,11 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
         if (Tweet.media) {
             if (Tweet.isImage) {
                 newTweet.image = Tweet.media;
+                newTweet.public_id_media = Tweet.public_id_media;
             }
             else {
                 newTweet.video = Tweet.media;
+                newTweet.public_id_media = Tweet.public_id_media;
             }
         }
 
@@ -107,7 +109,7 @@ const AddTweet = async (req: Request, res: Response, next: Function) => {
 
         const newDoc = new TweetModel(newTweet);
 
-        let newTweetData=await newDoc.save();
+        let newTweetData = await newDoc.save();
 
 
         res.status(200).send(ResultLoader("Tweet Added", null));
@@ -153,6 +155,11 @@ const DeleteTweet = async (req: Request, res: Response) => {
     try {
         let { _id } = req.body;
         const TweetDelete = await TweetModel.findOne({ _id });
+        const public_id_media = TweetDelete.public_id_media;
+
+ 
+        cloudinary.uploader.destroy(public_id_media, function (result:any) { console.log(result) });
+
         const TweetDeleteData = await TweetModel.deleteOne({ _id });
 
         res.status(200).send(ResultLoader("Tweets Deleted", TweetDeleteData));

@@ -12,7 +12,7 @@ var UserSchema = new Schema({
     image: String,
     password: String,
     followers: [{ type: String }],
-    follow: [{ type: String }]
+    follow: [{ type: String }],
 }, { versionKey: false, timestamps: true });
 var TweetSchema = new Schema({
     title: String,
@@ -26,7 +26,8 @@ var TweetSchema = new Schema({
     Creator_Name: String,
     groups: String,
     comments: [{ title: String, Creator_Name: String }],
-    url: String
+    url: String,
+    public_id_media: String
 }, { versionKey: false, timestamps: true });
 var GroupSchema = new Schema({
     title: String,

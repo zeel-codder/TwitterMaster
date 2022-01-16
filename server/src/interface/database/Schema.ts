@@ -13,6 +13,7 @@ interface User {
     password: string;
     follow?:string[];
     followers?:string[];
+    public_id_media?:string;
 }
 
 interface Tweet extends Basic{
@@ -24,6 +25,8 @@ interface Tweet extends Basic{
     groups?:string;
     comments?:Comment[];
     url?:string;
+    public_id_media?:string;
+
 }
 
 interface Comment{

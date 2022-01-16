@@ -17,9 +17,8 @@ const Profile: React.FC<UserData> = () => {
     const [isLoadding, setLoading] = useState<boolean>(true);
     const Data: any = useAppSelector((state) => state.ProfileReducer);
     const dispatch = useAppDispatch();
-    const [DataList,setDataList]  =useState(Data.user[type].map((value: string) => {
-        return { name: value }
-    }));
+    // console.log()
+    const [DataList,setDataList]  =useState([]);
 
     function handleSearch(data: any[]) {
         if (data == null) {
@@ -39,6 +38,9 @@ const Profile: React.FC<UserData> = () => {
         GetUserByName(name)
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
+                setDataList(Data.user[type].map((value: string) => {
+                    return { name: value }
+                }))
             })
 
             .catch((e) => {

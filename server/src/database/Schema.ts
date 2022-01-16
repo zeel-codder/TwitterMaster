@@ -12,7 +12,8 @@ const UserSchema = new Schema<User>({
     image: String,
     password: String,
     followers:[{type:String}],
-    follow:[{type:String}]
+    follow:[{type:String}],
+    
 
 },{ versionKey: false,timestamps: true });
 
@@ -30,7 +31,8 @@ const TweetSchema = new Schema<Tweet>({
     Creator_Name:String,
     groups:String,
     comments:[{title:String,Creator_Name:String}],
-    url:String
+    url:String,
+    public_id_media:String
 
 },{ versionKey: false ,timestamps: true});
 
@@ -51,6 +53,9 @@ const GroupSchema = new Schema<Group>({
 const UserModel=model('User',UserSchema);
 const TweetModel=model('Tweet',TweetSchema);
 const GroupModel=model('Group',GroupSchema);
+
+
+
 
 
 

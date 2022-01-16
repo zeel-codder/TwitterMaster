@@ -66,7 +66,7 @@ const GetTweetsOfUser = async (req: Request, res: Response) => {
     
         
         if(List.length<number){
-            res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));
+            return res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:true}));
         }
 
         res.status(200).send(ResultLoader("All Tweet", {List:TweetList,isEnd:false}));

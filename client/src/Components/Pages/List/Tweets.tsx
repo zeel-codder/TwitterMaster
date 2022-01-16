@@ -233,7 +233,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
                     <Avatar alt="Remy Sharp" 
                     src={
                 
-                        "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/"+Creator_Name+".png"
+                        "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/"+Creator_Name+".jpg"
                        
                     
                     }
@@ -284,7 +284,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
                     
                     Link:
             
-                    <a className="a" href={TweetData.url} target='_blank'>{TweetData.url}</a>
+                    <a className="a" href={TweetData.url} target='_blank' rel="noreferrer">{TweetData.url}</a>
                     </>
                     
                 }

@@ -56,6 +56,7 @@ var Helper_1 = require("../Helper");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var Helper_2 = require("./Helper");
+var Media_1 = require("../Media");
 var GetUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var number, List, UserList, e_1;
     return __generator(this, function (_a) {
@@ -121,10 +122,10 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                     // }
                     return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
-                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: newUser.name })];
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: newUser.name.toLowerCase() })];
             case 1:
                 findByName = _a.sent();
-                return [4 /*yield*/, Schema_1.UserModel.findOne({ email: newUser.email })];
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ email: newUser.email.toLowerCase() })];
             case 2:
                 findByEmail = _a.sent();
                 if (findByName || findByEmail) {
@@ -241,6 +242,13 @@ var UpdateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 _c.label = 2;
             case 2:
                 newUser = after;
+                console.log(after);
+                if (after.image === 'f') {
+                    // const User = await UserModel.findOne({name:name});
+                    Media_1.cloudinary.uploader.destroy('Users/' + name_4 + ".jpg", function (result) { console.log(result); });
+                    console.log('Users/' + name_4 + ".jpg" === 'Users/zeel.jpg');
+                    return [2 /*return*/, res.status(200).send()];
+                }
                 return [4 /*yield*/, Schema_1.UserModel.findOneAndUpdate({ name: name_4 }, newUser)];
             case 3:
                 UserDelete = _c.sent();
@@ -248,6 +256,7 @@ var UpdateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [3 /*break*/, 5];
             case 4:
                 e_6 = _c.sent();
+                console.log(e_6);
                 res.status(404).send(Helper_1.ErrorLoader("UserList not found", e_6.message));
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];

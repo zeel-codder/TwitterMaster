@@ -8,6 +8,7 @@ import { ErrorLoader,ResultLoader,CropData } from "../Helper";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { GetNewUserList,GetUserData } from "./Helper";
+import { cloudinary } from "../Media";
 
 
 
@@ -76,8 +77,8 @@ const AddUser = async (req: Request, res: Response) => {
         }
 
 
-        const findByName = await UserModel.findOne({ name: newUser.name });
-        const findByEmail = await UserModel.findOne({ email: newUser.email });
+        const findByName = await UserModel.findOne({ name: newUser.name.toLowerCase() });
+        const findByEmail = await UserModel.findOne({ email: newUser.email.toLowerCase() });
 
         if (findByName || findByEmail) {
             // throw new Error("User Name and Email Exits");
@@ -212,10 +213,25 @@ const UpdateUser = async (req: Request, res: Response) => {
             after.password=await bcrypt.hash(after.password || "",10);
         }
         const newUser:User=after;
+        console.log(after)
+
+        if(after.image==='f'){
+
+            // const User = await UserModel.findOne({name:name});
+
+            cloudinary.uploader.destroy('Users/'+name+".jpg", function (result:any) { console.log(result) });
+
+            console.log('Users/'+name+".jpg" === 'Users/zeel.jpg')
+
+            return res.status(200).send()
+
+        }
 
         const UserDelete = await UserModel.findOneAndUpdate({name}, newUser);
         res.status(200).send(ResultLoader("Users Updated",UserDelete));
     } catch (e: any) {
+
+        console.log(e)
         
         res.status(404).send(ErrorLoader("UserList not found",e.message));
 

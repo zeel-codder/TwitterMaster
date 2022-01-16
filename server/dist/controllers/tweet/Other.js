@@ -94,7 +94,7 @@ var GetTweetsOfUser = function (req, res) { return __awaiter(void 0, void 0, voi
                 TweetList = Helper_1.CropData(List, number);
                 TweetList = Helper_2.GetNewTweetList(TweetList, req.user_id);
                 if (List.length < number) {
-                    res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }));
+                    return [2 /*return*/, res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: true }))];
                 }
                 res.status(200).send(Helper_1.ResultLoader("All Tweet", { List: TweetList, isEnd: false }));
                 return [3 /*break*/, 3];

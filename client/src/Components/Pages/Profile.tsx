@@ -23,7 +23,9 @@ const Profile: React.FC<UserData> = ({ type }) => {
     const User: any = useAppSelector((state) => state.UserReducer);
     const InputImg = useRef<HTMLInputElement>(null)
 
+    
     useEffect(() => {
+        console.log(name);
         GetUserByName(name)
             .then((res) => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
@@ -42,6 +44,49 @@ const Profile: React.FC<UserData> = ({ type }) => {
     }, [])
 
 
+    function change_DP(event: any) {
+
+
+        const file = event.target.files[0];
+        console.log(event.target.files)
+        const data = new FormData()
+        data.append("file", file)
+        data.append("upload_preset", process.env.REACT_APP_Demo as string)
+        data.append("public_id", User.name);
+        // data.append("invalidate","true");
+
+
+        setLoading(true)
+
+        UpDateUser(User.name, { image: 'f' })
+            .then((res) => {
+                UploadImageFile(data)
+                    .then((res: any) => {
+                        console.log(res.data);
+                        UpDateUser(User.name, { image: res.data.secure_url })
+                            .then((res) => {
+
+                                // window.location.reload()
+                                window.location.reload()
+
+                            })
+                    })
+            })
+            .catch((e: any) => {
+                console.log(e);
+            })
+            .finally(() => {
+                setLoading(false);
+            })
+
+
+
+
+    }
+
+
+
+
 
     function UserFollowChange(name: string, isAdd: boolean) {
 
@@ -49,8 +94,19 @@ const Profile: React.FC<UserData> = ({ type }) => {
         ToggleFollowUser(name, isAdd)
             .then((res) => {
 
-                dispatch({ type: "AddUser", data: res.data.data });
+                console.log(res.data.data)
+                dispatch({ type: "AddUser", isFollow:res.data.data.isFollow });
 
+                GetUserByName(name)
+                .then((res) => {
+                    dispatch({ type: "Profile_AddUser", data: res.data.data });
+                    if (res.data.data.name === User.name) {
+    
+                        dispatch({ type: "AddUser", data: res.data.data })
+    
+                    }
+                })
+              
             })
             .catch(e => console.log(e))
             .finally(() => setLoading(false));
@@ -89,7 +145,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                             <Avatar alt="Remy Sharp"
                                 src={
 
-                                    "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Data.user.name + ".png"
+                                    "https://res.cloudinary.com/dcgtilnwq/image/upload/v1634646326/Users/" + Data.user.name + ".jpg"
 
 
                                 }
@@ -110,76 +166,45 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                 User?.name === name
                                     ?
                                     <div className='flex pad'>
-                                        
-
-                                           
-                                            <>
-
-
-                                                <input type="file" className="none"
-
-                                                    ref={InputImg}
-
-                                                    accept="image/png,image/jpeg,image/jpg"
-
-
-                                                    onChange={(event: any) => {
-
-                                                        const file = event.target.files[0];
-                                                        console.log(event.target.files)
-                                                        const data = new FormData()
-                                                        data.append("file", file)
-                                                        data.append("upload_preset", process.env.REACT_APP_Demo as string)
-                                                        data.append("public_id", User.name);
-                                                        // data.append("invalidate","true");
-
-
-                                                        setLoading(true)
-
-                                                        UploadImageFile(data)
-                                                            .then((res:any) => {
-                                                                console.log(res.data);
-
-                                                                UpDateUser(User.name, { image: res.data.secure_url })
-                                                                    .then((res) => {
-
-                                                                        window.location.reload()
-
-                                                                    }).catch((e) => {
-                                                                        console.log(e);
-                                                                    })
-
-                                                            }).catch((e:any) => {
-                                                                console.log(e);
-                                                            }).finally(() => {
-                                                                setLoading(false);
-                                                            })
 
 
 
+                                        <>
 
 
+                                            <input type="file" className="none"
 
-                                                    }}
+                                                ref={InputImg}
+
+                                                accept=".jpg"
 
 
-                                                />
-                                                {
+                                                onChange={(event: any) => {
+                                                    change_DP(event);
+                                                }}
 
-                                                    <Button
+
+                                            />
+                                            {
+
+
+                                                !User.image
+                                                &&
+
+                                                <Button
                                                     variant="contained"
                                                     color="primary"
                                                     onClick={() => {
-                                                        
+
                                                         InputImg.current?.click();
-                                                        
+
                                                     }}
-                                                    >
+                                                >
                                                     Change Dp
                                                 </Button>
-                                                }
-                                            </>
-                                        
+                                            }
+                                        </>
+
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -196,7 +221,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                                         </Button>
                                     </div>
                                     :
-                                    User?.isFollow
+                                    Data?.user.followers.includes(User.name)
                                         ?
                                         <Button
                                             className="FollowBtn"
@@ -246,7 +271,7 @@ const Profile: React.FC<UserData> = ({ type }) => {
                             </Link>
                         </div>
                     </div>
-                
+
                     <Home type={`Tweets By ${name}`} isMe={true} name={name}></Home>
                 </div>
             }

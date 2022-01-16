@@ -3,35 +3,36 @@ import React, { useCallback, useState } from 'react';
 // import Search from '../Same/Search';
 import { UserData } from '../../../DataType/Feed';
 import { useAppDispatch, useAppSelector } from '../../../store';
-// import { ToggleFollowUser } from '../../../Actions/Api';
+import { ToggleFollowUser } from '../../../Actions/Api';
 import Loader from '../../Loaders/Loading';
 
 import Avatar from '@mui/material/Avatar';
-import {  deepPurple } from '@mui/material/colors';
+import { deepPurple } from '@mui/material/colors';
+import { Button } from '@material-ui/core';
 
 const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
 
-    const dispatch=useAppDispatch();
-    const End:any=useAppSelector((state)=>state.MELReducer);
-  
-   
-    const last=useCallback((node)=>{
+    const dispatch = useAppDispatch();
+    const End: any = useAppSelector((state) => state.MELReducer);
 
-        if(!node  || End.end) return;
-        
-        let observe = new IntersectionObserver((e)=>{
+
+    const last = useCallback((node) => {
+
+        if (!node || End.end) return;
+
+        let observe = new IntersectionObserver((e) => {
             // console.log('call'
-            if(e[0].isIntersecting){
-                dispatch({type:"Length_ChangeUserLength",data:DataList.length+10});
+            if (e[0].isIntersecting) {
+                dispatch({ type: "Length_ChangeUserLength", data: DataList.length + 10 });
             }
         });
 
         observe.observe(node);
 
-    },[DataList, dispatch, End]);
+    }, [DataList, dispatch, End]);
 
-    
+
 
 
 
@@ -41,21 +42,21 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
     return (
         <div className="pad">
-  
+
             {
                 DataList.map((data: UserData, index: number) => {
                     return (
 
-                        index+3===DataList.length
+                        index + 3 === DataList.length
 
-                        ?
-                        <span ref={last}>
-                                
-                    <User {...data} key={data._id}></User>
-                        </span>
-                        :
-                    
-                    <User {...data} key={data._id}></User>
+                            ?
+                            <span ref={last}>
+
+                                <User {...data} key={data._id}></User>
+                            </span>
+                            :
+
+                            <User {...data} key={data._id}></User>
                     )
                 })
             }
@@ -66,31 +67,31 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
 const User: React.FC<UserData> = (props) => {
 
-    const {name}=props;
+    const { name } = props;
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [Data,setData]=useState<UserData>(props);
+    const [Data, setData] = useState<UserData>(props);
 
-    const userName=useAppSelector(state=>state.UserReducer).name;
+    const userName = useAppSelector(state => state.UserReducer).name;
 
 
-    // function UserFollowChange(name: string, isAdd: boolean) {
+    function UserFollowChange(name: string, isAdd: boolean) {
 
-    //     setIsLoading(true);
-    //     ToggleFollowUser(name, isAdd)
-    //         .then((res) => {
+        setIsLoading(true);
+        ToggleFollowUser(name, isAdd)
+            .then((res) => {
 
-    //             setData(res.data.data );
+                setData(res.data.data);
 
-    //         })
-    //         .catch(e => console.log(e))
-    //         .finally(() => setIsLoading(false));
+            })
+            .catch(e => console.log(e))
+            .finally(() => setIsLoading(false));
 
-    // }
-
-    if(userName===name){
-        return <></>
     }
+
+    // if(userName===name){
+    //     return <></>
+    // }
 
 
     return (
@@ -121,40 +122,46 @@ const User: React.FC<UserData> = (props) => {
                         @{name}
                     </a>
 
-                    {/* <>
+                    {
+                        !(userName === name)
 
-                        {
+                        &&
 
-                            Data?.isFollow
-                                ?
-                                <Button
-                                    className="FollowBtn"
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => UserFollowChange(name as string, false)}
+                        <>
 
-                                >
-                                    unfollow
-                                </Button>
-                                :
-                                <Button
-                                    className="FollowBtn"
+                            {
 
-                                    variant="contained"
+                                Data?.isFollow
+                                    ?
+                                    <Button
+                                        className="FollowBtn"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => UserFollowChange(name as string, false)}
 
-                                    color="primary"
+                                    >
+                                        unfollow
+                                    </Button>
+                                    :
+                                    <Button
+                                        className="FollowBtn"
 
-                                    onClick={() => UserFollowChange(name as string, true)}
-                                >
-                                    follow
-                                </Button>
-                        }
-                    </> */}
+                                        variant="contained"
+
+                                        color="primary"
+
+                                        onClick={() => UserFollowChange(name as string, true)}
+                                    >
+                                        follow
+                                    </Button>
+                            }
+                        </>
 
 
 
-
+                    }
                 </h3>
+
             </div>
         </div>
 

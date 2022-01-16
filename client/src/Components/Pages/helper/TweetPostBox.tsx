@@ -40,20 +40,23 @@ const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any
 
         try {
 
-            let media_url = '';
+            let media_url = '',id='';
 
             if (state.isImage) {
                 let formData: any = new FormData();
                 formData.append("file", state.image.file);
                 formData.append("upload_preset", process.env.REACT_APP_Demo2 as string)
                 const res: any = await UploadImageFile(formData);
+                console.log(res);
                 media_url = res.data.secure_url;
+                id=res.data.public_id;
             } else if (state.isVideo) {
                 let formData: any = new FormData();
                 formData.append("file", state.video.file);
                 formData.append("upload_preset", process.env.REACT_APP_Demo2 as string)
                 const res: any = await UploadVideoFile(formData);
                 media_url = res.data.secure_url;
+                id=res.data.public_id;
             } else if (state.isGif) {
                 media_url = state.Gif;
             }
@@ -66,9 +69,10 @@ const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any
                 media: media_url,
                 isImage: state.isImage || state.isGif,
                 url: state.url,
+                public_id_media:id,
             };
 
-            // console.log(newTweet);
+            console.log(newTweet);
 
             await CreateNewPost(newTweet);
             dispatch({ type: "Reset", data: null });
@@ -234,9 +238,6 @@ const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any
                                 dispatch({ type: "ChangeTweetImage", image: { bit: e.target.result, file: file }, isImage: true });
                             };
                             reader.readAsDataURL(event.target.files[0]);
-
-
-
                         }}
 
 

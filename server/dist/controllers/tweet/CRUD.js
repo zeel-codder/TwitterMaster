@@ -41,6 +41,7 @@ var Schema_1 = require("../../database/Schema");
 var Helper_1 = require("../Helper");
 var CRUD_1 = require("../group/CRUD");
 var Helper_2 = require("./Helper");
+var Media_1 = require("../Media");
 var GetTweets = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, number, List, TweetList, e_1;
     return __generator(this, function (_a) {
@@ -114,9 +115,11 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
                 if (Tweet.media) {
                     if (Tweet.isImage) {
                         newTweet.image = Tweet.media;
+                        newTweet.public_id_media = Tweet.public_id_media;
                     }
                     else {
                         newTweet.video = Tweet.media;
+                        newTweet.public_id_media = Tweet.public_id_media;
                     }
                 }
                 newDoc = new Schema_1.TweetModel(newTweet);
@@ -158,7 +161,7 @@ var AddTweet = function (req, res, next) { return __awaiter(void 0, void 0, void
 }); };
 exports.AddTweet = AddTweet;
 var DeleteTweet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _id, TweetDelete_1, TweetDeleteData, listGroup_2, GroupList, e_4;
+    var _id, TweetDelete_1, public_id_media, TweetDeleteData, listGroup_2, GroupList, e_4;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -168,6 +171,8 @@ var DeleteTweet = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, Schema_1.TweetModel.findOne({ _id: _id })];
             case 1:
                 TweetDelete_1 = _b.sent();
+                public_id_media = TweetDelete_1.public_id_media;
+                Media_1.cloudinary.uploader.destroy(public_id_media, function (result) { console.log(result); });
                 return [4 /*yield*/, Schema_1.TweetModel.deleteOne({ _id: _id })];
             case 2:
                 TweetDeleteData = _b.sent();
