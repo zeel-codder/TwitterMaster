@@ -33,7 +33,7 @@ Find More About Project Tech: [Hear](./About.md)
 
 # App
 
-![](https://res.cloudinary.com/dcgtilnwq/image/upload/v1643480719/myapp/Kazam_screencast_00000_xiqa8i.gif)
+![al](./img/output.gif)
 
 # Thank You
 
