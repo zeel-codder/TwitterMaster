@@ -40,7 +40,7 @@ const Profile: React.FC<UserData> = () => {
                 dispatch({ type: "Profile_AddUser", data: res.data.data });
                 setDataList(Data.user[type].map((value: string) => {
                     return { name: value }
-                }))
+                }));
             })
 
             .catch((e) => {
@@ -79,7 +79,7 @@ const Profile: React.FC<UserData> = () => {
                     
                     <div className="tweet-container">
 
-                        <Users DataList={DataList}></Users>
+                        <Users DataList={DataList} show_toggle={true}></Users>
 
                     </div>
                     </>

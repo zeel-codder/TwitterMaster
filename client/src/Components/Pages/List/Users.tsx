@@ -10,7 +10,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepPurple } from '@mui/material/colors';
 import { Button } from '@material-ui/core';
 
-const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
+const Group: React.FC<{ DataList: UserData[], show_toggle?: boolean }> = ({ DataList, show_toggle }) => {
 
 
     const dispatch = useAppDispatch();
@@ -52,11 +52,11 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
                             ?
                             <span ref={last}>
 
-                                <User {...data} key={data._id}></User>
+                                <User {...data} key={data._id} show_toggle={show_toggle}></User>
                             </span>
                             :
 
-                            <User {...data} key={data._id}></User>
+                            <User {...data} key={data._id} show_toggle={show_toggle}></User>
                     )
                 })
             }
@@ -67,12 +67,16 @@ const Group: React.FC<{ DataList: UserData[] }> = ({ DataList }) => {
 
 const User: React.FC<UserData> = (props) => {
 
-    const { name } = props;
+    const { name, show_toggle } = props;
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [Data, setData] = useState<UserData>(props);
+    const user = useAppSelector(state => state.UserReducer);
+    const [isFollow, setIsFollow] = useState<{}>(show_toggle ? user.follow?.includes(name || '') : Data?.isFollow);
+    const userName = user.name;
 
-    const userName = useAppSelector(state => state.UserReducer).name;
+
+    // console.log(isFollow);
 
 
     function UserFollowChange(name: string, isAdd: boolean) {
@@ -82,6 +86,8 @@ const User: React.FC<UserData> = (props) => {
             .then((res) => {
 
                 setData(res.data.data);
+                //console.log(res.data.data)
+                setIsFollow(res.data.data?.isFollow);
 
             })
             .catch(e => console.log(e))
@@ -92,6 +98,9 @@ const User: React.FC<UserData> = (props) => {
     // if(userName===name){
     //     return <></>
     // }
+
+    // console.log(user.follow?.includes(name || '') + " " + name);
+    // console.log(user, show_toggle)
 
 
     return (
@@ -130,8 +139,8 @@ const User: React.FC<UserData> = (props) => {
                         <>
 
                             {
+                                isFollow
 
-                                Data?.isFollow
                                     ?
                                     <Button
                                         className="FollowBtn"
