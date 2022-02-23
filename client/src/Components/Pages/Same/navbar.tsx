@@ -3,7 +3,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import GroupIcon from '@material-ui/icons/Group';
 import GroupWorkIcon from '@mui/icons-material/GroupWork';
-import { useRef,useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useAppSelector, useAppDispatch } from '../../../store';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -32,19 +32,20 @@ export default function Navbar() {
     }
 
 
-    useEffect(()=>{
-        if(User?.name){
+    useEffect(() => {
+        if (User?.name) {
 
             GetUserByName(User?.name)
-            .then((res)=>{
-                dispatch({ type: "AddUser", data: res.data.data })
-            })
-            .catch((e)=>{
-                dispatch({ type: "AddUser", data: User })
-            })
+                .then((res) => {
+                    dispatch({ type: "AddUser", data: res.data.data })
+                })
+                .catch((e) => {
+                    localStorage.clear()
+                    history.push('/signup');
+                })
         }
 
-    },[])
+    }, [])
 
 
 

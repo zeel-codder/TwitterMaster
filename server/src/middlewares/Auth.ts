@@ -5,6 +5,7 @@ import { Response, Request } from 'express';
 
 
 
+
 const Auth=async (req:Request, res: Response,next:Function)=>{
 
     try{
@@ -23,6 +24,10 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
       
         req.user_id=user._id;
         req.user_name=user.name;
+
+      
+
+     
 
         //console.log(req.user_name+" "+req.user_id)
 
