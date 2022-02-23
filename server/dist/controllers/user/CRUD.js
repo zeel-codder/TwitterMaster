@@ -122,10 +122,10 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                     // }
                     return [2 /*return*/, res.status(500).send(Helper_1.ErrorLoader("Invalid Input", "Input"))];
                 }
-                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: newUser.name.toLowerCase() })];
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ name: newUser.name.trim() })];
             case 1:
                 findByName = _a.sent();
-                return [4 /*yield*/, Schema_1.UserModel.findOne({ email: newUser.email.toLowerCase() })];
+                return [4 /*yield*/, Schema_1.UserModel.findOne({ email: newUser.email.trim() })];
             case 2:
                 findByEmail = _a.sent();
                 if (findByName || findByEmail) {
@@ -135,7 +135,7 @@ var AddUser = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 return [4 /*yield*/, bcryptjs_1.default.hash(newUser.password || "", 10)];
             case 3:
                 hash = _a.sent();
-                newUser = __assign(__assign({ image: '', follow: [], followers: [] }, newUser), { password: hash });
+                newUser = __assign(__assign({ image: '', follow: [], followers: [] }, newUser), { password: hash, name: newUser.name.trim(), email: newUser.email.trim() });
                 newDoc = new Schema_1.UserModel(newUser);
                 return [4 /*yield*/, newDoc.save()];
             case 4:
