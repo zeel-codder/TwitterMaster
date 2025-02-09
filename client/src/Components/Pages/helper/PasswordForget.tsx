@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import Page404 from '../404';
-import { UpDateUser } from '../../../Actions/Api';
+import { GetTokeInfo, UpDateUser } from '../../../Actions/Api';
 
 
 /**This FC is Used to Update User Password
@@ -46,21 +46,19 @@ const PasswordForget: React.FC<{}> = () => {
     async function SetData() {
 
         try {
-            const user: any = await jwt.verify(token, process.env.REACT_APP_Secrete || "");
+            const res = await GetTokeInfo(token);
+            const user=res.data.data.user;
+            console.log(user)
             dispatch({ type: "ChangeEmail", email: user.data.email })
             dispatch({ type: "ChangeName", name: user.data.name })
 
         } catch (e) {
-
             console.log(e);
-
         } finally {
             dispatch({ type: "ChangeLoad", data: false });
         }
 
     }
-
-
 
 
     useEffect(() => {
@@ -71,7 +69,6 @@ const PasswordForget: React.FC<{}> = () => {
 
     return (
         <div>
-
 
             <h1 className='full flex'><a className="a" href="/">Twitter Master</a></h1>
 

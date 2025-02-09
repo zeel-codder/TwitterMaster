@@ -141,7 +141,7 @@ const Tweet: React.FC<TweetSchema> = (prpos) => {
     const [IsLoading, setLoading] = useState(false);
     const groupList: string[] = groups?.split("|") as string[];
     const history = useHistory();
-    const LinkShare: string = process.env.REACT_APP_My_WebSite + `/tweet/${_id}`;
+    const LinkShare: string = process.env.REACT_APP_APP_My_WebSite + `/tweet/${_id}`;
 
 
 

@@ -51,8 +51,8 @@ const Profile: React.FC<UserData> = ({ type }) => {
         console.log(event.target.files)
         const data = new FormData()
         data.append("file", file)
-        data.append("upload_preset", process.env.REACT_APP_Demo as string)
-        data.append("public_id", User.name);
+        data.append("upload_preset", process.env.REACT_APP_UPLOAD_FILE_PREFIX1 as string)
+        data.append("REACT_APP_id", User.name);
         // data.append("invalidate","true");
 
 

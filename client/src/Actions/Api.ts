@@ -2,7 +2,7 @@ import axios from 'axios';
 import { TweetSchema, UserData } from '../DataType/Feed';
 
 
-const web=process.env.REACT_APP_WebSite;
+const web=process.env.REACT_APP_BE_URL;
 const token:string=JSON.parse(localStorage.getItem('User') || "{}").token || "";
 const API = axios.create({
     baseURL:web,
@@ -14,6 +14,8 @@ const API = axios.create({
 
 // Auth Api Calls
 const SingUpRequest=(user:UserData) =>axios.post(web+"/user/create",user)
+const GetTokeInfo=(token:string) =>axios.post(web+"/user/token_info",{token:token})
+
 const SingInRequest=(user:UserData) =>axios.post(web+"/user/singin",user);
 const SendPassWordResetMail=(email:string)=>axios.post(web+"/email/password_reset",{email});
 
@@ -72,6 +74,7 @@ export {
     UpDateUser,
     SendPassWordResetMail,
     AllGroups,
-    GetGroupByName
+    GetGroupByName,
+    GetTokeInfo
 
 };
