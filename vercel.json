@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/server/dist/server.js" }],
-  "builds": [{ "src": "/server/dist/server.js", "use": "@now/node" }],
-  "engines": {
-    "node": "14.x"
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/server/dist/app.js" }],
+  "builds": [{ "src": "/server/dist/app.js", "use": "@now/node" }]
 }
