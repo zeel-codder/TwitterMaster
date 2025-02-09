@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": { "distDir": "server/dist" }
-    }
-  ],
-  "routes": [{ "src": "/(.*)", "dest": "/server/dist/app.js" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/server/dist/app.js" }],
+  "builds": [{ "src": "/server/dist/app.js", "use": "@now/node" }]
 }
