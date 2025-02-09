@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run start\"",
     "prod": "node dist/app.js",
-    "start": "cd server  && node dist/app.js"
+    "start": "cd server  && node dist/app.js",
+    "build": "cd server && npm run build"
   },
   "author": "",
   "license": "ISC",
