@@ -13,6 +13,7 @@ Find More About Project Tech: [Hear](./About.md)
 3. Run bellow command
 
    ```bash
+   nvm use 14.0.0
    npm i
    ```
 

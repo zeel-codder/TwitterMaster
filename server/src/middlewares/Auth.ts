@@ -18,7 +18,7 @@ const Auth=async (req:Request, res: Response,next:Function)=>{
 
         // console.log(req.headers)
 
-        let user=await jwt.verify(token, process.env.Secrete||"");
+        let user=await jwt.verify(token, process.env.JWT_SECRET||"");
         user=user as object;
 
       

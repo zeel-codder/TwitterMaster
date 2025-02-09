@@ -61,3 +61,5 @@ app.use('/email',EmailRouter)
 app.listen(port, function () {
     console.log(`App is listening on port ${port} !`)
 })
+
+module.exports = app;

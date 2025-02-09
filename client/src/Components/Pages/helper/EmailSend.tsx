@@ -40,6 +40,7 @@ const EmailSend: React.FC<{}> = () => {
                 console.log(res.data);
                 window.location.href = "/";
             }).catch((e) => {
+                console.log(e)
                 // Show Error
                 dispatch({ type: "ChangeMessage", data: "Enter Valid Email" })
                 setTimeout(() => { dispatch({ type: "ChangeMessage", data: "" }) }, 5000);

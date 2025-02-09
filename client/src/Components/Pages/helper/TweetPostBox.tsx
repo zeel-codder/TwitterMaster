@@ -17,7 +17,7 @@ import {Grid} from "@giphy/react-components";
 
 
 
-const giphyFetch = new GiphyFetch(process.env.REACT_APP_Gif as string);
+const giphyFetch = new GiphyFetch(process.env.REACT_APP_GIF_FETCH_KEY as string);
 /** 
  * Tweet FC is User to Take Input for new Tweet From User. 
  */
@@ -45,18 +45,18 @@ const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any
             if (state.isImage) {
                 let formData: any = new FormData();
                 formData.append("file", state.image.file);
-                formData.append("upload_preset", process.env.REACT_APP_Demo2 as string)
+                formData.append("upload_preset", process.env.REACT_APP_UPLOAD_FILE_PREFIX2 as string)
                 const res: any = await UploadImageFile(formData);
                 console.log(res);
                 media_url = res.data.secure_url;
-                id=res.data.public_id;
+                id=res.data.REACT_APP_id;
             } else if (state.isVideo) {
                 let formData: any = new FormData();
                 formData.append("file", state.video.file);
-                formData.append("upload_preset", process.env.REACT_APP_Demo2 as string)
+                formData.append("upload_preset", process.env.REACT_APP_UPLOAD_FILE_PREFIX2 as string)
                 const res: any = await UploadVideoFile(formData);
                 media_url = res.data.secure_url;
-                id=res.data.public_id;
+                id=res.data.REACT_APP_id;
             } else if (state.isGif) {
                 media_url = state.Gif;
             }
@@ -69,7 +69,7 @@ const TweetPostBox: React.FC<{ close: React.RefObject<HTMLDivElement>, load: any
                 media: media_url,
                 isImage: state.isImage || state.isGif,
                 url: state.url,
-                public_id_media:id,
+                REACT_APP_id_media:id,
             };
 
             console.log(newTweet);
